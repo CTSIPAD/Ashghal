@@ -45,11 +45,11 @@
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar transferButton:(UIButton *)button;
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar annotationButton:(UIButton *)button;
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar lockButton:(UIButton *)button message:(NSString*)msg;
-
-- (void)tappedInToolbar:(ReaderMainToolbar *)toolbar nextButton:(UIButton *)button documentReader:(ReaderDocument*)reader correspondenceId:(NSInteger)correspondenceId;
-- (void)tappedInToolbar:(ReaderMainToolbar *)toolbar previousButton:(UIButton *)button documentReader:(ReaderDocument*)reader correspondenceId:(NSInteger)correspondenceId;
-
-
+//jen PreviousNext
+//- (void)tappedInToolbar:(ReaderMainToolbar *)toolbar nextButton:(UIButton *)button documentReader:(ReaderDocument*)reader correspondenceId:(NSInteger)correspondenceId;
+//-(void)tappedInToolbar:(ReaderMainToolbar *)toolbar previousButton:(UIButton *)button documentReader:(ReaderDocument*)reader correspondenceId:(NSInteger)correspondenceId;
+- (void)tappedInToolbar:(ReaderMainToolbar *)toolbar nextButton:(UIButton *)button documentReader:(ReaderDocument*)reader correspondenceId:(NSInteger)correspondenceId attachementId:(NSInteger)attachementId;
+- (void)tappedInToolbar:(ReaderMainToolbar *)toolbar previousButton:(UIButton *)button documentReader:(ReaderDocument*)reader correspondenceId:(NSInteger)correspondenceId attachementId:(NSInteger)attachementId;
 @end
 
 @interface ReaderMainToolbar : UIXToolbarView{
@@ -64,6 +64,8 @@
     UIButton *metadataButton;
     UIButton *annotationButton;
     UILabel *lblTitle;
+    
+    UIButton *closeButton;
 }
 
 @property (nonatomic, unsafe_unretained, readwrite) id <ReaderMainToolbarDelegate> delegate;
@@ -84,6 +86,7 @@
 @property (nonatomic,strong)UIButton *metadataButton;
 @property (nonatomic,strong)UIButton *annotationButton;
 
+@property (nonatomic,strong)UIButton *closeButton;
 
 
 - (id)initWithFrame:(CGRect)frame document:(ReaderDocument *)object CorrespondenceId:(NSInteger)correspondenceId MenuId:(NSInteger)menuId AttachmentId:(NSInteger)attachmentId;
@@ -93,4 +96,6 @@
 - (void)hideToolbar;
 - (void)showToolbar;
 -(void)adjustButtons:(UIInterfaceOrientation)orientation;
+
+-(void)desableButtons;
 @end

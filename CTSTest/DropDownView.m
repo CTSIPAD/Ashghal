@@ -142,7 +142,13 @@
 	if (cell == nil) {
         
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.backgroundColor=[UIColor colorWithRed:195.0/255.0f green:61.0/255.0f blue:24.0/255.0f alpha:1.0];
+        
+        CGFloat red = 0.0f / 255.0f;
+        CGFloat green = 155.0f / 255.0f;
+        CGFloat blue = 213.0f / 255.0f;
+        
+//        cell.backgroundColor=[UIColor colorWithRed:195.0/255.0f green:61.0/255.0f blue:24.0/255.0f alpha:1.0];
+        cell.backgroundColor=[UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 		
     }
     
@@ -200,7 +206,8 @@
     if(self.view.hidden==YES)
 	self.view.hidden = NO;
     else self.view.hidden = YES;
-	
+    
+	self.tableView.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.frame.size.width, heightTableView);
 //	NSValue *contextPoint = [NSValue valueWithCGPoint:self.view.center] ;
 //	
 //	[UIView beginAnimations:nil context:(__bridge void *)(contextPoint)];

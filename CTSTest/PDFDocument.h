@@ -75,5 +75,7 @@
 - (void)AddStampAnnot:(CGPoint)ptLeftTop secondPoint:(CGPoint)ptRightBottom previousPoint:(CGPoint)previousPoint;
 -(void)AddNote:(CGPoint)pt1 secondPoint:(CGPoint)pt2 note:(NSString*)msg;
 -(void)extractText:(CGPoint)point;
-- (void)eraseAnnotation:(CGPoint)pt1 secondPoint:(CGPoint)pt2; 
+- (void)eraseAnnotation:(CGPoint)pt1 secondPoint:(CGPoint)pt2;
+- (void)deleteAllAnnot;
+
 @end

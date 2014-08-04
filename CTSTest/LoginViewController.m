@@ -15,7 +15,8 @@
 #import "CMenu.h"
 #import "CCorrespondence.h"
 #import "CAttachment.h"
-
+#import "CSearch.h"
+#import "SearchResultViewController.h"
 #define TAG_OK 1
 #define TAG_NO 2
 @interface LoginViewController ()
@@ -29,6 +30,17 @@
     UILabel *lblTitle;
     UILabel *lblLogin;
     UILabel *lblPass;
+}
+@synthesize activityIndicatorObject;
+////jis dismiss keyboard
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];//Dismiss the keyboard.
+    [self connect];
+    return YES;
 }
 
 - (void)viewDidLoad
@@ -60,6 +72,9 @@
     txtUsername.delegate = self;
     txtUsername.returnKeyType = UIReturnKeyGo;
      txtUsername.leftViewMode = UITextFieldViewModeAlways;
+    txtUsername.autocorrectionType=FALSE;
+
+    
     UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 20, 35)];
      txtUsername.leftView= paddingView;
    
@@ -90,19 +105,49 @@
     btnLogin=[[UIButton alloc]initWithFrame:CGRectMake(440, 360, 150, 40)];
     [btnLogin setTitle:NSLocalizedString(@"Login",@"Login") forState:UIControlStateNormal];
     btnLogin.backgroundColor=[UIColor colorWithRed:37/255.0f green:96/255.0f blue:172/255.0f alpha:1.0];
+    
     [btnLogin setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    CGFloat red = 0.0f / 255.0f;
+    CGFloat green = 155.0f / 255.0f;
+    CGFloat blue = 213.0f / 255.0f;
+    [btnLogin setTitleColor:[UIColor colorWithRed:red green:green blue:blue alpha:1.0] forState:UIControlStateHighlighted];
+    
     btnLogin.layer.borderColor=[[UIColor grayColor] CGColor];
     btnLogin.layer.cornerRadius=10;
-    btnLogin.clipsToBounds=YES;
+    //btnLogin.clipsToBounds=YES;
     [btnLogin.titleLabel setFont:[UIFont fontWithName:@"Helvetica" size:24]];
-      [btnLogin addTarget:self action:@selector(connect) forControlEvents:UIControlEventTouchUpInside];
+    [btnLogin addTarget:self action:@selector(connect) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btnLogin];
+    
+ 
+    
+    
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     [self adjustControls:orientation];
     [self getLicense];
     
+    //jen
+    activityIndicatorObject=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    activityIndicatorObject.center=CGPointMake(517, 420);
+    activityIndicatorObject.transform = CGAffineTransformMakeScale(1.5, 1.5);
+    [self.view addSubview:activityIndicatorObject];
+ 
+    
 
 }
+
+
+
+-(void)startIndicator{
+    [activityIndicatorObject startAnimating];
+}
+-(void)stopIndicator{
+    [activityIndicatorObject stopAnimating];
+}
+
+
+
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration{
     [self adjustControls:interfaceOrientation];
 }
@@ -110,13 +155,13 @@
     
 	if(interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown){
         
-        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginPortrait.jpg"]];
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginPortrait1.jpg"]];
         
         
     }
     else if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight){
         
-        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginLandscape.jpg"]];
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginLandscape1.jpg"]];
         
     }
 	
@@ -301,57 +346,57 @@
     // Dispose of any resources that can be recreated.
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [self connect];
-    //[textField resignFirstResponder];
-    return YES;
-}
+//-(BOOL)textFieldShouldReturn:(UITextField *)textField
+//{
+//    [self connect];
+//    //[textField resignFirstResponder];
+//    return YES;
+//}
+
+
 
 -(void)connect{
-    @try{
-        
-  
+    @try
+    {
+    [NSThread detachNewThreadSelector:@selector(startIndicator) toTarget:self withObject:nil];
+ 
     NSString *username = txtUsername.text;
     NSString *password = txtPassword.text;
-    if([username isEqual:@""] == FALSE && [password isEqual:@""] == FALSE){
-        
+    if([username isEqual:@""] == FALSE && [password isEqual:@""] == FALSE)
+    {
         NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
-        
         NSString * _key = @"EverTeamYears202020";
-        
         StringEncryption *crypto = [[StringEncryption alloc] init];
         NSData *_secretData = [password dataUsingEncoding:NSUTF8StringEncoding];
         CCOptions padding = kCCOptionPKCS7Padding;
         NSData *encryptedData = [crypto encrypt:_secretData key:[_key dataUsingEncoding:NSUTF8StringEncoding] padding:&padding];
-       
+        NSLog(@"%@",[encryptedData base64EncodingWithLineLength:0]);
         NSString* url = [NSString stringWithFormat:@"http://%@?action=Login&usercode=%@&password=%@",serverUrl,username,[encryptedData base64EncodingWithLineLength:0]];
-        NSURL *xmlUrl = [NSURL URLWithString:url];
         
-        NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:xmlUrl];
-        [request addValue:username forHTTPHeaderField:@"usercode"];
-        [request addValue:password forHTTPHeaderField:@"password"];
+        [self performConnecting:url];
         
-        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        if(connection)
-        {
-          //  NSMutableData* receivedData=[NSMutableData data];
-                [self performSelectorOnMainThread:@selector(increaseProgress) withObject:nil waitUntilDone:YES];
-          [connection start];
-        }
-        else
-        {
-            [self ShowMessage:NSLocalizedString(@"Alert.Connection",@"Connection not found")];
-        }
-
-        
-        
-
-        
-            }
-    else {
+//        NSURL *xmlUrl = [NSURL URLWithString:url];
+//        
+//        NSMutableURLRequest* request=[[NSMutableURLRequest alloc]initWithURL:xmlUrl];
+//        [request addValue:username forHTTPHeaderField:@"usercode"];
+//        [request addValue:password forHTTPHeaderField:@"password"];
+//        
+//        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+//            if(connection)
+//            {
+//          //  NSMutableData* receivedData=[NSMutableData data];
+//                [self performSelectorOnMainThread:@selector(increaseProgress) withObject:nil waitUntilDone:YES];
+//                [connection start];
+//            }
+//            else
+//            {
+//                [self ShowMessage:NSLocalizedString(@"Alert.Connection",@"Connection not found")];
+//            }
+    }
+    else
+    {
         [self ShowMessage:NSLocalizedString(@"Alert.EmptyUser",@"Username or password is Empty")];
-        
+        [self stopIndicator];
     }
     }
     @catch (NSException *ex) {
@@ -359,156 +404,243 @@
     }
 }
 
+//- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
+//    //jis [self performSelector:@selector(performConnecting:) withObject:data];
+//    [self performConnecting:data];
+//}
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    
-    [self performSelector:@selector(performConnecting:) withObject:data];
-    
-}
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
-     [self performSelectorOnMainThread:@selector(dismiss) withObject:nil waitUntilDone:YES];
-}
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [self performSelectorOnMainThread:@selector(dismiss) withObject:nil waitUntilDone:YES];
-     [self ShowMessage:NSLocalizedString(@"Alert.Connection",@"Connection not found")];
-}
+//- (void)connectionDidFinishLoading:(NSURLConnection *)connection{
+//     [self performSelectorOnMainThread:@selector(dismiss) withObject:nil waitUntilDone:YES];
+//}
 
--(void)performConnecting:(NSData *)data{
-    
+//- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
+//    [self performSelectorOnMainThread:@selector(dismiss) withObject:nil waitUntilDone:YES];
+//     [self ShowMessage:NSLocalizedString(@"Alert.Connection",@"Connection not found")];
+//}
+
+
+
+-(void)performConnecting:(NSString *)url{
     @try{
     appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     appDelegate.ipadLanguage=[[[NSBundle mainBundle] preferredLocalizations]objectAtIndex:0];
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
     BOOL isOfflineMode = [[[NSUserDefaults standardUserDefaults] stringForKey:@"offline_mode"] boolValue];
-    
-    NSString *validationResultUser=[CParser ValidateWithData:data];
+
     CUser * user;
-    if(![validationResultUser isEqualToString:@"OK"])
-    {
-        [self ShowMessage:validationResultUser];
+
         
-    }
-    else {
-        user = [CParser loadUserWithData:data];
+        
+        user = [CParser loadUserWithData:url];
+        
+        
+        
+        if(user.firstName == nil){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid user" message:@"Wrong username or password please try again" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+            txtUsername.text=@"";
+            txtPassword.text=@"";
+            [self stopIndicator];
+            return;
+        }
+
+        
+        
         user.loginName=txtUsername.text;
         appDelegate.userLanguage=user.language;
         if([user.serviceType.lowercaseString isEqualToString:@"sharepoint"])
+        {
             appDelegate.isSharepoint=YES;
-
-        if(user.menu.count>0){
-        
-            
+        }
+        if(user.menu.count>0)
+        {
             NSString *inboxIds=@"";
-            if(isOfflineMode){
-                for(CMenu *menu in user.menu){
+            if(isOfflineMode)
+            {
+                for(CMenu *menu in user.menu)
+                {
                     inboxIds=[NSString stringWithFormat:@"%@%d,",inboxIds,menu.menuId];
                 }
-            }else inboxIds=[NSString stringWithFormat:@"%d",((CMenu*)user.menu[0]).menuId];
-            
-            
-            
-            NSString* homeUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%@",serverUrl,user.token,inboxIds];
-            NSURL *xmlUrl = [NSURL URLWithString:homeUrl];
-            NSData *homeXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
-            
-            NSString *validationResultHome=[CParser ValidateWithData:homeXmlData];
-            if(![validationResultHome isEqualToString:@"OK"]){
-                [self ShowMessage:validationResultHome];
             }
-            else{
-                
-                
-                NSMutableDictionary *correspondences=[CParser loadCorrespondencesWithData:homeXmlData];
-                for (CMenu* menu in user.menu)
-                {
-                    menu.correspondenceList=[correspondences objectForKey:[NSString stringWithFormat:@"%d",menu.menuId]];
-                    
-                }
-                // ((CMenu*)user.menu[0]).correspondenceList=correspondences;
-                // user.homeXmlData=homeXmlData;
+            else
+            {
+                inboxIds=[NSString stringWithFormat:@"%d",((CMenu*)user.menu[0]).menuId];
+            }
+            NSLog(@"Before GetCorrespondence");
+            
+//           NSString* homeUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%@",serverUrl,user.token,inboxIds];
+//            NSURL *xmlUrl = [NSURL URLWithString:homeUrl];
+//            NSData *homeXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+//            NSLog(@"After GetCorrespondence");
+//            
+//                NSLog(@"Before Loading Data");
+//
+//             NSMutableDictionary *correspondences=[CParser loadCorrespondencesWithData:homeXmlData];
+//
+//            if(appDelegate.searchModule ==nil){
+//                NSString* searchUrl = [NSString stringWithFormat:@"http://%@?action=BuildAdvancedSearch&token=%@",serverUrl,appDelegate.user.token];
+//                NSURL *xmlUrl = [NSURL URLWithString:searchUrl];
+//                NSData *searchXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+//                
+//                NSString *validationResult=[CParser ValidateWithData:searchXmlData];
+//                if(![validationResult isEqualToString:@"OK"]){
+//                    [self ShowMessage:validationResult];
+//                }
+//                else{
+//                    
+//
+//                    appDelegate.searchModule=[CParser loadSearchWithData:searchXmlData];
+//                }
+//                
+//            }
+//            
+//
+//            
+//            appDelegate.searchModule.correspondenceList = [correspondences objectForKey:@"1"];
+            
+//            
+//                for (CMenu* menu in user.menu)
+//                {
+//                    menu.correspondenceList=[correspondences objectForKey:[NSString stringWithFormat:@"%d",menu.menuId]];
+//
+//                    
+//                }
+
                 appDelegate.user=user;
                 
                 if(isOfflineMode)
+                {
                     [self SaveDocsBaskets:user ];
-                
+                }
                 MainMenuViewController *root = [[MainMenuViewController alloc] init];
-                UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
-                [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
-                [flowLayout setMinimumInteritemSpacing:5.0f];
-                [flowLayout setMinimumLineSpacing:5.0f];
-                HomeViewController *detail = [[HomeViewController alloc]initWithCollectionViewLayout:flowLayout];
+            
+            
+            SearchResultViewController *searchResultViewController = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
+            
                 appDelegate.menuSelectedItem=0;
                 
                 UINavigationController *rootNavigation = [[UINavigationController alloc] initWithRootViewController:root];
-                
-                UINavigationController *detailNavigation = [[UINavigationController alloc] initWithRootViewController:detail];
-                
+            
+                UINavigationController *detailNavigation = [[UINavigationController alloc] initWithRootViewController:searchResultViewController];
+            
+                appDelegate.splitViewController.delegate = searchResultViewController;
                 appDelegate.splitViewController.viewControllers = [NSArray arrayWithObjects:rootNavigation, detailNavigation, nil];
-                appDelegate.splitViewController.delegate = detail;
-                
+
                 
                 [appDelegate.window setRootViewController:(UIViewController*)appDelegate.splitViewController];
-                
                 [appDelegate.window makeKeyAndVisible];
-            }
         }
-    }
     }
     @catch (NSException *ex) {
         [FileManager appendToLogView:@"LoginViewController" function:@"performConnecting" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
     }
 }
 
+
+
+
 -(void)SaveDocsBaskets:(CUser*) user
 {
     for(CMenu* inbox in user.menu )
 	{
-        
 		if (inbox.correspondenceList.count>0)
         {
             for(CCorrespondence* correspondence in inbox.correspondenceList)
             {
-                if (correspondence.attachmentsList.count>0) {
+                if (correspondence.attachmentsList.count>0)
+                {
                     for(CAttachment* doc in correspondence.attachmentsList)
                     {
                         [self saveDocInCache:doc inDirectory:correspondence.Id];
                     }
                 }
-                
                // NSLog(@"task name : %@ id : %@ ",task.name,task.tid);
             }
         }
-				
-		
 	}
 }
 -(void)saveDocInCache:(CAttachment*)firstDoc inDirectory:(NSString*)dirName
 {
 	[firstDoc saveInCacheinDirectory:dirName fromSharepoint:appDelegate.isSharepoint];
-	
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self animateTextField:textField up:YES];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self animateTextField:textField up:NO];
+    
+}
+
+-(void)animateTextField:(UITextField*)textField up:(BOOL)up
+{
+    if (UIDeviceOrientationIsPortrait(self.interfaceOrientation)){
+        //DO Portrait
+        
+        const int movementDistance = -50; // tweak as needed
+        const float movementDuration = 0.3f; // tweak as needed
+        
+        int movement = (up ? movementDistance : -movementDistance);
+        
+        [UIView beginAnimations: @"animateTextField" context: nil];
+        [UIView setAnimationBeginsFromCurrentState: YES];
+        [UIView setAnimationDuration: movementDuration];
+        self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+        [UIView commitAnimations];
+    }
+    else{
+        if (self.interfaceOrientation==UIInterfaceOrientationLandscapeRight){
+            const float movementDuration = 0.3f; // tweak as needed
+            
+            [UIView beginAnimations: @"animateTextField" context: nil];
+            [UIView setAnimationBeginsFromCurrentState: YES];
+            [UIView setAnimationDuration: movementDuration];
+            if(up)
+                self.view.frame = CGRectOffset(self.view.frame,220, 0);
+            else
+                self.view.frame = CGRectOffset(self.view.frame,-220, 0);
+            
+            [UIView commitAnimations];
+        }
+        if (self.interfaceOrientation==UIInterfaceOrientationLandscapeLeft){
+            const float movementDuration = 0.3f; // tweak as needed
+            
+            [UIView beginAnimations: @"animateTextField" context: nil];
+            [UIView setAnimationBeginsFromCurrentState: YES];
+            [UIView setAnimationDuration: movementDuration];
+            if(up)
+                self.view.frame = CGRectOffset(self.view.frame, -220, 0);
+            else
+                self.view.frame = CGRectOffset(self.view.frame, 220, 0);
+            
+            [UIView commitAnimations];
+        }}
+    activityIndicatorObject.center=CGPointMake(btnLogin.frame.origin.x+btnLogin.frame.size.width+20,btnLogin.frame.origin.y+20);
+    
 }
 
 -(void)adjustControls:(UIInterfaceOrientation)interfaceOrientation{
-    if(interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown){
-        
-         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginPortrait.jpg"]];
-        
+    if(interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginPortrait1.jpg"]];
         //lblTitle.frame=CGRectMake(240,40,400,150);
-       // lblLogin.frame=CGRectMake(200,250,200,40);
-        txtUsername.frame=CGRectMake(220, 410, 350, 40);
-       // lblPass.frame=CGRectMake(420,250,200,40);
-        txtPassword.frame=CGRectMake(220, 475, 350, 40);
-        btnLogin.frame=CGRectMake(180, 550, 120, 40);
-        
+        // lblLogin.frame=CGRectMake(200,250,200,40);
+        txtUsername.frame=CGRectMake(220, 440, 350, 40);
+        // lblPass.frame=CGRectMake(420,250,200,40);
+        txtPassword.frame=CGRectMake(220, 505, 350, 40);
+        btnLogin.frame=CGRectMake(180, 580, 120, 40);
     }
     else if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight){
-         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginLandscape.jpg"]];
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loginLandscape1.jpg"]];
         //lblTitle.frame=CGRectMake(340,40,400,150);
-       //lblLogin.frame=CGRectMake(300,250,200,40);
-        txtUsername.frame=CGRectMake(350, 280, 350, 40);
-      //  lblPass.frame=CGRectMake(520,250,200,40);
-        txtPassword.frame=CGRectMake(350, 340, 350, 40);
-        btnLogin.frame=CGRectMake(300, 420, 120, 40);
+        //lblLogin.frame=CGRectMake(300,250,200,40);
+        txtUsername.frame=CGRectMake(350, 450, 350, 40);
+        //  lblPass.frame=CGRectMake(520,250,200,40);
+        txtPassword.frame=CGRectMake(350, 510, 350, 40);
+        btnLogin.frame=CGRectMake(350, 570, 140, 50);
     }
 }
 

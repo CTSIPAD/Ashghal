@@ -40,7 +40,10 @@
     self.view.superview.bounds = _realBounds;
 }
 
-- (void)viewDidLoad { _realBounds = self.view.bounds; [super viewDidLoad]; }
+- (void)viewDidLoad {
+    _realBounds = self.view.bounds;
+    [super viewDidLoad];
+}
 
     - (id)initWithFrame:(CGRect)frame
     {

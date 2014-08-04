@@ -15,6 +15,8 @@
     UIButton *button;
     DropDownView* dropDownView;
     CSearchCriteria* criteria;
+    
+    ActionTaskController *actionController;
 }
 @synthesize txtCriteria,pmCC,criteria,lbltitle;
 
@@ -28,15 +30,22 @@
         lbltitle=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, 445, 25)];
         lbltitle.backgroundColor=[UIColor clearColor];
         lbltitle.textColor=[UIColor whiteColor];
-        lbltitle.font=[UIFont fontWithName:@"Helvetica" size:16.0];
+        //lbltitle.font=[UIFont fontWithName:@"Helvetica" size:16.0];
+        lbltitle.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
         
         [self addSubview:lbltitle];
         
         txtCriteria=[[UITextField alloc]initWithFrame:CGRectMake(0, 30, 445, 45)];
         txtCriteria.backgroundColor=[UIColor whiteColor];
         txtCriteria.textColor=[UIColor blackColor];
-        [txtCriteria.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
-        [txtCriteria.layer setBorderWidth:1.0];
+        
+        CGFloat red = 0.0f / 255.0f;
+        CGFloat green = 155.0f / 255.0f;
+        CGFloat blue = 213.0f / 255.0f;
+        
+//        [txtCriteria.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+        [txtCriteria.layer setBorderColor:[[[UIColor colorWithRed:red green:green blue:blue alpha:1.0] colorWithAlphaComponent:0.5] CGColor]];
+               [txtCriteria.layer setBorderWidth:1.0];
        
         txtCriteria.layer.cornerRadius = 5;
         txtCriteria.clipsToBounds = YES;
@@ -72,11 +81,26 @@
             txtCriteria.rightView = button;
             txtCriteria.rightViewMode = UITextFieldViewModeUnlessEditing;
             NSArray *array=[searchCriteria.options allValues];
+            
+            //jen dropdownview
             dropDownView = [[DropDownView alloc] initWithData:array cellHeight:30 heightTableView:200 paddingTop:-8 paddingLeft:-5 paddingRight:-10 refView:txtCriteria animation:BLENDIN openAnimationDuration:2 closeAnimationDuration:2];
             
             dropDownView.myDelegate = self;
             
             [self addSubview:dropDownView.view];
+            
+            
+            
+            
+//            actionController = [[ActionTaskController alloc] initWithStyle:UITableViewStyleGrouped];
+//            actionController.rectFrame=CGRectMake(0, 80, 300,200) ;
+//            actionController.isDirection=YES;
+//            actionController.actions =[NSMutableArray  arrayWithArray:array];
+//            [self addSubview:actionController.view];
+
+            
+            
+            
         }
     }
 }
@@ -110,7 +134,6 @@
     }
     
     BOOL isPopover = YES;
-    
     self.pmCC = [[PMCalendarController alloc] initWithThemeName:@"default"];
     self.pmCC.delegate = self;
     self.pmCC.mondayFirstDayOfWeek = NO;

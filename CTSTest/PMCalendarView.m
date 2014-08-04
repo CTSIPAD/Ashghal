@@ -86,7 +86,16 @@
     }
     self.initialFrame = frame;
 
-    self.backgroundColor = [UIColor clearColor];
+//    CGFloat red = 0.0f / 255.0f;
+//    CGFloat green = 155.0f / 255.0f;
+//    CGFloat blue = 213.0f / 255.0f;
+    CGFloat red = 53.0f / 255.0f;
+    CGFloat green = 53.0f / 255.0f;
+    CGFloat blue = 53.0f / 255.0f;
+    
+    self.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+    
+    
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.mondayFirstDayOfWeek = NO;
     

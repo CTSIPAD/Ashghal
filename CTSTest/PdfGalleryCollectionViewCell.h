@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSString *Priority;
 @property (nonatomic, assign) BOOL New;
 @property (nonatomic, assign) BOOL Locked;
+@property (nonatomic, assign) BOOL showLocked;
 @property (nonatomic, assign) BOOL CanOpen;
 @property (nonatomic, retain) NSString *LockedBy;
 @property (nonatomic,strong)NSString* correspondenceId;

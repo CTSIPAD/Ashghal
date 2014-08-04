@@ -11,10 +11,12 @@
 @implementation CAttachment{
     NSMutableData *_responseData;
     NSString *tempPdfLocation;
+    AppDelegate *mainDelegate;
 }
-@synthesize tempPdfLocation;
+@synthesize tempPdfLocation,HighlightAnnotations,NoteAnnotations;
 -(id) initWithTitle:(NSString*)title docId:(NSString*)did url:(NSString*)url  thumbnailBase64:(NSString*)thumbnailBase64 location:(NSString*)folderName{
-    
+    self.NoteAnnotations=[[NSMutableArray alloc]init];
+    self.HighlightAnnotations=[[NSMutableArray alloc]init];
     if ((self = [super init])) {
         self.title=title;
         self.docId=did;
@@ -26,24 +28,69 @@
     
 }
 
+-(id) initWithTitle:(NSString*)title docId:(NSString*)did url:(NSString*)url  thumbnailBase64:(NSString*)thumbnailBase64 location:(NSString*)folderName SiteId:(NSString*)SiteId FileId:(NSString*)FileId FileUrl:(NSString *)FileUrl ThubnailUrl:(NSString*)ThubnailUrl isOriginalMail:(NSString*)isOriginalMail{
+    
+    self.NoteAnnotations=[[NSMutableArray alloc]init];
+    self.HighlightAnnotations=[[NSMutableArray alloc]init];
+
+    if ((self = [super init])) {
+        self.title=title;
+        self.docId=did;
+        self.url=url;
+        self.thumbnailBase64=thumbnailBase64;
+        self.location=folderName;
+        self.FileId = FileId;
+        self.FileUrl = FileUrl;
+        self.SiteId = SiteId;
+        self.ThubnailUrl = ThubnailUrl;
+        self.isOriginalMail=isOriginalMail;
+    }
+    
+    
+    return self;
+}
 
 
 -(NSString *)saveInCacheinDirectory:(NSString*)dirName fromSharepoint:(BOOL)isSharePoint
 {
     
     @try {
+        mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         tempPdfLocation=@"";
        
         NSString*strUrl;
+        
         strUrl= [self.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//        NSArray *array=[[NSArray alloc] init];
-//        array = [strUrl componentsSeparatedByString:@"/"];
-//        NSArray *arrayfileName=[[array objectAtIndex:[array count]-1] componentsSeparatedByString:@"."];
-//        NSString* fileExtension=[[arrayfileName objectAtIndex:1] lowercaseString];
+        mainDelegate.docUrl = strUrl;
+        mainDelegate.SiteId = self.SiteId;
+        mainDelegate.FileId = self.FileId;
+        mainDelegate.FileUrl = self.FileUrl;
+        mainDelegate.AttachmentId=self.AttachmentId;
+        [mainDelegate.IncomingHighlights removeAllObjects];
+        [mainDelegate.IncomingNotes removeAllObjects];
+        [mainDelegate.IncomingHighlights addObjectsFromArray:self.HighlightAnnotations];
+        [mainDelegate.IncomingNotes addObjectsFromArray:self.NoteAnnotations];
+        //strUrl = [strUrl stringByReplacingOccurrencesOfString:@"\\" withString:@"%5C"];
+
+        NSRange findit = [strUrl rangeOfString:@"%5C" options:NSBackwardsSearch];
+        if(findit.location!=NSNotFound){
+            NSLog(@"it is find");
+        }
+        else{
+            
+            NSRange lastComma = [strUrl rangeOfString:@"/" options:NSBackwardsSearch];
+            
+            if(lastComma.location != NSNotFound) {
+                strUrl = [strUrl stringByReplacingCharactersInRange:lastComma
+                                                         withString: @"%5C"];
+            }
+        }
+
+
         
-        // if([fileExtension isEqualToString:@"pdf"]){
+        
         NSURL *url=[NSURL URLWithString:strUrl];
-        
+
         NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
         
         NSString *path = [cachesDirectory stringByAppendingPathComponent:dirName];
@@ -67,12 +114,15 @@
          if(!fileExists){
         if(isSharePoint==YES)
         {
-            NSMutableURLRequest *theRequest = [[NSMutableURLRequest alloc]initWithURL:url];
-            NSLog(@"%@",url);
-            NSLog(@"%@",tempPdfLocation);
-            NSURLConnection *connect = [[NSURLConnection alloc]initWithRequest:theRequest delegate:self];
-            
-            
+          //  NSMutableURLRequest *theRequest = [[NSMutableURLRequest alloc]initWithURL:url];
+           // NSLog(@"%@",url);
+         //  NSLog(@"%@",tempPdfLocation);
+         // NSURLConnection *connect = [[NSURLConnection alloc]initWithRequest:theRequest delegate:self];
+           //jen sharepoint connection
+            NSData *data = [NSData dataWithContentsOfURL:url ];
+            if(data.length!=0)
+                [data writeToFile:tempPdfLocation atomically:TRUE];
+            else tempPdfLocation=@"";
         }
         else
         {

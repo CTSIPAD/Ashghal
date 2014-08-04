@@ -7,7 +7,7 @@
 //
 
 #import "AnnotationsTableViewController.h"
-
+#import "CAction.h"
 @interface AnnotationsTableViewController ()
 
 @end
@@ -99,10 +99,13 @@
         if([varStr isEqualToString:@"Highlight"]){
             imageView.image=[UIImage imageNamed:@"highlight.png"];
         }else if([varStr isEqualToString:@"Sign"]){
-            imageView.image=[UIImage imageNamed:@"sign.png"];
+            imageView.image=[UIImage imageNamed:@"Sign.png"];
+        } else if ([varStr isEqualToString:@"SignAndSend"]){
+            imageView.image=[UIImage imageNamed:@"SignAndSend.png"];
         }else if([varStr isEqualToString:@"Note"]){
             imageView.image=[UIImage imageNamed:@"note.png"];
         }
+       
 
     }
     if([mainDelegate.userLanguage.lowercaseString isEqualToString:@"ar"]){
@@ -120,22 +123,35 @@ typedef enum{
     
 } AnnotationsType;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath  {
-    NSLog(@"%d",Highlight);
-    
     int annotation;
-    if(indexPath.row==self.properties.count){
-        annotation= Erase;
-    }else if(indexPath.row==self.properties.count+1){
-        annotation=Save;
-    }else if([self.properties[indexPath.row] isEqualToString:@"Highlight"]){
-         annotation=Highlight;
-    }else if([self.properties[indexPath.row] isEqualToString:@"Sign"]){
-         annotation=Sign;
-    }else if([self.properties[indexPath.row] isEqualToString:@"Note"]){
-         annotation=Note;
+
+    if(indexPath.row<self.properties.count){
+    if([self.properties[indexPath.row] isEqualToString:@"SignAndSend"]){
+        CAction *action=[[CAction alloc] initWithLabel:@"SignAndSend" icon:@"" action:@"SignAndSend"];
+        [_delegate PopUpCommentDialog:self Action:action document:nil];
     }
+    else{
+         if([self.properties[indexPath.row] isEqualToString:@"Highlight"]){
+            annotation=Highlight;
+        }else if([self.properties[indexPath.row] isEqualToString:@"Sign"]){
+            annotation=Sign;
+        }else if([self.properties[indexPath.row] isEqualToString:@"Note"]){
+            annotation=Note;
+        }
     
-    [self.delegate performaAnnotation:annotation];
+    
+        [self.delegate performaAnnotation:annotation];
+    }}else{
+        if(indexPath.row==self.properties.count){
+            annotation= Erase;
+            
+        }else if(indexPath.row==self.properties.count+1){
+            annotation=Save;
+        }
+        [self.delegate performaAnnotation:annotation];
+
+    }
+   
 }
 /*
 // Override to support conditional editing of the table view.

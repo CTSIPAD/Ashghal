@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CAction.h"
+#import "ReaderDocument.h"
 @protocol AnnotationsTableDelegate <NSObject>
 
 @required
-
 - (void) performaAnnotation:(int)annotation;
+-(void)PopUpCommentDialog:(UITableViewController*)viewcontroller Action:(CAction *)action document:(ReaderDocument*)document1;
 @end
 
 @interface AnnotationsTableViewController : UITableViewController

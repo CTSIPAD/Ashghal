@@ -10,4 +10,5 @@
 
 @interface MainMenuViewController : UITableViewController<UIAlertViewDelegate>
 
+-(void)logout;
 @end

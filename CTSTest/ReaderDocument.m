@@ -24,6 +24,10 @@
 	NSString *_password;
 
 	NSURL *_fileURL;
+    
+    
+    NSNumber *_isSigned;
+    NSNumber *_isOriginalMail;
 }
 
 #pragma mark Properties
@@ -38,6 +42,8 @@
 @synthesize password = _password;
 @dynamic fileName, fileURL;
 
+@synthesize isSigned=_isSigned;
+@synthesize isOriginalMail=_isOriginalMail;
 #pragma mark ReaderDocument class methods
 
 + (NSString *)GUID
@@ -148,7 +154,7 @@
 		const char *path = [filePath fileSystemRepresentation];
 
 		int fd = open(path, O_RDONLY); // Open the file
-
+        
 		if (fd > 0) // We have a valid file descriptor
 		{
 			const char sig[1024]; // File signature buffer

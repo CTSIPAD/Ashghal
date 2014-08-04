@@ -46,7 +46,8 @@
     FS_FLOAT m_pageHeight;
     
 }
-
+//zoom jen
+@property (nonatomic,readwrite) BOOL zooming;
 @property (nonatomic, readwrite) BOOL btnNote;
 @property (nonatomic, readwrite) BOOL btnHighlight;
 @property (nonatomic, readwrite) BOOL btnErase;
@@ -54,13 +55,17 @@
 @property (nonatomic, strong) NSString* annotationNoteMsg;
 @property (nonatomic, assign) NSInteger annotationSignWidth;
 @property (nonatomic, assign) NSInteger annotationSignHeight;
-
+@property(nonatomic,assign) NSInteger attachmentId;
 @property (nonatomic, readwrite) CGPoint startLocation;
 @property (nonatomic, readwrite) CGPoint endLocation;
+@property (nonatomic,assign) PDFDocument *doc;
+
 - (void) OnPrevPage;
 - (void) OnNextPage;
 -(void) OnZoomIn;
 -(void) OnZoomOut;
+-(FS_FLOAT)getWidth;
+-(FS_FLOAT)getHeight;
 - (void)initPDFDoc: (PDFDocument*)pdoc;
 - (CGPoint)PageToDevicePoint:(FPDF_PAGE)page p1:(CGPoint)point;
 - (CGPoint)DeviceToPagePoint:(FPDF_PAGE)page p1:(CGPoint)point;

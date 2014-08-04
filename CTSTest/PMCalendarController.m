@@ -369,6 +369,8 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
                         isPopover:isPopover
                          animated:animated];
 }
+
+
 - (void)presentCalendarFromView:(UIView *) anchorView
        permittedArrowDirections:(PMCalendarArrowDirection) arrowDirections
                       isPopover:(BOOL) isPopover
@@ -379,7 +381,8 @@ NSString *kPMCalendarRedrawNotification = @"kPMCalendarRedrawNotification";
     self.savedPermittedArrowDirections = arrowDirections;
     
     
-    [self presentCalendarFromRect:CGRectMake(anchorView.frame.origin.x+380, anchorView.frame.origin.y, 100, anchorView.frame.size.height)
+//    [self presentCalendarFromRect:CGRectMake(anchorView.frame.origin.x+380, anchorView.frame.origin.y, 100, anchorView.frame.size.height)
+    [self presentCalendarFromRect:CGRectMake(anchorView.frame.origin.x+380, anchorView.frame.origin.y-50, 100, anchorView.frame.size.height)
                            inView:self.anchorView.superview
          permittedArrowDirections:arrowDirections
                         isPopover:isPopover

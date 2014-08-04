@@ -31,6 +31,7 @@
 #import "TransferViewController.h"
 #import "ManageSignatureViewController.h"
 
+#import "ActionsTableViewController.h"
 
 @class ReaderViewController;
 @class PDFDocument;
@@ -50,6 +51,9 @@
 	PDFView* m_pdfview;
     UIAlertView* alertNote;
     NSString *currentFilePath;
+    
+    UIButton *openButton;
+    UIButton *numberPages;
 }
 
 @property(nonatomic,strong)UILabel *counter;
@@ -58,16 +62,18 @@
 @property(nonatomic,assign) NSInteger correspondenceId;
 @property(nonatomic,assign) NSInteger attachmentId;
 
-
-
-//@property(nonatomic,strong)SearchViewController *searchTable;
-//@property(nonatomic,strong)NotesViewController *noteTable;
+@property (nonatomic,strong)UIButton *openButton;
+@property (nonatomic,strong)UIButton *numberPages;
 @property(nonatomic,strong)UIView *noteContainer;
 @property (nonatomic, unsafe_unretained, readwrite) id <ReaderViewControllerDelegate> delegate;
-//@property (nonatomic, retain) Scanner *scanner;
 @property (nonatomic, copy) NSArray *selections;
 @property (nonatomic, copy) NSString *keyword;
-
+// zoom jen
+@property (nonatomic,readwrite) int widthofopen;
+@property (nonatomic,readwrite) int heightofopen;
 - (id)initWithReaderDocument:(ReaderDocument *)object MenuId:(NSInteger)menuId CorrespondenceId:(NSInteger)correspondenceId AttachmentId:(NSInteger)attachmentId;
+
+
++(void)closeMetadata;
 
 @end

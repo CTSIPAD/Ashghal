@@ -47,11 +47,13 @@
 
     
     NSInteger correspondencesCount;
+    //jen PreviousNext
+    NSInteger attachementsCount;
     AppDelegate *mainDelegate;
     NSString* pageName;
     CCorrespondence *correspondence;
 }
-@synthesize nextButton,previousButton,actionsButton,transferButton,attachmentButton,metadataButton,lockButton,commentsButton,annotationButton,lblTitle;
+@synthesize nextButton,previousButton,actionsButton,transferButton,attachmentButton,metadataButton,lockButton,commentsButton,annotationButton,lblTitle,closeButton;
 #pragma mark Constants
 
 #define BUTTON_X 8.0f
@@ -81,9 +83,16 @@
 - (id)initWithFrame:(CGRect)frame document:(ReaderDocument *)object CorrespondenceId:(NSInteger)correspondenceId MenuId:(NSInteger)menuId AttachmentId:(NSInteger)attachmentId
 {
 	assert(object != nil); // Must have a valid ReaderDocument
-
 	if ((self = [super initWithFrame:frame]))
 	{
+        
+        closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        closeButton.frame = CGRectMake(self.frame.size.width, 10, 61, 20);
+        [closeButton setTintColor:[UIColor whiteColor]];
+        [closeButton setBackgroundImage:[UIImage imageNamed:@"up.jpg"] forState:UIControlStateNormal];
+        [closeButton addTarget:self action:@selector(hideToolbar) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:closeButton];
+        
         self.menuId=menuId;
         self.correspondenceId=correspondenceId;
         self.attachmentId=attachmentId;
@@ -97,8 +106,14 @@
         if(menuId!=100){
             correspondence=((CMenu*)self.user.menu[menuId]).correspondenceList[correspondenceId];
              correspondencesCount=((CMenu*)self.user.menu[menuId]).correspondenceList.count;
-        }else{ correspondence=mainDelegate.searchModule.correspondenceList[0];
+            //jen PreviousNext
+            attachementsCount=correspondence.attachmentsList.count;
+        }else{
+            
+            correspondence=mainDelegate.searchModule.correspondenceList[mainDelegate.searchSelected];
              correspondencesCount=mainDelegate.searchModule.correspondenceList.count;
+            //jen PreviousNext
+            attachementsCount=correspondence.attachmentsList.count;
         }
         
         lblTitle=[[UILabel alloc]initWithFrame:CGRectMake(20, 15, self.frame.size.width, 15)];
@@ -136,17 +151,13 @@
         [nextButton setTitleColor:[UIColor grayColor]forState:UIControlStateDisabled];
          [nextButton addTarget:self action:@selector(nextButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
        [self addSubview:nextButton];
-       
-        
-
-        
-        
-       
-    
-        
-        if(correspondenceId==correspondencesCount-1){
+       //jen PreviousNext
+        if(attachmentId==attachementsCount-1){
             nextButton.enabled=FALSE;
         }
+//        if(correspondenceId==correspondencesCount-1){
+//            nextButton.enabled=FALSE;
+//        }
         else  nextButton.enabled=TRUE;
       
         previousButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -164,7 +175,11 @@
         [previousButton setTitleColor:[UIColor grayColor]forState:UIControlStateDisabled];
        [previousButton addTarget:self action:@selector(previousButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:previousButton];
-        if(correspondenceId==0){
+        //jen PreviousNext
+//        if(correspondenceId==0){
+//            previousButton.enabled=FALSE;
+//        }
+        if(attachmentId==0){
             previousButton.enabled=FALSE;
         }
         else  previousButton.enabled=TRUE;
@@ -174,12 +189,13 @@
         lockButton.frame = CGRectMake(rightButtonX, 30, 65, 90);
         //[previousButton setImage:[UIImage imageNamed:@"previous.png"] forState:UIControlStateNormal];
         if(correspondence.Locked==YES){
-        [lockButton setBackgroundImage: [UIImage imageNamed:@"Unlock.png"] forState:UIControlStateNormal];
+            [lockButton setBackgroundImage: [UIImage imageNamed:@"Unlock.png"] forState:UIControlStateNormal];
             [lockButton setBackgroundImage: [UIImage imageNamed:@"Lock.png"] forState:UIControlStateSelected];
              [lockButton setTitle:NSLocalizedString(@"Menu.Unlock",@"unlock") forState:UIControlStateNormal];
             
         }
-        else{ [lockButton setBackgroundImage: [UIImage imageNamed:@"Lock.png"] forState:UIControlStateNormal];
+        else{
+            [lockButton setBackgroundImage: [UIImage imageNamed:@"Lock.png"] forState:UIControlStateNormal];
              [lockButton setBackgroundImage: [UIImage imageNamed:@"Unlock.png"] forState:UIControlStateSelected];
              [lockButton setTitle:NSLocalizedString(@"Menu.Lock",@"lock") forState:UIControlStateNormal];
             
@@ -193,9 +209,8 @@
         [lockButton setTitleColor:[UIColor whiteColor]forState:UIControlStateNormal];
         [lockButton setTitleColor:[UIColor grayColor]forState:UIControlStateDisabled];
         [lockButton addTarget:self action:@selector(lockButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:lockButton];
+        //[self addSubview:lockButton];
         [self updateToolbar];
-        
     }
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -210,15 +225,21 @@
         lockButton.frame=CGRectMake(560, 30, 65, 90);
        previousButton.frame=CGRectMake(630, 30, 65, 90);
          nextButton.frame = CGRectMake(700,30, 65, 90);
+        closeButton.frame = CGRectMake(500,100, 61, 40);
        // lblTitle.frame = CGRectMake(0, 15, 765, 15);
     } else {
          lockButton.frame=CGRectMake(810, 30, 65, 90);
         previousButton.frame=CGRectMake(880, 30, 65, 90);
          nextButton.frame = CGRectMake(950, 30, 65, 90);
+        closeButton.frame = CGRectMake(500, 100, 61, 40);
         //lblTitle.frame = CGRectMake(0, 15, 1024, 15);
     }
 }
 
+-(void)desableButtons{
+    [annotationButton removeFromSuperview];
+    [transferButton removeFromSuperview];
+}
 
 - (void)setBookmarkState:(BOOL)state
 {
@@ -401,33 +422,48 @@ BOOL lockSelected=NO;
 
 - (void)nextButtonTapped :(UIButton *)button
 {
-    
-    self.correspondenceId=self.correspondenceId+1;
-
+    //jen PreviousNext
+    CAttachment *fileToOpen;
+   // self.correspondenceId=self.correspondenceId+1;
+    self.attachmentId=self.attachmentId+1;
     if(self.menuId!=100){
     correspondence= ((CMenu*)self.user.menu[self.menuId]).correspondenceList[self.correspondenceId];
+        //jen PreviousNext
+        fileToOpen=correspondence.attachmentsList[self.attachmentId];
     }else{
         correspondence=mainDelegate.searchModule.correspondenceList[self.correspondenceId];
+        //jen PreviousNext
+        fileToOpen=correspondence.attachmentsList[self.attachmentId];
     }
    
-    CAttachment *fileToOpen=correspondence.attachmentsList[0];
+    //CAttachment *fileToOpen=correspondence.attachmentsList[1];
    // [self updateTitleWithLocation:fileToOpen.location withName:fileToOpen.title];
-     NSString *tempPdfLocation=[fileToOpen saveInCacheinDirectory:correspondence.Id fromSharepoint:mainDelegate.isSharepoint];
+    //jen PreviousNext
+     //NSString *tempPdfLocation=[fileToOpen saveInCacheinDirectory:correspondence.Id fromSharepoint:mainDelegate.isSharepoint];
+    NSString *tempPdfLocation=[fileToOpen saveInCacheinDirectory:fileToOpen.docId fromSharepoint:mainDelegate.isSharepoint];
    //  NSString *tempPdfLocation=[CParser loadPdfFile:fileToOpen.url inDirectory:correspondence.Id];
     ReaderDocument *newdocument=nil;
     if ([ReaderDocument isPDF:tempPdfLocation] == YES) // File must exist
     {
     newdocument=[self OpenPdfReader:tempPdfLocation];
     }
-	[delegate tappedInToolbar:self nextButton:button documentReader:newdocument correspondenceId:self.correspondenceId];
-   
-    if(self.correspondenceId==correspondencesCount-1){
+    
+    //jen PreviousNext
+	//[delegate tappedInToolbar:self nextButton:button documentReader:newdocument correspondenceId:self.correspondenceId];
+    [delegate tappedInToolbar:self nextButton:button documentReader:newdocument correspondenceId:self.correspondenceId attachementId:self.attachmentId];
+//    if(self.correspondenceId==correspondencesCount-1){
+//        button.enabled=FALSE;
+//    }
+    if(self.attachmentId==attachementsCount-1){
         button.enabled=FALSE;
     }
     else  button.enabled=TRUE;
-    if(self.correspondenceId==0){
+//    if(self.correspondenceId==0){
+//        previousButton.enabled=FALSE;
+//        
+//    }
+    if(self.attachmentId==0){
         previousButton.enabled=FALSE;
-        
     }
     else  previousButton.enabled=TRUE;
     lockSelected=NO;
@@ -436,17 +472,26 @@ BOOL lockSelected=NO;
 
 - (void)previousButtonTapped :(UIButton *)button
 {
-    self.correspondenceId=self.correspondenceId-1;
-
+    //jen PreviousNExt
+    CAttachment *fileToOpen;
+    //self.correspondenceId=self.correspondenceId-1;
+    self.attachmentId=self.attachmentId-1;
+    
     if(self.menuId!=100){
         correspondence= ((CMenu*)self.user.menu[self.menuId]).correspondenceList[self.correspondenceId];
+        //jen
+        fileToOpen=correspondence.attachmentsList[self.attachmentId];
     }else{
         correspondence=mainDelegate.searchModule.correspondenceList[self.correspondenceId];
+        //jen
+        fileToOpen=correspondence.attachmentsList[self.attachmentId];
     }
     
-    CAttachment *fileToOpen=correspondence.attachmentsList[0];
+    //CAttachment *fileToOpen=correspondence.attachmentsList[0];
    // [self updateTitleWithLocation:fileToOpen.location withName:fileToOpen.title];
-     NSString *tempPdfLocation=[fileToOpen saveInCacheinDirectory:correspondence.Id fromSharepoint:mainDelegate.isSharepoint];
+    //jen
+    // NSString *tempPdfLocation=[fileToOpen saveInCacheinDirectory:correspondence.Id fromSharepoint:mainDelegate.isSharepoint];
+    NSString *tempPdfLocation=[fileToOpen saveInCacheinDirectory:fileToOpen.docId fromSharepoint:mainDelegate.isSharepoint];
    // NSString *tempPdfLocation=[CParser loadPdfFile:fileToOpen.url inDirectory:correspondence.Id];
 
     ReaderDocument *document=nil;
@@ -454,17 +499,22 @@ BOOL lockSelected=NO;
     {
         document=[self OpenPdfReader:tempPdfLocation];
     }
-
-	[delegate tappedInToolbar:self previousButton:button documentReader:document correspondenceId:self.correspondenceId];
-    
-    
-    if(self.correspondenceId==0){
-        button.enabled=FALSE;
-    
-    }
+//jen PreviousNext
+	//[delegate tappedInToolbar:self previousButton:button documentReader:document correspondenceId:self.correspondenceId];
+    [delegate tappedInToolbar:self previousButton:button documentReader:document correspondenceId:self.correspondenceId attachementId:self.attachmentId];
+//    if(self.correspondenceId==0){
+//        button.enabled=FALSE;
+//    
+//    }
+    if(self.attachmentId==0){
+            button.enabled=FALSE;
+            }
     else  button.enabled=TRUE;
     
-    if(self.correspondenceId==correspondencesCount-1){
+//    if(self.correspondenceId==correspondencesCount-1){
+//        nextButton.enabled=FALSE;
+//    }
+    if(self.attachmentId==attachementsCount-1){
         nextButton.enabled=FALSE;
     }
     else  nextButton.enabled=TRUE;
@@ -472,6 +522,8 @@ BOOL lockSelected=NO;
    lockSelected=NO;
     [self updateToolbar];
 }
+
+
 
 -(void)updateToolbar{
     NSInteger btnWidth=80;
@@ -495,7 +547,6 @@ BOOL lockSelected=NO;
         [self addSubview:metadataButton];
         leftButtonX=leftButtonX+btnWidth;
     }
-    
     if([[correspondence.toolbar objectForKey:@"Attachments"] isEqualToString:@"YES"]){
         attachmentButton = [UIButton buttonWithType:UIButtonTypeCustom];
         attachmentButton.frame = CGRectMake(leftButtonX, 30, btnWidth, 90);
@@ -541,8 +592,8 @@ BOOL lockSelected=NO;
         leftButtonX=leftButtonX+btnWidth;
     }
     
-    if([[correspondence.toolbar objectForKey:@"Highlight"] isEqualToString:@"YES"] || [[correspondence.toolbar objectForKey:@"Note"] isEqualToString:@"YES"] ||
-       [[correspondence.toolbar objectForKey:@"Sign"] isEqualToString:@"YES"]){
+    if([[correspondence.toolbar objectForKey:@"Highlight"] isEqualToString:@"YES"] || [[correspondence.toolbar objectForKey:@"Note"] isEqualToString:@"YES"] || [[correspondence.toolbar objectForKey:@"Sign"] isEqualToString:@"YES"]
+       || [[correspondence.toolbar objectForKey:@"SignAndSend"] isEqualToString:@"YES"]){
         annotationButton = [UIButton buttonWithType:UIButtonTypeCustom];
         annotationButton.frame = CGRectMake(leftButtonX, 30, btnWidth, 90);
         // [annotationButton setImage:[UIImage imageNamed:@"highlight.png"] forState:UIControlStateNormal];

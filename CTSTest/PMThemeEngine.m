@@ -51,6 +51,9 @@ static PMThemeEngine* sharedInstance;
 
 + (UIColor *) colorFromString:(NSString *)colorString
 {
+    if([colorString  isEqual: @"250,61,23"]){
+        colorString = @"0,155,213";
+    }
     UIColor *color = nil;
     if ([colorString isKindOfClass:[NSString class]]) // plain color
     {
@@ -304,6 +307,10 @@ static PMThemeEngine* sharedInstance;
     NSDictionary *themeDictionary = [[PMThemeEngine sharedInstance] themeDictForType:themeElementType 
                                                                              subtype:themeElementSubtype];
     id colorObj = [themeDictionary elementInThemeDictOfGenericType:PMThemeColorGenericType];
+    if([colorObj  isEqual: @"250,61,23"]){
+//        colorObj=@"0,155,213";
+        NSLog(@"hayda houwe");
+    }
     NSDictionary *shadowDict = [themeDictionary elementInThemeDictOfGenericType:PMThemeShadowGenericType];
     UIFont *usedFont = font;
     CGSize offset = [[themeDictionary elementInThemeDictOfGenericType:PMThemeOffsetGenericType] pmThemeGenerateSize];

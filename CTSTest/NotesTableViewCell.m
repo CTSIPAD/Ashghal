@@ -31,7 +31,8 @@
         note  =[[UILabel alloc]initWithFrame:CGRectMake(50, 35, self.frame.size.width-50, 30)];
         note.backgroundColor=[UIColor clearColor];
         note.textColor=[UIColor whiteColor];
-        note.font=[UIFont fontWithName:@"Helvetica" size:16];
+        //note.font=[UIFont fontWithName:@"Helvetica" size:16];
+        note.font=[UIFont fontWithName:@"Helvetica-Bold" size:16];
         [note setNumberOfLines:0];
         
           AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];

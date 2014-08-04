@@ -129,7 +129,7 @@
 	{
 		pageThumbView.tag = page; [pageThumbView reuse]; // Reuse the thumb view
 
-		CGSize size = CGSizeMake(THUMB_LARGE_WIDTH, THUMB_LARGE_HEIGHT); // Maximum thumb size
+		//CGSize size = CGSizeMake(THUMB_LARGE_WIDTH, THUMB_LARGE_HEIGHT); // Maximum thumb size
 
 		//NSURL *fileURL = document.fileURL; NSString *guid = document.guid; NSString *phrase = document.password;
 
@@ -137,9 +137,15 @@
 
 		//UIImage *image = [[ReaderThumbCache sharedInstance] thumbRequest:request priority:YES]; // Request the thumb
         CAttachment *file=correspondence.attachmentsList[self.attachmentId];
-        NSData * data = [NSData dataWithBase64EncodedString:file.thumbnailBase64];
+       // NSData * data = [NSData dataWithBase64EncodedString:file.thumbnailBase64];
         
-        UIImage *image = [UIImage imageWithData:data];
+        
+        //johnny thumb
+        //UIImage *image = [UIImage imageWithData:data];
+        
+        UIImage *image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:file.ThubnailUrl]]];
+        //UIImage *image = [UIImage imageNamed:@"cts_Unlock.png"];
+        
 		UIImage *thumb = ([image isKindOfClass:[UIImage class]] ? image : nil);
         [pageThumbView showImage:thumb];
 	}
@@ -331,7 +337,7 @@
 
 		if (smallThumbView == nil) // We need to create a new small thumb view for the page number
 		{
-			CGSize size = CGSizeMake(THUMB_SMALL_WIDTH, THUMB_SMALL_HEIGHT); // Maximum thumb size
+		//Unused variable	CGSize size = CGSizeMake(THUMB_SMALL_WIDTH, THUMB_SMALL_HEIGHT); // Maximum thumb size
 
 			//NSURL *fileURL = document.fileURL; NSString *guid = document.guid; NSString *phrase = document.password;
 
@@ -344,10 +350,14 @@
             
             CAttachment*file=correspondence.attachmentsList[thumb];
             
+            //johnny thumb
+            //NSData * data = [NSData dataWithBase64EncodedString:file.thumbnailBase64];
            
-            NSData * data = [NSData dataWithBase64EncodedString:file.thumbnailBase64];
+            //UIImage *image = [UIImage imageWithData:data];
             
-            UIImage *image = [UIImage imageWithData:data];
+              //UIImage *image = [UIImage imageNamed:@"cts_Lock.png"];
+                UIImage *image =[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:file.ThubnailUrl]]];
+            //end johnny thumb
 			if ([image isKindOfClass:[UIImage class]]) [smallThumbView showImage:image]; // Use thumb image from cache
 
 			[trackControl addSubview:smallThumbView]; [miniThumbViews setObject:smallThumbView forKey:key];
@@ -475,7 +485,9 @@
 	CGFloat stride = (controlWidth / pages);
 
 	NSInteger page = (trackView.value / stride); // Integer page number
-
+    
+    mainDelegate.attachmentSelected = page;
+    
 	return (page + 1); // + 1
 }
 

@@ -59,41 +59,53 @@
         lblTransferTo.text = NSLocalizedString(@"Transfer.TransferTo",@"Transfer To");
         lblTransferTo.textAlignment=NSTextAlignmentLeft;
         lblTransferTo.backgroundColor = [UIColor clearColor];
-        lblTransferTo.font = [UIFont fontWithName:@"Helvetica" size:16];
+        //lblTransferTo.font = [UIFont fontWithName:@"Helvetica" size:16];
+        lblTransferTo.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
         lblTransferTo.textColor=[UIColor whiteColor];
         
         txtTransferTo=[[UITextField alloc]initWithFrame:CGRectMake(10, 70, frame.size.width-20, 30)];
         txtTransferTo.backgroundColor = [UIColor whiteColor];
         UIButton *ddbtnDestination = [UIButton buttonWithType:UIButtonTypeCustom];
         [ddbtnDestination setImage:[UIImage imageNamed:@"dropdown-button.png"] forState:UIControlStateNormal];
-        ddbtnDestination.frame = CGRectMake(0, 0, 20, 30);
+        
+        ddbtnDestination.frame = CGRectMake(frame.size.width-30, 70, 20, 30);
 
+        [txtTransferTo setUserInteractionEnabled:NO];
+        
         //ddbtnDestination.imageEdgeInsets = UIEdgeInsetsMake(0, -16, 0, 0);
         [ddbtnDestination addTarget:self action:@selector(ShowDestinations) forControlEvents:UIControlEventTouchUpInside];
-        txtTransferTo.rightView = ddbtnDestination;
+        //txtTransferTo.rightView = ddbtnDestination;
+        
         txtTransferTo.rightViewMode = UITextFieldViewModeAlways;
         
         UILabel *lblDirection = [[UILabel alloc] initWithFrame:CGRectMake(10, 110, frame.size.width/2-20, 20)];
-        lblDirection.text = NSLocalizedString(@"Transfer.Direction",@"Direction");
+        //lblDirection.text = NSLocalizedString(@"Transfer.Direction",@"Direction");
+        lblDirection.text = NSLocalizedString(@"Transfer.Purpose",@"Purpose");
         lblDirection.textAlignment=NSTextAlignmentLeft;
         lblDirection.backgroundColor = [UIColor clearColor];
-        lblDirection.font = [UIFont fontWithName:@"Helvetica" size:16];
+        //lblDirection.font = [UIFont fontWithName:@"Helvetica" size:16];
+        lblDirection.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
         lblDirection.textColor=[UIColor whiteColor];
         
         txtDirection=[[UITextField alloc]initWithFrame:CGRectMake(10, 135, frame.size.width/2-20, 30)];
         txtDirection.backgroundColor = [UIColor whiteColor];
         UIButton *ddbtnDirection = [UIButton buttonWithType:UIButtonTypeCustom];
         [ddbtnDirection setImage:[UIImage imageNamed:@"dropdown-button.png"] forState:UIControlStateNormal];
-        ddbtnDirection.frame = CGRectMake(0, 0, 20, 30);
+        
+        ddbtnDirection.frame = CGRectMake(frame.size.width/2 - 20, 135, 20, 30);
+        
         [ddbtnDirection addTarget:self action:@selector(ShowDirections) forControlEvents:UIControlEventTouchUpInside];
-        txtDirection.rightView = ddbtnDirection;
+        //txtDirection.rightView = ddbtnDirection;
+        [txtDirection setUserInteractionEnabled:NO];
+        
         txtDirection.rightViewMode = UITextFieldViewModeAlways;
         
         UILabel *lblDueDate = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width/2+10, 110, frame.size.width/2-20, 20)];
         lblDueDate.text = NSLocalizedString(@"Transfer.DueDate",@"DueDate");
         lblDueDate.textAlignment=NSTextAlignmentLeft;
         lblDueDate.backgroundColor = [UIColor clearColor];
-        lblDueDate.font = [UIFont fontWithName:@"Helvetica" size:16];
+        //lblDueDate.font = [UIFont fontWithName:@"Helvetica" size:16];
+        lblDueDate.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
         lblDueDate.textColor=[UIColor whiteColor];
         
         txtDueDate=[[UITextField alloc]initWithFrame:CGRectMake(frame.size.width/2+10, 135, frame.size.width/2-20, 30)];
@@ -110,7 +122,8 @@
         lblNote.text = NSLocalizedString(@"Transfer.Note",@"Note");
         lblNote.textAlignment=NSTextAlignmentLeft;
         lblNote.backgroundColor = [UIColor clearColor];
-        lblNote.font = [UIFont fontWithName:@"Helvetica" size:16];
+        //lblNote.font = [UIFont fontWithName:@"Helvetica" size:16];
+        lblNote.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
         lblNote.textColor=[UIColor whiteColor];
         
         txtNote = [[UITextView alloc] initWithFrame:CGRectMake(10, 200, frame.size.width-20, 100)];
@@ -125,7 +138,7 @@
         NSInteger btnWidth=115;
         
         UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        closeButton.frame = CGRectMake((frame.size.width-(2*btnWidth +50))/2, 310, btnWidth, 35);
+        closeButton.frame =CGRectMake(((frame.size.width-(2*btnWidth +50))/2)+btnWidth+50, 310, btnWidth, 35);
          closeButton.titleLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:18];
         [closeButton setTitle:NSLocalizedString(@"Cancel",@"Cancel") forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchUpInside];
@@ -133,7 +146,7 @@
        
         
         UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        saveButton.frame = CGRectMake(((frame.size.width-(2*btnWidth +50))/2)+btnWidth+50, 310, btnWidth, 35);
+        saveButton.frame = CGRectMake((frame.size.width-(2*btnWidth +50))/2, 310, btnWidth, 35);
          saveButton.titleLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:18];
         [saveButton setTitle:NSLocalizedString(@"Save",@"Save") forState:UIControlStateNormal];
         [saveButton addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
@@ -156,12 +169,17 @@
         [self.view addSubview:lblDueDate];
         [self.view addSubview:lblNote];
         [self.view addSubview:txtTransferTo];
+        [self.view addSubview:ddbtnDestination];
+        
          [self.view addSubview:txtDirection];
+        [self.view addSubview:ddbtnDirection];
+        
          [self.view addSubview:txtDueDate];
         [self.view addSubview:txtNote];
          [self.view addSubview:ddbtnDueDate];
-        [self.view addSubview:closeButton];
         [self.view addSubview:saveButton];
+        [self.view addSubview:closeButton];
+
        
         
     }
@@ -203,6 +221,7 @@
         
     }
     if (!isDirectionDropDownOpened) {
+        //jen dropdown
         AppDelegate *mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         CUser* userTemp =  mainDelegate.user;
         actionController = [[ActionTaskController alloc] initWithStyle:UITableViewStyleGrouped];
@@ -300,16 +319,17 @@ self.pmCC.period = [PMPeriod oneDayPeriodWithDate:[NSDate date]];
 
 -(void)save{
     UIAlertView *alertKO;
-    if(txtDirection.text.length==0 || txtTransferTo==0 || txtDueDate==0)
+    if(txtDirection.text.length==0 || txtTransferTo.text.length==0 || txtDueDate.text.length==0)
     {
         alertKO=[[UIAlertView alloc]initWithTitle:NSLocalizedString(@"Alert",@"Alert") message:NSLocalizedString(@"Transfer.Message",@"Please fill all fields.") delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok",@"OK") otherButtonTitles: nil];
         [alertKO show];
-        
     }
     else{
+        //jen transfer loader
+        [NSThread detachNewThreadSelector:@selector(increaseLoading) toTarget:self withObject:nil];
         // [self dismissViewControllerAnimated:YES completion:nil];
         [delegate destinationSelected:dest withRouteLabel:routeLabel routeNote:txtNote.text withDueDate:txtDueDate.text viewController:self ] ;
-       
+        [NSThread detachNewThreadSelector:@selector(dismiss) toTarget:self withObject:nil];
         //[self hide];
     }
 }
@@ -357,6 +377,12 @@ self.pmCC.period = [PMPeriod oneDayPeriodWithDate:[NSDate date]];
         [pmCC dismissCalendarAnimated:YES];
     }
     
+}
+-(void)increaseLoading{
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Alert.Loading", @"Loading...") maskType:SVProgressHUDMaskTypeBlack];
+}
+-(void)dismiss{
+    [SVProgressHUD dismiss];
 }
 
 @end

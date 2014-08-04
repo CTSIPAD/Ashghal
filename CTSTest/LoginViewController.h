@@ -17,6 +17,6 @@
     BOOL recordResults;
     NSMutableData *conWebData;
 }
-
+@property (nonatomic,retain) UIActivityIndicatorView *activityIndicatorObject;
 
 @end

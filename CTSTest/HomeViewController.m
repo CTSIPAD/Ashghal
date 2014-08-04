@@ -18,7 +18,9 @@
 #import "ReaderDocument.h"
 #import "ReaderViewController.h"
 #import "CMenu.h"
-
+#import "MainMenuViewController.h"
+#import "LoginViewController.h"
+#import "GDataXMLNode.h"
 @interface HomeViewController ()
 
 @end
@@ -46,9 +48,124 @@
 
 static NSString *CellIdentifier;
 
+//-(BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation{
+//    return NO;
+//}
+
+-(void)deleteCachedFiles{
+    
+    @try{
+        
+        NSFileManager *fm = [NSFileManager defaultManager];
+        
+        // TEMPORARY PDF PATH
+        // Get the Caches directory
+        NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        NSError *error = nil;
+        for (NSString *file in [fm contentsOfDirectoryAtPath:cachesDirectory error:&error]) {
+            BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", cachesDirectory, file] error:&error];
+            if (!success || error) {
+                // it failed.
+                NSLog(@"%@",error);
+            }
+        }
+        for (NSString *file in [fm contentsOfDirectoryAtPath:documentsDirectory error:&error]) {
+            BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", documentsDirectory, file] error:&error];
+            if (!success || error) {
+                // it failed.
+                NSLog(@"%@",error);
+            }
+        }
+    }
+    @catch (NSException *ex) {
+        [FileManager appendToLogView:@"HomeViewController" function:@"deleteCachedFiles" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
+    }
+}
+
+-(void)logout{
+    NSString* message;
+    message=NSLocalizedString(@"root.disconnectdialog",@"Do you really want to disconnect ?");
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"root.disconnect",@"Sign out")
+                                                    message:message
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"root.disconnect.NO",@"Stay Connected" )
+                                          otherButtonTitles:NSLocalizedString(@"root.disconnect.YES",@"Sign Out" ),nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        //cancel clicked ...do your action
+        
+    }
+    else if (buttonIndex == 1)
+    {
+        [self deleteCachedFiles];
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+        delegate.user=nil;
+        delegate.searchModule=nil;
+        delegate.selectedInbox=0;
+        LoginViewController *loginView=[[LoginViewController alloc]init];
+        [delegate.window setRootViewController:(UIViewController*)loginView];
+        
+        [delegate.window makeKeyAndVisible];
+        //[self.navigationController popToRootViewControllerAnimated:YES];
+        
+        //LoginViewController *loginView=[[LoginViewController alloc]init];
+        // [self.navigationController presentViewController:loginView animated:YES completion:nil];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //jis toolbar
+    mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width+90, 51);
+    CGFloat red = 88.0f / 255.0f;
+    CGFloat green = 96.0f / 255.0f;
+    CGFloat blue = 104.0f / 255.0f;
+    toolbar.layer.borderWidth = 2;
+    toolbar.layer.borderColor = [[UIColor colorWithRed:red green:green blue:blue alpha:1.0]CGColor];
+
+    toolbar.barTintColor = [UIColor blackColor];
+    
+    UILabel *userlabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 20, 100, 44)];
+    userlabel.text = [NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName];
+    userlabel.frame = CGRectMake(10, 0, 400, 60);
+    userlabel.textColor = [UIColor whiteColor];
+    userlabel.shadowColor = [UIColor colorWithRed:0.0f / 255.0f green:155.0f / 255.0f blue:213.0f / 255.0f alpha:1.0];
+    //userlabel.shadowOffset = CGSizeMake(0.0, 2.0);
+    userlabel.font =[UIFont fontWithName:@"Helvetica" size:20.0f];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:userlabel];
+    
+    
+    UIBarButtonItem *separator = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    separator.width = 270;
+    
+    UIButton *btnLogout=[[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width-120, 62, 37, 37)];
+    [btnLogout setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"Logout.png"]]forState:UIControlStateNormal];
+    [btnLogout addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *itemlogout = [[UIBarButtonItem alloc] initWithCustomView:btnLogout];
+    toolbar.items = [NSArray arrayWithObjects:separator,item,itemlogout, nil];
+    
+    
+    
+    
+
+    
+    [self.view addSubview:toolbar];
+    
+    
+    //end jis toolbar
     [self.navigationController setNavigationBarHidden:TRUE];
     CGFloat numberY ;
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -61,7 +178,7 @@ static NSString *CellIdentifier;
         CellIdentifier = @"CellLandscape";
          numberY = (738 -PAGE_NUMBER_HEIGHT);
     }
-    mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     
     self.user =mainDelegate.user;
     itemsCount=((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList.count;
@@ -106,6 +223,8 @@ static NSString *CellIdentifier;
     [self.collectionView addSubview:pageNumberView]; // Add page numbers display view
     
     [self updatePageNumberText:page ofPages:pages];
+    self.collectionView.backgroundColor = [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+
 }
 
 - (void)updatePageNumberText:(NSInteger)pageNum ofPages:(NSInteger)pagesNum
@@ -228,27 +347,57 @@ static NSString *CellIdentifier;
     CGPoint tapLocationInCell=[tap locationInView:cell];
     
     if(tapLocationInCell.x<=30 && tapLocationInCell.y<=30){
+        
+        
+        NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
+        NSString* searchUrl = [NSString stringWithFormat:@"http://%@?action=IsLockedCorrespondence&token=%@&transferId=%@",serverUrl,mainDelegate.user.token,((CCorrespondence*)((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item]).TransferId];
+        NSURL *xmlUrl = [NSURL URLWithString:searchUrl];
+        NSData *searchXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+        NSError *error;
+        GDataXMLDocument *doc= [[GDataXMLDocument alloc] initWithData:searchXmlData options:0 error:&error];
+        
+        NSArray *result = [doc nodesForXPath:@"//Result" error:nil];
+        GDataXMLElement *resultXML =  [result objectAtIndex:0];
+        NSString* lockedby=[(GDataXMLElement *) [resultXML attributeForName:@"lockedby"] stringValue];
+        
+        if([lockedby isEqualToString:[NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName]] || [lockedby isEqualToString:@"none"]){
+        
+        
         if(cell.Locked){
      
-            if(cell.CanOpen){
+            //if(cell.CanOpen){
                 ((CCorrespondence*)((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item]).Locked=NO;
                 cell.correspondence=((CCorrespondence*)((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item]);
                   [cell performLockAction];
-            }
-            else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tasktable.locked",@"Task is locked")
-                                                                message:[NSString stringWithFormat:@"%@ %@",cell.LockedBy,NSLocalizedString(@"tasktable.locked.dialog",@"has locked the task.")]
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK" 
-                                                      otherButtonTitles:nil];
-                [alert show];
-            }
+            //}
+//            else {
+//
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tasktable.locked",@"Task is locked")
+//                                                                    message:[NSString stringWithFormat:@"%@ %@",cell.LockedBy,NSLocalizedString(@"tasktable.locked.dialog",@"has locked the task.")]
+//                                                                   delegate:nil
+//                                                          cancelButtonTitle:@"OK"
+//                                                          otherButtonTitles:nil];
+//                    [alert show];
+//                }
+            
         }
         else{
              ((CCorrespondence*)((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item]).Locked=YES;
+//            ((CCorrespondence*)((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item]).LockedBy=self.user.firstName;
             cell.correspondence=((CCorrespondence*)((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item]);
             [cell performLockAction];
         }
+        }
+        else {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"tasktable.locked",@"Task is locked")
+                                                            message:[NSString stringWithFormat:@"%@ %@",lockedby,NSLocalizedString(@"tasktable.locked.dialog",@"has locked the task.")]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+
     }
     else{
     NSInteger cellTopPointY=cell.frame.origin.y;
@@ -301,7 +450,7 @@ static NSString *CellIdentifier;
 
 - (UIEdgeInsets)collectionView:
 (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0,2,2,2);
+    return UIEdgeInsetsMake(50,2,2,2);
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -318,13 +467,17 @@ static NSString *CellIdentifier;
     cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
     
     CCorrespondence *correspondence=((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[((page-1)*itemsNum)+indexPath.item];
-    CAttachment *attachment=correspondence.attachmentsList[0];
+    CAttachment *attachment;
+    if(correspondence.attachmentsList.count != 0){
+        attachment=correspondence.attachmentsList[0];
+    }
     
     cell.Locked=correspondence.Locked;
     cell.Priority=correspondence.Priority;
     cell.New=correspondence.New;
     cell.LockedBy=correspondence.LockedBy;
     cell.CanOpen=correspondence.CanOpen;
+    cell.showLocked = correspondence.ShowLocked;
     
   
     for (id key in correspondence.systemProperties) {
@@ -351,8 +504,6 @@ static NSString *CellIdentifier;
         }
     }
  
-
-    
     [cell setImageThumbnailBase64:attachment.thumbnailBase64];
     [cell updateCell];
     
@@ -388,25 +539,25 @@ static NSString *CellIdentifier;
     if(page==pages){
         switch ((itemsCount-((page-1)*itemsNum))) {
             case 1:
-                itemSize= CGSizeMake(collectionView.frame.size.width-4, collectionView.frame.size.height-12);
+                itemSize= CGSizeMake(collectionView.frame.size.width-4, collectionView.frame.size.height-30);
                 break;
             case 2:
-               itemSize= CGSizeMake(collectionView.frame.size.width-4, collectionView.frame.size.height/2-12);
+               itemSize= CGSizeMake(collectionView.frame.size.width-4, collectionView.frame.size.height/2-30);
                 break;
             case 3:
                 if(indexPath.item==0 || indexPath.item==1)
-                itemSize= CGSizeMake((collectionView.frame.size.width/2)-(10/2), (collectionView.frame.size.height/2)-11);
-                else  itemSize= CGSizeMake(collectionView.frame.size.width-4, collectionView.frame.size.height/2-12);
+                itemSize= CGSizeMake((collectionView.frame.size.width/2)-(10/2), (collectionView.frame.size.height/2)-30);
+                else  itemSize= CGSizeMake(collectionView.frame.size.width-4, collectionView.frame.size.height/2-30);
                 break;
             case 4:
-                    itemSize= CGSizeMake((collectionView.frame.size.width/2)-(10/2), (collectionView.frame.size.height/2)-11);
+                    itemSize= CGSizeMake((collectionView.frame.size.width/2)-(10/2), (collectionView.frame.size.height/2)-30);
                                break;
             default:
                 break;
         }
     }
     else
-        itemSize= CGSizeMake((collectionView.frame.size.width/2)-(10/2), (collectionView.frame.size.height/2)-11);
+        itemSize= CGSizeMake((collectionView.frame.size.width/2)-(10/2), (collectionView.frame.size.height/2)-30);
     
     
     
@@ -460,6 +611,8 @@ static NSString *CellIdentifier;
 
 -(void)performSelectFile:(NSString*)fileId{
     @try{
+    mainDelegate.isSigned = FALSE;
+        
     CCorrespondence *correspondence;
     correspondence=((CMenu*)self.user.menu[mainDelegate.menuSelectedItem]).correspondenceList[selectedItem-1];
     bool openFile=YES;
@@ -487,7 +640,7 @@ static NSString *CellIdentifier;
         //  NSString *tempPdfLocation=[CParser loadPdfFile:fileToOpen.url inDirectory:correspondence.Id];
         
         if(![tempPdfLocation isEqualToString:@""]){
-            
+            //jen
 //            if([ReaderDocument isPDF:(NSString *)filePath){
             
             if ([ReaderDocument isPDF:tempPdfLocation] == NO) // File must exist
@@ -500,10 +653,20 @@ static NSString *CellIdentifier;
                                                       otherButtonTitles:nil, nil];
                 [alert show];
 
-            }else {
+            }
+            else {
             
             ReaderDocument *document=[self OpenPdfReader:tempPdfLocation];
-            
+            //jis signattachment
+                
+                if([fileId  isEqual: @"0"]){
+                    document.isOriginalMail = [NSNumber numberWithInt:1];
+                }
+                else{
+                    document.isOriginalMail = [NSNumber numberWithInt:0];
+                }
+  
+                
             if (document != nil) // Must have a valid ReaderDocument object in order to proceed with things
             {
                 ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:document MenuId:mainDelegate.menuSelectedItem CorrespondenceId:selectedItem-1 AttachmentId:[fileId integerValue]];
@@ -580,9 +743,6 @@ static NSString *CellIdentifier;
     UINavigationController *navController=[[UINavigationController alloc] init];
     [navController setNavigationBarHidden:YES animated:NO];
     [navController pushViewController:detailViewController animated:YES];
-    
-    
-    
     
     
     NSArray *viewControllers=[[NSArray alloc] initWithObjects:[delegate.splitViewController.viewControllers objectAtIndex:0],navController,nil];

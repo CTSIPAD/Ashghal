@@ -20,6 +20,7 @@
     UILabel *lblNumber;
     UILabel *lblDate;
     UIImageView *imageView;
+    AppDelegate *mainDelegate;
 }
 - (id)initWithFrame:(CGRect)frame
 {
@@ -66,7 +67,11 @@
         [detailsView addSubview:lblNumber];
         [detailsView addSubview:lblDate];
         [self addSubview:imageView];
-        [self addSubview:self.imageViewLock];
+        
+//        if(self.showLocked){
+//            [self addSubview:self.imageViewLock];
+//        }
+        
         [self addSubview:self.imageViewRight1];
         [self addSubview:self.imageViewRight2];
         [self addSubview:detailsView];
@@ -84,7 +89,7 @@
 }
 
 -(void)updateCell {
-    
+   
     imageView.frame =CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     detailsView.frame=CGRectMake(0, self.bounds.size.height-150, self.bounds.size.width, 150);
     lblSender.frame=CGRectMake(5, 0, self.bounds.size.width-10, 30);
@@ -95,11 +100,18 @@
     self.imageViewRight1.frame = CGRectMake(self.bounds.size.width-65, 3, 30, 30);
     self.imageViewRight2.frame= CGRectMake(self.bounds.size.width-35, 3, 30, 30);
     
-    if(self.Locked){
-        [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Unlock.png"]];
-    }else{
-        [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Lock.png"]];
+    if(self.showLocked){
+        [self addSubview:self.imageViewLock];
     }
+    
+    if(self.showLocked){
+        if(self.Locked){
+            [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Lock.png"]];
+        }else{
+            [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Unlock.png"]];
+        }
+    }
+    
     if([self.Priority isEqualToString:@"high"] && self.New)
         [self.imageViewRight1 setImage:[UIImage imageNamed:@"cts_Priority.png"]];
     else if([self.Priority isEqualToString:@"high"] && !self.New){
@@ -123,7 +135,6 @@
     lblSubject.text=self.Subject;
     lblNumber.text=self.Number;
     lblDate.text=self.Date;
-    
     
 }
 
@@ -191,14 +202,17 @@
         if([self.correspondence performCorrespondenceAction:@"UnlockCorrespondence"]){
         self.Locked=NO;
         //self.LockedBy=@"";
-        [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Lock.png"]];
+        [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Unlock.png"]];
         }
     }else{
         if([self.correspondence performCorrespondenceAction:@"LockCorrespondence"]){
         self.Locked=YES;
         //self.LockedBy=mainDelegate.user.userId;
-        [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Unlock.png"]];
-        }
+        [self.imageViewLock setImage:[UIImage imageNamed:@"cts_Lock.png"]];
+             mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            self.LockedBy = [NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName
+];
+                    }
     }
     
 

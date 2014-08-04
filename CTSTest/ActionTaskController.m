@@ -46,6 +46,7 @@
     searchDisplayController.delegate=self;
     searchDisplayController.searchResultsDelegate=self;
     searchDisplayController.searchResultsDataSource=self;
+
     self.tableView.tableHeaderView=searchBar;
     searchData = [[NSMutableArray alloc] init];
 	self.clearsSelectionOnViewWillAppear = NO;
@@ -59,6 +60,7 @@
     if (frameHeight>135) {
         frameHeight=135;
     }
+    
     self.view.frame=CGRectMake(rectFrame.origin.x,rectFrame.origin.y,rectFrame.size.width,frameHeight);
 }
 
@@ -73,9 +75,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     int sections=1;
-    if(tableView == self.searchDisplayController.searchResultsTableView){
-        sections = [searchData count];
-    }
+    /*if(tableView == self.searchDisplayController.searchResultsTableView){
+        //[searchData count];
+                sections = [searchData count];
+    }*/
     return sections;
 }
 
@@ -90,7 +93,9 @@
 		rows= ([self.actions count]);
     }
     if(tableView == self.searchDisplayController.searchResultsTableView){
-        rows =[[searchData objectAtIndex:section] count];
+      //  tableView.backgroundColor = [UIColor redColor];
+        rows =[searchData  count];
+
     }
     return  rows;
 }
@@ -121,6 +126,9 @@
          if (tableView == self.tableView) {
 		if (indexPath.row<self.actions.count) {
             if(self.isDirection){
+                //jen dropdownview
+//                NSString* rl = [self.actions objectAtIndex:indexPath.row];
+//                cell.textLabel.text = rl;
             CRouteLabel* rl = [self.actions objectAtIndex:indexPath.row];
             cell.textLabel.text =  rl.name;
             }else{
@@ -129,7 +137,14 @@
             }
         }
          }if(tableView == self.searchDisplayController.searchResultsTableView){
-             cell.textLabel.text = [[searchData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+             //cell.textLabel.text = [[searchData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+             if(self.isDirection){
+                CRouteLabel* rl = [searchData objectAtIndex:indexPath.row];
+                 cell.textLabel.text =  rl.name;
+             }else{
+                 CDestination* dest= [searchData objectAtIndex:indexPath.row];
+                 cell.textLabel.text =  dest.name;
+             }
          }
 		
 	}
@@ -174,18 +189,20 @@
     if (self.isDirection) {
         for(routeLabel in self.actions)
         {
-            NSMutableArray *newGroup = [[NSMutableArray alloc] init];
+          //  NSMutableArray *newGroup = [[NSMutableArray alloc] init];
             
             NSRange range = [routeLabel.name rangeOfString:searchString options:NSCaseInsensitiveSearch];
             
             if (range.length > 0) {
-                [newGroup addObject:routeLabel.name];
+          //      [newGroup addObject:routeLabel.name];
+                [searchData addObject:routeLabel];
+
             }
             
             
-            if ([newGroup count] > 0) {
+         /*   if ([newGroup count] > 0) {
                 [searchData addObject:newGroup];
-            }
+            }*/
             
            
         }
@@ -194,19 +211,21 @@
     {
         for(destination in self.actions)
         {
-            NSMutableArray *newGroup = [[NSMutableArray alloc] init];
+          //  NSMutableArray *newGroup = [[NSMutableArray alloc] init];
             
             
             NSRange range = [destination.name rangeOfString:searchString options:NSCaseInsensitiveSearch];
             
             if (range.length > 0) {
-                [newGroup addObject:destination.name];
+             //   [newGroup addObject:destination.name];
+                [searchData addObject:destination];
+
                 
             }
             
-            if ([newGroup count] > 0) {
+         /*   if ([newGroup count] > 0) {
                 [searchData addObject:newGroup];
-            }
+            }*/
             
            
         }
@@ -214,11 +233,30 @@
     }
     
     
+    
     return YES;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    /*if(tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"johnny row : %ld",(long)indexPath.row);
+    }*/
+    if([self.searchDisplayController isActive]){
+        
+        if (indexPath.row<actions.count) {
+            if(self.isDirection){
+                CRouteLabel* rl = searchData[indexPath.row];
+                [delegate actionSelectedDirection:rl];
+            }else{
+                CDestination* dest = searchData[indexPath.row];
+                [delegate actionSelectedDestination:dest];
+            }
+        }
+    }
+    else{
+    
 	if(delegate !=nil)
 	{searchBar.text=@"";
         [searchBar resignFirstResponder];
@@ -234,9 +272,11 @@
             }
         }
 		
-	}
+	}}
 	
 }
+
+
 #pragma mark -
 #pragma mark Memory management
 

@@ -38,6 +38,9 @@
 @property (nonatomic, strong, readonly) NSString *password;
 @property (nonatomic, strong, readonly) NSURL *fileURL;
 
+@property (nonatomic,readwrite) NSNumber *isOriginalMail;
+@property (nonatomic,readwrite) NSNumber *isSigned;
+
 + (ReaderDocument *)withDocumentFilePath:(NSString *)filename password:(NSString *)phrase;
 
 + (ReaderDocument *)unarchiveFromFileName:(NSString *)filename password:(NSString *)phrase;

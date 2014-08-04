@@ -51,6 +51,7 @@
 "Transfer.TransferCorrespondence"="نقل المراسلات";
 "Transfer.TransferTo"="نقل إلى";
 "Transfer.Direction"="اتجاه";
+//"Transfer.Purpose"="
 "Transfer.DueDate"="تاريخ";
 "Transfer.Note"="ملاحظة";
 "Transfer.Cancel"="إلغاء";
@@ -64,7 +65,7 @@
 "Search.SearchInbox"="البحث في البريد الوارد";
 "Search.SearchArchive"="البحث في الأرشيف";
 "Search.SimpleSearch"="بحث بسيط";
-"Search.AdvanceSearch"="بحث متقدم";
+"Search.AdvancedSearch"="بحث متقدم";
 "Search.Sender"="المرسل";
 "Search.Subject"="الموضوع";
 "Search.Reference"="المرجع";

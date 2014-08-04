@@ -29,12 +29,31 @@
     return self;
 }
 
+-(id) initWithId:(NSString*)correspondenceId Priority:(NSString*)priority New:(BOOL)isNew Locked:(BOOL)isLocked lockedByUser:(NSString*)lockedBy SHOWLOCK:(BOOL)showlock canOpenCorrespondence:(BOOL)canOpen{
+    if ((self = [super init])) {
+        self.Id=correspondenceId;
+        //        self.Sender=sender;
+        //        self.Subject=subject;
+        //        self.Number=number;
+        //        self.Date=date;
+        self.Priority=priority;
+        self.New=isNew;
+        self.Locked=isLocked;
+        self.LockedBy=lockedBy;
+        self.CanOpen=canOpen;
+        self.ShowLocked = showlock;
+    }
+    return self;
+}
+
+
 -(BOOL)performCorrespondenceAction:(NSString*)action{
     
     BOOL isPerformed=NO;
     AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
-    NSString* url=[NSString stringWithFormat:@"action=%@&token=%@&correspondenceId=%@",action,appDelegate.user.token,self.Id];
+//    NSString* url=[NSString stringWithFormat:@"action=%@&token=%@&correspondenceId=%@",action,appDelegate.user.token,self.Id];
+    NSString* url=[NSString stringWithFormat:@"action=%@&token=%@&transferId=%@",action,appDelegate.user.token,self.TransferId];
 
     NSString* lockUrl = [NSString stringWithFormat:@"http://%@?%@",serverUrl,url];
     NSURL *xmlUrl = [NSURL URLWithString:lockUrl];

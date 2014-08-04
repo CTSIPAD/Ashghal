@@ -9,15 +9,21 @@
 #import "ActionsTableViewController.h"
 #import "CAction.h"
 #import "CUser.h"
+#import "CMenu.h"
 #import "CParser.h"
 #import "CFPendingAction.h"
-
+#import "HomeViewController.h"
+#import "MainMenuViewController.h"
+#import "CSearch.h"
+#import "ReaderMainToolbar.h"
+#import "AppDelegate.h"
 @interface ActionsTableViewController ()
 
 @end
 
 @implementation ActionsTableViewController{
     AppDelegate *mainDelegate;
+    AppDelegate *appDelegate;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -102,35 +108,109 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath  {
     
-     CAction *actionProperty=self.actions[indexPath.row];
-    [self executeAction:actionProperty.action];
-   
+//     CAction *actionProperty=self.actions[indexPath.row];
+//    [self executeAction:actionProperty.action];
+//    [_delegate movehome:self];
+//
+    CAction *actionProperty=self.actions[indexPath.row];
+    [_delegate PopUpCommentDialog:self Action:actionProperty document:nil];
+
+
 }
 
 -(void)executeAction:(NSString*)action{
     
     @try{
-    NSString* params=[NSString stringWithFormat:@"action=ExecuteCustomActions&token=%@&correspondenceId=%@&docId=%@&actionType=%@",self.user.token,self.correspondenceId,self.docId,action];
-    NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
+        
+       
+        
+    NSString* params=[NSString stringWithFormat:@"action=ExecuteCustomActions&token=%@&correspondenceId=%@&docId=%@&actionType=%@", mainDelegate.user.token,self.correspondenceId,self.docId,action];
+   NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
     NSString* url = [NSString stringWithFormat:@"http://%@?%@",serverUrl,params];
     NSURL *xmlUrl = [NSURL URLWithString:url];
     NSData *xmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
     NSString *validationResultAction=[CParser ValidateWithData:xmlData];
     
     if(![validationResultAction isEqualToString:@"OK"])
-    { if([validationResultAction isEqualToString:@"Cannot access to the server"])
     {
-        CFPendingAction*pa = [[CFPendingAction alloc] initWithActionUrl:url];
-        [mainDelegate.user addPendingAction:pa];
-    }else
-        [self ShowMessage:validationResultAction];
+        if([validationResultAction isEqualToString:@"Cannot access to the server"])
+        {
+            CFPendingAction*pa = [[CFPendingAction alloc] initWithActionUrl:url];
+            [mainDelegate.user addPendingAction:pa];
+        }else
         
-    }else [self ShowMessage:@"Action successfuly done."];
+            [self ShowMessage:validationResultAction];
+        
+    }else {
+        
+        int nb;
+        
+        NSString *t=((CMenu*)mainDelegate.user.menu[mainDelegate.selectedInbox-1]).name;
+        
+        if([t isEqual:@"Outgoing Correspondence"]){
+            nb=2;
+        }
+        else{
+            if([t isEqual:@"Incoming Correspondence"]){
+                nb=1;
+            }
+            else{
+                if([t isEqual:@"Internal Correspondence"]){
+                    nb=5;
+                }
+                else{
+                    if([t isEqual:@"Delivery Notes"]){
+                        nb=8;
+                    }
+                }
+            }
+        }
+        
+        NSString* correspondenceUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%d",serverUrl,mainDelegate.user.token,nb];
+        NSURL *xmlUrl = [NSURL URLWithString:correspondenceUrl];
+        NSData *menuXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+        
+        NSMutableDictionary *correspondences=[CParser loadCorrespondencesWithData:menuXmlData];
+        
+        //((CMenu*)mainDelegate.user.menu[mainDelegate.inboxForArchiveSelected]).correspondenceList=[correspondences objectForKey:[NSString stringWithFormat:@"%d",nb]];
+
+        mainDelegate.searchModule.correspondenceList = [correspondences objectForKey:[NSString stringWithFormat:@"%d",nb]];
+        
+        [self ShowMessage:@"Action successfuly done."];
+        
+        
+
+        
+        
+    }
     }
     @catch (NSException *ex) {
         [FileManager appendToLogView:@"ActionsTableViewController" function:@"executeAction" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
     }
     
+}
+
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    if(buttonIndex==0){
+        
+        
+        
+//        UIViewController *localdetailViewController=nil;
+//           UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+//           [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+//           [flowLayout setMinimumInteritemSpacing:5.0f];
+//           [flowLayout setMinimumLineSpacing:5.0f];
+//          HomeViewController *detail = [[HomeViewController alloc]initWithCollectionViewLayout:flowLayout];
+//           localdetailViewController=detail;
+//          UINavigationController *navController=[[UINavigationController alloc] init];
+//          [navController setNavigationBarHidden:YES animated:NO];
+//        [navController pushViewController:localdetailViewController animated:YES];
+        //HomeViewController *home=[[HomeViewController alloc]init];
+        //[self presentedViewController:home animated:YES completion:nil];
+    }
 }
 
 -(void)ShowMessage:(NSString*)message{
@@ -143,6 +223,8 @@
                           cancelButtonTitle:NSLocalizedString(@"OK",@"OK")
                           otherButtonTitles: nil];
     [alert show];
+    
+    
 }
 
 

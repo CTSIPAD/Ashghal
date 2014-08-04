@@ -18,6 +18,9 @@
 "YES"="YES";
 "NO"="NO";
 
+"Archive.ArchiveCorrespondence"="Archive Correspondence";
+"SignAndSend.SignAndSendCorrespondence"="Sign And Send Correspondence";
+"Accept.Note"="Comment:";
 "Login.Licence"="License Key";
 "Login"="Login";
 "Menu.Home"="Home";
@@ -52,7 +55,8 @@
 "Signature.Blue"="Blue";
 "Transfer.TransferCorrespondence"="Transfer Correspondence";
 "Transfer.TransferTo"="Transfer To";
-"Transfer.Direction"="Direction";
+//"Transfer.Direction"="Direction";
+"Transfer.Purpose"="Purpose";
 "Transfer.DueDate"="Due Date";
 "Transfer.Note"="Note";
 "Transfer.Cancel"="Cancel";
@@ -67,7 +71,7 @@
 "Search.SearchInbox"="Search Inbox";
 "Search.SearchArchive"="Search Archive";
 "Search.SimpleSearch"="Simple Search";
-"Search.AdvanceSearch"="Advance Search";
+"Search.AdvancedSearch"="Advanced Search";
 "Search.Sender"="Sender";
 "Search.Subject"="Subject";
 "Search.Reference"="Reference";
@@ -91,6 +95,7 @@
 "Alert.NoTask"="No Tasks Found";
 "Alert.Sync"="Synchronizing ...";
 "Alert.Searching"="Searching ...";
+"Alert.Signing"="Signing ...";
 "Alert.Loading"="Loading ...";
 "Alert.Extension"="Document type not supported.";
 "Alert.RequiredFields"="PLease fill all required fields.";

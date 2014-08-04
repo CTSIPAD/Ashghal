@@ -8,6 +8,7 @@
 
 #import "MetadataViewController.h"
 #import "CCorrespondence.h"
+#import "ReaderViewController.h"
 @interface MetadataViewController ()
 
 @end
@@ -34,6 +35,7 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"metadataCell"];
     
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
     
 }
 
@@ -106,15 +108,24 @@
 	return 50;
 }
 
+-(void)hide{
+    [ReaderViewController closeMetadata];
+}
+
 - (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] init];
+    //jen metadata color
+    CGFloat red=0.0f/255.0f;
+    CGFloat green=155.0f/255.0f;
+    CGFloat blue=213.0f/255.0f;
+    view.backgroundColor=[UIColor colorWithRed:red green:green blue:blue alpha:1.0];
+    view.frame=CGRectMake(0, 0, 350, 50);
     
-    view.frame=CGRectMake(0, 0, 200, 50);
-    
-    UILabel *lblTitle=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, 300, 30)];
+    UILabel *lblTitle=[[UILabel alloc]initWithFrame:CGRectMake(10, 10, 200, 30)];
     [lblTitle setBackgroundColor:[UIColor clearColor]];
-  lblTitle.font = [UIFont fontWithName:@"Helvetica" size:20];
+  //lblTitle.font = [UIFont fontWithName:@"Helvetica" size:20];
+    lblTitle.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
     NSString *key=[NSString stringWithFormat:@"%d",section];
     NSDictionary *subDictionary = [properties objectForKey:key];
     NSArray *keys=[subDictionary allKeys];
@@ -123,9 +134,12 @@
     
      if([mainDelegate.userLanguage.lowercaseString isEqualToString:@"ar"])
          lblTitle.textAlignment=NSTextAlignmentRight;
+   
     [view addSubview:lblTitle];
+
     return view;
 }
+
 
 
 
@@ -146,12 +160,17 @@
     NSArray *subkeys=[subSubDictionary allKeys];
     NSLog(@"%@",[subSubDictionary objectForKey:[subkeys objectAtIndex:0]]);
     cell.textLabel.text= [subSubDictionary objectForKey:[subkeys objectAtIndex:0]];
-   
+    cell.textLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:14];
     if([mainDelegate.userLanguage.lowercaseString isEqualToString:@"ar"])
         cell.textLabel.textAlignment=NSTextAlignmentRight;
+    
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath  {
+    [ReaderViewController closeMetadata];
+    
+}
 
 
 @end
