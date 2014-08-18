@@ -87,6 +87,8 @@
 "Alert"="Alert";
 "Alert.Sign"="Tap on PDF document to sign";
 "Alert.fileNotFound"="file not found";
+"Alert.Processing"="Processing";
+"Alert.Saving"="Saving ...";
 "Alert.IncorrectPin"="Incorrect Pin Code";
 "Alert.LicenceAlert"="License Key unavailable,please provide a key or continue as trial";
 "Alert.Trial" ="Trial expired please insert license key in settings menu";

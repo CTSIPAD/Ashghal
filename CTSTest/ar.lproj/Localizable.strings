@@ -93,6 +93,7 @@
 "Alert.RequiredFields"="يرجى تعبئة جميع الحقول الإلزامية.";
 "Alert.SignatureSaved"="حفظ التوقيع بنجاح";
 "Alert.WrongPin"="الرقم السري غير صحيح";
+"Alert.Saving"="جاري الحفظ...";
 "Alert.PinMatch"="لا تتطابق";
 "Alert.DeleteNote"="هل أنت متأكد أنك تريد حذف هذه الملاحظة؟";
 "Alert.NoResult"="لا نتائج لبحثك.";

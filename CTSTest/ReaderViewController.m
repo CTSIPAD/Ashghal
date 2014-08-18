@@ -1232,8 +1232,8 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 }
 
 -(void)SignAndSendIt:(NSString*)action document:(ReaderDocument *)documnt note:(NSString *)note{
-    [SVProgressHUD showWithStatus:NSLocalizedString(@"Alert.Saving",@"Saving ...") maskType:SVProgressHUDMaskTypeBlack];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//    [SVProgressHUD showWithStatus:NSLocalizedString(@"Alert.Saving",@"Saving ...") maskType:SVProgressHUDMaskTypeBlack];
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     CCorrespondence *correspondence;
@@ -1256,7 +1256,7 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     
     NSURL *xmlUrl = [NSURL URLWithString:urlTextEscaped];
     NSData *XmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
-        dispatch_async(dispatch_get_main_queue(), ^{
+      //  dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             NSString *validationResultAction=[CParser ValidateWithData:XmlData];
             
@@ -1311,9 +1311,9 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
             
 
             
-        });
-        
-    });
+//        });
+//        
+//    });
 
     }
 
@@ -1333,17 +1333,22 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
             correspondence=mainDelegate.searchModule.correspondenceList[self.correspondenceId];
         }
         // CAttachment *currentDoc=correspondence.attachmentsList[self.attachmentId];
+        NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
+
+        NSString* url = [NSString stringWithFormat:@"http://%@?action=TransferCorrespondence&token=%@&correspondenceId=%@&destinationId=%@&purposeId=%@&dueDate=%@&note=%@",serverUrl,userTemp.token,correspondence.TransferId,dest.rid,routeLabel.labelId,date,note];
+
+
+        if(self.menuId !=100)
+            [((CMenu*)mainDelegate.user.menu[self.menuId]).correspondenceList removeObjectAtIndex:self.correspondenceId];
+        NSURL *xmlUrl = [NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSData *xmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+        NSString *validationResultAction=[CParser ValidateWithData:xmlData];
         
-        NSString* url = [NSString stringWithFormat:@"action=TransferCorrespondence&token=%@&correspondenceId=%@&destinationId=%@&purposeId=%@&dueDate=%@&note=%@",userTemp.token,correspondence.TransferId,dest.rid,routeLabel.labelId,date,note];
-        CFPendingAction*pa = [[CFPendingAction alloc] initWithActionUrl:url];
-        
-        
-        [userTemp processSingleAction:pa];
-        if([self uploadXml:correspondence.Id]){
-            if(self.menuId !=100)
-                [((CMenu*)mainDelegate.user.menu[self.menuId]).correspondenceList removeObjectAtIndex:self.correspondenceId];
+        if(![validationResultAction isEqualToString:@"OK"])
+        {
+            [self ShowMessage:validationResultAction];
             
-            
+        }else {
             
             int nb;
             
@@ -1367,7 +1372,6 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                     }
                 }
             }
-            NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
             NSString* correspondenceUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%d",serverUrl,mainDelegate.user.token,nb];
             NSURL *xmlUrl = [NSURL URLWithString:correspondenceUrl];
             NSData *menuXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
@@ -1390,9 +1394,11 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                     [delegate dismissReaderViewController:self];
                 }];
             }
-            // Dismiss the ReaderViewController
-            
+
         }
+                       // Dismiss the ReaderViewController
+            
+        
         
     }
     @catch (NSException *ex) {
@@ -1403,10 +1409,13 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 }
 
 
--(BOOL)uploadXml:(NSString*) docId{
+-(void)uploadXml:(NSString*) docId{
     
     @try{
-            
+        if (mainDelegate==nil) mainDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+        
+        [SVProgressHUD showWithStatus:NSLocalizedString(@"Alert.Saving",@"Saving ...") maskType:SVProgressHUDMaskTypeBlack];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
 
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                              NSUserDomainMask, YES);
@@ -1469,12 +1478,12 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
         [request setHTTPBody:body];
         
         NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-          
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
                 NSString *validationResult=[CParser ValidateWithData:returnData];
                 if (mainDelegate==nil) mainDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
                     if(![validationResult isEqualToString:@"OK"]){
-                        isPerformed=NO;
-
+                        
                         if([validationResult isEqualToString:@"Cannot access to the server"]){
                             [self ShowMessage:validationResult];
                         }
@@ -1482,16 +1491,17 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                             [self ShowMessage:validationResult];
                         }
                     }else{
-                        isPerformed=YES;
                         [self ShowMessage:@"Saved Successfully"];
                     }
                 
                 
+            });
+            
+        });                
                 }
     @catch (NSException *ex) {
         [FileManager appendToLogView:@"ReaderViewController" function:@"uploadXml" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
     }
-	return isPerformed;
 }
 
 -(void)ShowMessage:(NSString*)message{
@@ -1719,6 +1729,7 @@ typedef enum{
             [xmlData2 writeToFile:documentsPath atomically:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self uploadXml:correspondence.Id];
+                [SVProgressHUD dismiss];
                 [mainDelegate.Highlights removeAllObjects];
                 [mainDelegate.Notes removeAllObjects];
             });
