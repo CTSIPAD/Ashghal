@@ -1492,6 +1492,10 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                         }
                     }else{
                         [self ShowMessage:@"Saved Successfully"];
+                        mainDelegate.isAnnotated=NO;
+
+                        //[self deleteCachedFiles];
+
                     }
                 
                 
@@ -1500,6 +1504,7 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
         });                
                 }
     @catch (NSException *ex) {
+        [SVProgressHUD dismiss];
         [FileManager appendToLogView:@"ReaderViewController" function:@"uploadXml" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
     }
 }
@@ -1544,14 +1549,24 @@ typedef enum{
 } AnnotationsType;
 -(void)performaAnnotation:(int)annotation{
     @try{
+        CCorrespondence *correspondence;
+        if(self.menuId!=100){
+            correspondence= ((CMenu*)mainDelegate.user.menu[self.menuId]).correspondenceList[self.correspondenceId];
+        }else{
+            correspondence=mainDelegate.searchModule.correspondenceList[self.correspondenceId];
+        }
+        CAttachment *fileToOpen=correspondence.attachmentsList[self.attachmentId];
+        [m_pdfview setAttachmentId:fileToOpen.AttachmentId.intValue];
         [self.notePopController dismissPopoverAnimated:YES];
         switch (annotation) {
             case Highlight:
+                
                 mainDelegate.isAnnotated=YES;
                 [m_pdfview setBtnHighlight:YES];
                 [m_pdfview setBtnNote:NO];
                 [m_pdfview setBtnSign:NO];
                 [m_pdfview setBtnErase:NO];
+               
                 break;
             case Sign:{
                 mainDelegate.isAnnotated=YES;
@@ -1640,7 +1655,6 @@ typedef enum{
 
 -(void)saveAnnotation
 {
-    mainDelegate.isAnnotated=NO;
     @try {
         [SVProgressHUD showWithStatus:NSLocalizedString(@"Alert.Processing",@"Processing ...") maskType:SVProgressHUDMaskTypeBlack];
         
@@ -1651,6 +1665,9 @@ typedef enum{
             }else{
                 correspondence=mainDelegate.searchModule.correspondenceList[self.correspondenceId];
             }
+            [mainDelegate.Notes addObjectsFromArray:mainDelegate.IncomingNotes];
+            [mainDelegate.Highlights addObjectsFromArray:mainDelegate.IncomingHighlights];
+
             CAttachment* attachmnt=correspondence.attachmentsList[self.attachmentId];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                                  
@@ -1673,7 +1690,6 @@ typedef enum{
             
             GDataXMLElement * NotesEl=[GDataXMLNode elementWithName:@"Notes" stringValue:@""];
             GDataXMLElement * HighlightsEl=[GDataXMLNode elementWithName:@"Highlights" stringValue:@""];
-            
             for(note* note in mainDelegate.Notes){
                 GDataXMLElement *docEl=[GDataXMLNode elementWithName:@"Note" stringValue:@""];
                 GDataXMLElement* noteAttribute=[GDataXMLElement attributeWithName:@"status" stringValue:note.status];
@@ -1729,22 +1745,53 @@ typedef enum{
             [xmlData2 writeToFile:documentsPath atomically:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self uploadXml:correspondence.Id];
-                [SVProgressHUD dismiss];
-                [mainDelegate.Highlights removeAllObjects];
-                [mainDelegate.Notes removeAllObjects];
+                //[SVProgressHUD dismiss];
+//                [mainDelegate.Highlights removeAllObjects];
+//                [mainDelegate.Notes removeAllObjects];
+                
             });
         });
         
     }
     
     @catch (NSException *ex) {
-        
+        [SVProgressHUD dismiss];
         [FileManager appendToLogView:@"ReaderViewController" function:@"saveAnnotation" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
         
     }
     
     
 }
+//-(void)deleteCachedFiles{
+//    
+//    @try{
+//        
+//        NSFileManager *fm = [NSFileManager defaultManager];
+//        
+//        // TEMPORARY PDF PATH
+//        // Get the Caches directory
+//        NSString *cachesDirectory = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+//        NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+//        NSError *error = nil;
+//        for (NSString *file in [fm contentsOfDirectoryAtPath:cachesDirectory error:&error]) {
+//            BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", cachesDirectory, file] error:&error];
+//            if (!success || error) {
+//                // it failed.
+//                NSLog(@"%@",error);
+//            }
+//        }
+//        for (NSString *file in [fm contentsOfDirectoryAtPath:documentsDirectory error:&error]) {
+//            BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", documentsDirectory, file] error:&error];
+//            if (!success || error) {
+//                // it failed.
+//                NSLog(@"%@",error);
+//            }
+//        }
+//    }
+//    @catch (NSException *ex) {
+//        [FileManager appendToLogView:@"MainMenuViewController" function:@"deleteCachedFiles" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
+//    }
+//}
 //{
 //    mainDelegate.isAnnotated=NO;
 //    @try {

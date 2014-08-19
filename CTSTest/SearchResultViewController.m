@@ -365,7 +365,7 @@
             [self performSelectorOnMainThread:@selector(increaseProgress) withObject:@"" waitUntilDone:YES];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                 
-                if(correspondence.attachmentsList == nil){
+                //if(correspondence.attachmentsList == nil){
                     
                     mainDelegate.corresponenceId = correspondence.Id;
                     mainDelegate.transferId = correspondence.TransferId;
@@ -379,7 +379,7 @@
                     NSMutableArray *attachments=[CParser loadSpecifiqueAttachment:attachmentXmlData];
                     
                     [correspondence setAttachmentsList:attachments];
-                }
+                //}
                 
                 
                 

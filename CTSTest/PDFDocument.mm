@@ -746,7 +746,9 @@ FS_BOOL MyMapFont(FS_LPVOID param, FS_LPCSTR name, FS_INT32 charset,
                     obj.status=@"UPDATE";
                 }
             if(![state isEqualToString:@"search.."]){
-                [mainDelegate.Notes addObject:obj];
+                //hack
+                if(![obj.status isEqualToString:@"DELETE"])
+                    [mainDelegate.Notes addObject:obj];
                 [mainDelegate.IncomingNotes removeObject:obj];
                 mainDelegate.isAnnotated=YES;
             }
@@ -1029,7 +1031,9 @@ FS_BOOL MyMapFont(FS_LPVOID param, FS_LPCSTR name, FS_INT32 charset,
                 obj.status=@"DELETE";
             }
             if(![state isEqualToString:@"search.."]){
-                [mainDelegate.Highlights addObject:obj];
+                //hack
+                if(![obj.status isEqualToString:@"DELETE"])
+                    [mainDelegate.Highlights addObject:obj];
                 [mainDelegate.IncomingHighlights removeObject:obj];
                 mainDelegate.isAnnotated=YES;
             }
