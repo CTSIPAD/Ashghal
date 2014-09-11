@@ -104,7 +104,7 @@
             imageView.image=[UIImage imageNamed:@"Sign.png"];
         } else if ([varStr isEqualToString:@"SignAndSend"]){
             imageView.image=[UIImage imageNamed:@"SignAndSend.png"];
-            labelTitle.text=@"Sign And Send";
+            labelTitle.text=@"Sign & Send";
         }else if([varStr isEqualToString:@"Note"]){
             imageView.image=[UIImage imageNamed:@"note.png"];
         }

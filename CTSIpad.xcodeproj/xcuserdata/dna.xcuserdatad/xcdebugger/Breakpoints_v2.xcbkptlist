@@ -47,7 +47,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2378"
             endingLineNumber = "2378"
-            landmarkName = "-tappedSaveSignatureWithWidth:withHeight:withRed:withGreen:withBlue:"
+            landmarkName = "-tappedSaveNoteText:private:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
