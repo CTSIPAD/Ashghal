@@ -1265,7 +1265,7 @@
 					"/Users/dna/Desktop/johnny/asghal\\ project/CTSiPad",
 				);
 				PRODUCT_NAME = CTSIpad;
-				PROVISIONING_PROFILE = "6d8525e6-e88d-48a2-8fa1-a97b940c8034";
+				PROVISIONING_PROFILE = "d9554611-ebac-43fb-8242-5f368e1d5981";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1291,7 +1291,7 @@
 					"/Users/dna/Desktop/johnny/asghal\\ project/CTSiPad",
 				);
 				PRODUCT_NAME = CTSIpad;
-				PROVISIONING_PROFILE = "6d8525e6-e88d-48a2-8fa1-a97b940c8034";
+				PROVISIONING_PROFILE = "d9554611-ebac-43fb-8242-5f368e1d5981";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

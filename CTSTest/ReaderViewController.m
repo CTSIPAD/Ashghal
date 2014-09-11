@@ -1948,9 +1948,16 @@ typedef enum{
     
     for(id key in correspondence.toolbar){
         //jis signattachment
-        if([key isEqualToString:@"Sign"]||[key isEqualToString:@"SignAndSend"]){
+        if([key isEqualToString:@"Sign"]){
             
             if(mainDelegate.inboxForArchiveSelected!=0 && found && [attachment.isOriginalMail isEqualToString:@"YES"] ){
+                [annotProperties addObject:key];
+            }
+            
+        }
+        if([key isEqualToString:@"SignAndSend"]){
+            
+            if(mainDelegate.inboxForArchiveSelected!=0 && [attachment.isOriginalMail isEqualToString:@"YES"] ){
                 [annotProperties addObject:key];
             }
             

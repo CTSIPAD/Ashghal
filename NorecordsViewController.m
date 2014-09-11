@@ -116,7 +116,8 @@
     [super viewDidLoad];
     //jis toolbar
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+    self.navigationItem.hidesBackButton=YES;
+    self.navigationController.navigationBarHidden = YES;
     UIToolbar *toolbar = [[UIToolbar alloc] init];
     toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width+90, 51);
     CGFloat red = 88.0f / 255.0f;

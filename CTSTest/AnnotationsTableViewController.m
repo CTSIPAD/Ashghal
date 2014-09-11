@@ -72,7 +72,9 @@
     
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 37, 37)];
 
-   UILabel *labelTitle= [[UILabel alloc] initWithFrame:CGRectMake(70, 5,cell.frame.size.width-140, 40)];
+   UILabel *labelTitle= [[UILabel alloc] initWithFrame:CGRectMake(70, 5,cell.frame.size.width-100, 40)];
+    labelTitle.lineBreakMode = NSLineBreakByWordWrapping;
+    labelTitle.numberOfLines = 0;
    labelTitle.textColor = [UIColor whiteColor];
    labelTitle.backgroundColor = [UIColor clearColor];
 
@@ -102,6 +104,7 @@
             imageView.image=[UIImage imageNamed:@"Sign.png"];
         } else if ([varStr isEqualToString:@"SignAndSend"]){
             imageView.image=[UIImage imageNamed:@"SignAndSend.png"];
+            labelTitle.text=@"Sign And Send";
         }else if([varStr isEqualToString:@"Note"]){
             imageView.image=[UIImage imageNamed:@"note.png"];
         }
@@ -112,7 +115,8 @@
         labelTitle.textAlignment=NSTextAlignmentRight;
         imageView.frame=CGRectMake(cell.frame.size.width-45, 5, 37, 37);
     }
-   
+    
+    [labelTitle sizeToFit];
         [cell addSubview:imageView];
         [cell addSubview:labelTitle];
     

@@ -395,7 +395,7 @@ vm_size_t freeMemory(void) {
                             else{
                                 
                                 [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:mainDelegate.selectedInbox inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-                                return;
+                                
                             }
                             
                             UINavigationController *navController=[[UINavigationController alloc] init];
