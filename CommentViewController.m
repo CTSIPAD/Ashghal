@@ -191,22 +191,30 @@
         [alertKO show];
     }
     else{
+        NSString* res=@"";
     [NSThread detachNewThreadSelector:@selector(increaseLoading) toTarget:self withObject:nil];
     if([self.Action.action isEqualToString:@"SignAndSend"]){
-        [delegate SignAndSendIt:self.Action.action document:self.document note:self.txtNote.text];
+        res=[delegate SignAndSendIt:self.Action.action document:self.document note:self.txtNote.text];
     }
     else{
-        [self executeAction:self.Action.action];
+        res=[self executeAction:self.Action.action];
     }
+        if([res isEqualToString:@"OK"])
+           {
     [self dismissViewControllerAnimated:YES  completion:^{
             [delegate ActionMoveHome:self];
+        [self ShowMessage:@"Action successfuly done."];
     }];
+        }
+        else{
+            [self ShowMessage:res];
+        }
     
     [NSThread detachNewThreadSelector:@selector(dismiss) toTarget:self withObject:nil];
     }
 
 }
--(void)executeAction:(NSString*)action{
+-(NSString*)executeAction:(NSString*)action{
     
     @try{
         
@@ -228,7 +236,7 @@
             }else
                 
                 [self ShowMessage:validationResultAction];
-            
+            return validationResultAction;
         }else {
             
             int nb;
@@ -266,7 +274,7 @@
             [self ShowMessage:@"Action successfuly done."];
             
             
-            
+            return @"OK";
             
             
         }

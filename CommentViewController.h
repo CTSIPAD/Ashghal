@@ -18,7 +18,7 @@
 @required // Delegate protocols
 - (void)dismissReaderViewController:(ReaderViewController *)viewController;
 -(void)ActionMoveHome:(CommentViewController*)viewcontroller;
--(void)SignAndSendIt:(NSString*)action document:(ReaderDocument *)document note:(NSString*)note;
+-(NSString*)SignAndSendIt:(NSString*)action document:(ReaderDocument *)document note:(NSString*)note;
 @end
 
 @interface CommentViewController : UIViewController<UITextViewDelegate,ActionTaskDelegate>

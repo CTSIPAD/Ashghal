@@ -1231,7 +1231,7 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 	}
 }
 
--(void)SignAndSendIt:(NSString*)action document:(ReaderDocument *)documnt note:(NSString *)note{
+-(NSString*)SignAndSendIt:(NSString*)action document:(ReaderDocument *)documnt note:(NSString *)note{
 //    [SVProgressHUD showWithStatus:NSLocalizedString(@"Alert.Saving",@"Saving ...") maskType:SVProgressHUDMaskTypeBlack];
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -1269,7 +1269,8 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                 }else
                     
                     [self ShowMessage:validationResultAction];
-                
+                return validationResultAction;
+
             }else {
                 int nb;
                 
@@ -1306,9 +1307,10 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                 
                 
                 [self ShowMessage:@"Action successfuly done."];
-                
+                return @"OK";
+
             }
-            
+    
 
             
 //        });

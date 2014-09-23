@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430137843.441804"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1809"
-            endingLineNumber = "1809"
+            startingLineNumber = "1811"
+            endingLineNumber = "1811"
             landmarkName = "@implementation ReaderViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430137843.441804"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2378"
-            endingLineNumber = "2378"
+            startingLineNumber = "2380"
+            endingLineNumber = "2380"
             landmarkName = "-tappedSaveNoteText:private:"
             landmarkType = "5">
          </BreakpointContent>
@@ -551,7 +551,7 @@
                   symbolName = "-[AdvanceSearchViewController performSearch]"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/AdvanceSearchViewController.m"
-                  timestampString = "432120648.453937"
+                  timestampString = "433178209.281055"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "401"
@@ -565,7 +565,7 @@
                   symbolName = "-[AdvanceSearchViewController performSearch]"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/AdvanceSearchViewController.m"
-                  timestampString = "432120648.454554"
+                  timestampString = "433178209.281425"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "401"
@@ -1090,11 +1090,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430039428.897882"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1414"
-            endingLineNumber = "1414"
+            startingLineNumber = "1416"
+            endingLineNumber = "1416"
             landmarkName = "-uploadXml:"
             landmarkType = "5">
             <Locations>
@@ -1136,11 +1136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430039428.897882"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1423"
-            endingLineNumber = "1423"
+            startingLineNumber = "1425"
+            endingLineNumber = "1425"
             landmarkName = "-uploadXml:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1152,11 +1152,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430127595.658432"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1504"
-            endingLineNumber = "1504"
+            startingLineNumber = "1506"
+            endingLineNumber = "1506"
             landmarkName = "-uploadXml:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1168,11 +1168,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430137843.441804"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1746"
-            endingLineNumber = "1746"
+            startingLineNumber = "1748"
+            endingLineNumber = "1748"
             landmarkName = "-saveAnnotation"
             landmarkType = "5">
             <Locations>
@@ -1183,11 +1183,11 @@
                   symbolName = "__38-[ReaderViewController saveAnnotation]_block_invoke"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/ReaderViewController.m"
-                  timestampString = "432120648.456762"
+                  timestampString = "433178209.320818"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1746"
-                  endingLineNumber = "1746"
+                  startingLineNumber = "1748"
+                  endingLineNumber = "1748"
                   offsetFromSymbolStart = "7580">
                </Location>
                <Location
@@ -1197,11 +1197,11 @@
                   symbolName = "__38-[ReaderViewController saveAnnotation]_block_invoke_2"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/ReaderViewController.m"
-                  timestampString = "432120648.45724"
+                  timestampString = "433178209.321394"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1746"
-                  endingLineNumber = "1746"
+                  startingLineNumber = "1748"
+                  endingLineNumber = "1748"
                   offsetFromSymbolStart = "19">
                </Location>
             </Locations>
@@ -1214,11 +1214,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430137843.441804"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1743"
-            endingLineNumber = "1743"
+            startingLineNumber = "1745"
+            endingLineNumber = "1745"
             landmarkName = "-saveAnnotation"
             landmarkType = "5">
          </BreakpointContent>
@@ -1230,11 +1230,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430042812.551247"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1345"
-            endingLineNumber = "1345"
+            startingLineNumber = "1347"
+            endingLineNumber = "1347"
             landmarkName = "-destinationSelected:withRouteLabel:routeNote:withDueDate:viewController:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1278,11 +1278,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430126989.689511"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1482"
-            endingLineNumber = "1482"
+            startingLineNumber = "1484"
+            endingLineNumber = "1484"
             landmarkName = "-uploadXml:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1326,11 +1326,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430137843.441804"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1671"
-            endingLineNumber = "1671"
+            startingLineNumber = "1673"
+            endingLineNumber = "1673"
             landmarkName = "-saveAnnotation"
             landmarkType = "5">
          </BreakpointContent>
@@ -1358,11 +1358,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "430137843.441804"
+            timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2347"
-            endingLineNumber = "2347"
+            startingLineNumber = "2349"
+            endingLineNumber = "2349"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1373,60 +1373,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "432120729.535158"
+            filePath = "CommentViewController.m"
+            timestampString = "433177797.01664"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1951"
-            endingLineNumber = "1951"
-            landmarkName = "-tappedInToolbar:annotationButton:"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "-save"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/ReaderViewController.m"
-            timestampString = "432120755.783855"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1963"
-            endingLineNumber = "1963"
-            landmarkName = "-tappedInToolbar:annotationButton:"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ReaderViewController tappedInToolbar:annotationButton:]"
-                  moduleName = "CTSIpad"
-                  urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/ReaderViewController.m"
-                  timestampString = "432120755.792348"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1963"
-                  endingLineNumber = "1963"
-                  offsetFromSymbolStart = "2239">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ReaderViewController tappedInToolbar:annotationButton:]"
-                  moduleName = "CTSIpad"
-                  urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/ReaderViewController.m"
-                  timestampString = "432120755.79326"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1963"
-                  endingLineNumber = "1963"
-                  offsetFromSymbolStart = "2369">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
