@@ -1950,14 +1950,14 @@ typedef enum{
         //jis signattachment
         if([key isEqualToString:@"Sign"]){
             
-            if(mainDelegate.inboxForArchiveSelected!=0 && found && [attachment.isOriginalMail isEqualToString:@"YES"] ){
+            if(mainDelegate.inboxForArchiveSelected!=0 && found && [attachment.isOriginalMail isEqualToString:@"YES"]&& [[correspondence.toolbar objectForKey:key] isEqualToString:@"YES"] ){
                 [annotProperties addObject:key];
             }
             
         }
         if([key isEqualToString:@"SignAndSend"]){
             
-            if(mainDelegate.inboxForArchiveSelected!=0 && [attachment.isOriginalMail isEqualToString:@"YES"] ){
+            if(mainDelegate.inboxForArchiveSelected!=0 && [attachment.isOriginalMail isEqualToString:@"YES"] && [[correspondence.toolbar objectForKey:key] isEqualToString:@"YES"]){
                 [annotProperties addObject:key];
             }
             
