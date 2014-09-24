@@ -203,11 +203,11 @@
            {
     [self dismissViewControllerAnimated:YES  completion:^{
             [delegate ActionMoveHome:self];
-        [self ShowMessage:@"Action successfuly done."];
+       // [self ShowMessage:@"Action successfuly done."];
     }];
         }
         else{
-            [self ShowMessage:res];
+           // [self ShowMessage:res];
         }
     
     [NSThread detachNewThreadSelector:@selector(dismiss) toTarget:self withObject:nil];

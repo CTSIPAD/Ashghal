@@ -20,6 +20,7 @@
 @synthesize  startLocation,endLocation,annotationSignHeight,annotationSignWidth,attachmentId,doc;
 - (void)initPDFDoc:(PDFDocument*) pdoc
 {
+    
     doc=pdoc;
 	m_pDocument = pdoc;
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];

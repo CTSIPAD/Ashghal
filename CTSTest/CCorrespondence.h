@@ -29,5 +29,5 @@
 
 -(id) initWithId:(NSString*)correspondenceId Priority:(NSString*)priority New:(BOOL)isNew Locked:(BOOL)isLocked lockedByUser:(NSString*)lockedBy SHOWLOCK:(BOOL)showlock canOpenCorrespondence:(BOOL)canOpen;
 
--(BOOL)performCorrespondenceAction:(NSString*)action;
+-(NSString*)performCorrespondenceAction:(NSString*)action;
 @end

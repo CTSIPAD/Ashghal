@@ -47,9 +47,8 @@
 }
 
 
--(BOOL)performCorrespondenceAction:(NSString*)action{
+-(NSString*)performCorrespondenceAction:(NSString*)action{
     
-    BOOL isPerformed=NO;
     AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
 //    NSString* url=[NSString stringWithFormat:@"action=%@&token=%@&correspondenceId=%@",action,appDelegate.user.token,self.Id];
@@ -62,15 +61,15 @@
     NSString *validationResult=[CParser ValidateWithData:lockXmlData];
     if(![validationResult isEqualToString:@"OK"]){
         if([validationResult isEqualToString:@"Cannot access to the server"])
-        {isPerformed=YES;
+        {
             
             CFPendingAction*pa = [[CFPendingAction alloc] initWithActionUrl:url];
             [appDelegate.user addPendingAction:pa];
         }
     }
-    else isPerformed=YES;
     
-    return isPerformed;
+    
+    return validationResult;
 }
 
 

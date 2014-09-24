@@ -621,6 +621,7 @@
     NSString* status=[(GDataXMLElement *) [correspondencesXML attributeForName:@"status"] stringValue];
     
     if([status isEqualToString:@"Error"]){
+        [self ShowMessage:correspondencesXML.stringValue];
         return nil;
     }
     
@@ -721,7 +722,17 @@
     }
     return allInboxes;
 }
-
++(void)ShowMessage:(NSString*)message{
+    
+    NSString *msg = message;
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:NSLocalizedString(@"Alert",@"Alert")
+                          message: msg
+                          delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK",@"OK")
+                          otherButtonTitles: nil];
+    [alert show];
+}
 
 +(NSMutableArray*)loadSpecifiqueAttachment:(NSData*)xmlData{
     NSError *error;
@@ -740,7 +751,18 @@
               GDataXMLElement *AttachmentsXML =  [Attachments objectAtIndex:0];
               attachments=[self loadAttachmentListWith:AttachmentsXML];
     }
-
+    if(Attachments.count==0){
+        
+        NSArray *results = [doc nodesForXPath:@"//Result" error:nil];
+        
+        GDataXMLElement *resultxml =  [results objectAtIndex:0];
+        
+        NSString* status=[(GDataXMLElement *) [resultxml attributeForName:@"status"] stringValue];
+        
+        if([status isEqualToString:@"Error"]){
+            [self ShowMessage:resultxml.stringValue];
+        }
+    }
     return attachments;
     
 }
