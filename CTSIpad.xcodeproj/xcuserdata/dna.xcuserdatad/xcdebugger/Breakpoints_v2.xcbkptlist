@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427795945.296508"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "880"
-            endingLineNumber = "880"
+            startingLineNumber = "886"
+            endingLineNumber = "886"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427795945.296508"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "936"
-            endingLineNumber = "936"
+            startingLineNumber = "942"
+            endingLineNumber = "942"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427795945.296508"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "938"
-            endingLineNumber = "938"
+            startingLineNumber = "944"
+            endingLineNumber = "944"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427796859.605938"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1046"
-            endingLineNumber = "1046"
+            startingLineNumber = "1052"
+            endingLineNumber = "1052"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427796859.605938"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1177"
-            endingLineNumber = "1177"
+            startingLineNumber = "1183"
+            endingLineNumber = "1183"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -200,11 +200,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427796859.605938"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1181"
-            endingLineNumber = "1181"
+            startingLineNumber = "1187"
+            endingLineNumber = "1187"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -216,11 +216,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427796268.093989"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "852"
-            endingLineNumber = "852"
+            startingLineNumber = "858"
+            endingLineNumber = "858"
+            landmarkName = "+loadFoldersListWith:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CTSTest/CParser.m"
+            timestampString = "433258167.199287"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "941"
+            endingLineNumber = "941"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -232,11 +248,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427796386.559588"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "935"
-            endingLineNumber = "935"
+            startingLineNumber = "963"
+            endingLineNumber = "963"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -248,27 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427796615.806336"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "957"
-            endingLineNumber = "957"
-            landmarkName = "+loadAttachmentListWith:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/CParser.m"
-            timestampString = "427797044.76949"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1024"
-            endingLineNumber = "1024"
+            startingLineNumber = "1030"
+            endingLineNumber = "1030"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -312,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427797473.540326"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1186"
-            endingLineNumber = "1186"
+            startingLineNumber = "1192"
+            endingLineNumber = "1192"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -344,11 +344,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427813886.3601"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1424"
-            endingLineNumber = "1424"
+            startingLineNumber = "1430"
+            endingLineNumber = "1430"
             landmarkName = "+loadSearchCorrespondencesWithData:"
             landmarkType = "5">
          </BreakpointContent>
@@ -360,75 +360,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
+            timestampString = "433257752.897123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "444"
-            endingLineNumber = "444"
-            landmarkName = "-openDocument:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
-            landmarkName = "-openDocument:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "446"
-            endingLineNumber = "446"
-            landmarkName = "-openDocument:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "445"
-            endingLineNumber = "445"
-            landmarkName = "-openDocument:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "429"
-            endingLineNumber = "429"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -440,12 +376,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427798162.135527"
+            timestampString = "433257106.819193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "345"
-            endingLineNumber = "345"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
+            landmarkName = "-performAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -456,11 +392,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427799202.053077"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "744"
-            endingLineNumber = "744"
+            startingLineNumber = "749"
+            endingLineNumber = "749"
             landmarkName = "+loadSpecifiqueAttachment:"
             landmarkType = "5">
          </BreakpointContent>
@@ -472,11 +408,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427800364.212326"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
+            startingLineNumber = "940"
+            endingLineNumber = "940"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -551,7 +487,7 @@
                   symbolName = "-[AdvanceSearchViewController performSearch]"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/AdvanceSearchViewController.m"
-                  timestampString = "433178209.281055"
+                  timestampString = "433259208.703692"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "401"
@@ -565,7 +501,7 @@
                   symbolName = "-[AdvanceSearchViewController performSearch]"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/AdvanceSearchViewController.m"
-                  timestampString = "433178209.281425"
+                  timestampString = "433259208.704286"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "401"
@@ -646,12 +582,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427813560.082954"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1358"
-            endingLineNumber = "1358"
-            landmarkName = "+loadSearchCorrespondencesWithData:"
+            startingLineNumber = "1364"
+            endingLineNumber = "1364"
+            landmarkName = "+loadSearchWithData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -662,23 +598,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "427813680.815598"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1403"
-            endingLineNumber = "1403"
-            landmarkName = "+loadSearchCorrespondencesWithData:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/CParser.m"
-            timestampString = "427813722.974825"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1409"
@@ -693,13 +613,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427816496.305078"
+            filePath = "CTSTest/CParser.m"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "343"
-            endingLineNumber = "343"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "1415"
+            endingLineNumber = "1415"
+            landmarkName = "+loadSearchCorrespondencesWithData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -710,12 +630,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
+            timestampString = "433257106.819193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "412"
-            endingLineNumber = "412"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
+            landmarkName = "-performAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -726,12 +646,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
+            timestampString = "433257106.819193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "415"
-            endingLineNumber = "415"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "350"
+            endingLineNumber = "350"
+            landmarkName = "-performAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -742,76 +662,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427816823.413073"
+            timestampString = "433257752.897123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "349"
-            endingLineNumber = "349"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "414"
-            endingLineNumber = "414"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "416"
-            endingLineNumber = "416"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427817690.947795"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "418"
-            endingLineNumber = "418"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427820398.712436"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
-            landmarkName = "-OpenPdfReader:"
+            startingLineNumber = "492"
+            endingLineNumber = "492"
+            landmarkName = "-openDocument:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -854,12 +710,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427818695.824304"
+            timestampString = "433257752.897123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "463"
-            endingLineNumber = "463"
-            landmarkName = "-openDocument:"
+            startingLineNumber = "467"
+            endingLineNumber = "467"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -870,12 +726,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427819003.571188"
+            timestampString = "433257752.897123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "471"
-            endingLineNumber = "471"
-            landmarkName = "-openDocument:"
+            startingLineNumber = "475"
+            endingLineNumber = "475"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
             <Locations>
                <Location
@@ -948,11 +804,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "427820398.712436"
+            timestampString = "433257752.897123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "480"
-            endingLineNumber = "480"
+            startingLineNumber = "484"
+            endingLineNumber = "484"
             landmarkName = "-openDocument:"
             landmarkType = "5">
             <Locations>
@@ -1026,11 +882,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/MainMenuViewController.m"
-            timestampString = "427821839.231378"
+            timestampString = "433250960.792919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "458"
-            endingLineNumber = "458"
+            startingLineNumber = "461"
+            endingLineNumber = "461"
             landmarkName = "-synchronization"
             landmarkType = "5">
          </BreakpointContent>
@@ -1183,7 +1039,7 @@
                   symbolName = "__38-[ReaderViewController saveAnnotation]_block_invoke"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/ReaderViewController.m"
-                  timestampString = "433178209.320818"
+                  timestampString = "433259208.70821"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1748"
@@ -1197,7 +1053,7 @@
                   symbolName = "__38-[ReaderViewController saveAnnotation]_block_invoke_2"
                   moduleName = "CTSIpad"
                   urlString = "file://localhost/Users/dna/Desktop/GITFILES/GIT/CTSiPad/CTSTest/ReaderViewController.m"
-                  timestampString = "433178209.321394"
+                  timestampString = "433259208.708542"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1748"
@@ -1261,22 +1117,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "430059670.650677"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "420"
-            endingLineNumber = "420"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "CTSTest/ReaderViewController.m"
             timestampString = "433177499.598815"
             startingColumnNumber = "9223372036854775807"
@@ -1294,28 +1134,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "430128639.410904"
+            timestampString = "433257106.819193"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "374"
-            endingLineNumber = "374"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CTSTest/SearchResultViewController.m"
-            timestampString = "430128648.339676"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "342"
-            endingLineNumber = "342"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
+            landmarkName = "-performAction:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1342,11 +1166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CTSTest/CParser.m"
-            timestampString = "430129032.224517"
+            timestampString = "433258167.199287"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1179"
-            endingLineNumber = "1179"
+            startingLineNumber = "1185"
+            endingLineNumber = "1185"
             landmarkName = "+loadAttachmentListWith:"
             landmarkType = "5">
          </BreakpointContent>
@@ -1380,6 +1204,38 @@
             startingLineNumber = "197"
             endingLineNumber = "197"
             landmarkName = "-save"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CTSTest/SearchResultViewController.m"
+            timestampString = "433257752.897123"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "449"
+            endingLineNumber = "449"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CTSTest/SearchResultViewController.m"
+            timestampString = "433257752.897123"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

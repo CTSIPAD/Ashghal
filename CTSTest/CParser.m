@@ -24,6 +24,7 @@
 #import "HighlightClass.h"
 @implementation CParser{
     AppDelegate *mainDelegate;
+    NSString* error;
 }
 
 -(void)jess : (NSString *)path{
@@ -621,7 +622,9 @@
     NSString* status=[(GDataXMLElement *) [correspondencesXML attributeForName:@"status"] stringValue];
     
     if([status isEqualToString:@"Error"]){
-        [self ShowMessage:correspondencesXML.stringValue];
+        [self performSelectorOnMainThread:@selector(ShowMessage:) withObject:nil waitUntilDone:YES];
+
+     //   [self ShowMessage:correspondencesXML.stringValue];
         return nil;
     }
     
@@ -724,7 +727,7 @@
 }
 +(void)ShowMessage:(NSString*)message{
     
-    NSString *msg = message;
+    NSString *msg = @"Server Issue";
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:NSLocalizedString(@"Alert",@"Alert")
                           message: msg
@@ -760,7 +763,8 @@
         NSString* status=[(GDataXMLElement *) [resultxml attributeForName:@"status"] stringValue];
         
         if([status isEqualToString:@"Error"]){
-            [self ShowMessage:resultxml.stringValue];
+            //[self ShowMessage:resultxml.stringValue];
+            [self performSelectorOnMainThread:@selector(ShowMessage:) withObject:nil waitUntilDone:YES];
         }
     }
     return attachments;
