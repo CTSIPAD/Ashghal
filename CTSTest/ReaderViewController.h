@@ -45,7 +45,7 @@
 
 @end
 
-@interface ReaderViewController : UIViewController<NoteAlertViewDelegate,AnnotationsTableDelegate,TransferViewDelegate,ManageSignatureViewDelegate>
+@interface ReaderViewController : UIViewController<NoteAlertViewDelegate,AnnotationsTableDelegate,TransferViewDelegate,ManageSignatureViewDelegate,UIScrollViewDelegate>
 {
     PDFDocument* m_pdfdoc;
 	PDFView* m_pdfview;

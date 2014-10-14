@@ -51,7 +51,6 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 	ReaderDocument *document;
     
     
-	UIScrollView *theScrollView;
     
 	ReaderMainToolbar *mainToolbar;
     
@@ -95,6 +94,8 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     BOOL isMetadataVisible;
     UIView *metadataContainer;
     
+
+    UIScrollView *PdfScroll;
 }
 
 #pragma mark Constants
@@ -119,60 +120,15 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 - (void)updateScrollViewContentSize
 {
     
-	NSInteger count = [document.pageCount integerValue];
-    
-	if (count > PAGING_VIEWS) count = PAGING_VIEWS; // Limit
-    
-	CGFloat contentHeight = theScrollView.bounds.size.height;
-    
-	CGFloat contentWidth = (theScrollView.bounds.size.width * count);
-    
-	theScrollView.contentSize = CGSizeMake(contentWidth, contentHeight);
-}
+	}
 
 - (void)updateScrollViewContentViews
 {
-	[self updateScrollViewContentSize]; // Update the content size
-    
-	NSMutableIndexSet *pageSet = [NSMutableIndexSet indexSet]; // Page set
-    
-	[contentViews enumerateKeysAndObjectsUsingBlock: // Enumerate content views
-     ^(id key, id object, BOOL *stop)
-     {
-         ReaderContentView *contentView = object; [pageSet addIndex:contentView.tag];
-     }
-     ];
-    
-	__block CGRect viewRect = CGRectZero; viewRect.size = theScrollView.bounds.size;
-    
-	__block CGPoint contentOffset = CGPointZero; NSInteger page = [document.pageNumber integerValue];
-    
-	[pageSet enumerateIndexesUsingBlock: // Enumerate page number set
-     ^(NSUInteger number, BOOL *stop)
-     {
-         NSNumber *key = [NSNumber numberWithInteger:number]; // # key
-         
-         ReaderContentView *contentView = [contentViews objectForKey:key];
-         
-         contentView.frame = viewRect; if (page == number) contentOffset = viewRect.origin;
-         
-         viewRect.origin.x += viewRect.size.width; // Next view frame position
-     }
-     ];
-    
-	if (CGPointEqualToPoint(theScrollView.contentOffset, contentOffset) == false)
-	{
-		theScrollView.contentOffset = contentOffset; // Update content offset
 	}
-}
 
 - (void)updateToolbarBookmarkIcon
 {
-	NSInteger page = [document.pageNumber integerValue];
-    
-	BOOL bookmarked = [document.bookmarks containsIndex:page];
-    
-	[mainToolbar setBookmarkState:bookmarked]; // Update
+	
 }
 
 - (void)showDocumentPage:(NSInteger)page
@@ -206,7 +162,7 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
         
 		NSMutableDictionary *unusedViews = [contentViews mutableCopy];
         
-		CGRect viewRect = CGRectZero; viewRect.size = theScrollView.bounds.size;
+		CGRect viewRect = CGRectZero; viewRect.size = PdfScroll.bounds.size;
         
 		for (NSInteger number = minValue; number <= maxValue; number++)
 		{
@@ -216,21 +172,12 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
             
 			if (contentView == nil) // Create a brand new document content view
 			{
-				//NSURL *fileURL = document.fileURL; NSString *phrase = document.password; // Document properties
                 
-				//contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:number password:phrase];
                 m_pdfview = [[PDFView alloc]initWithFrame:viewRect];
                 [m_pdfdoc setPDFView:m_pdfview];
                 [m_pdfdoc setCurPage:[m_pdfdoc getPDFPage:number]];
                 [m_pdfview initPDFDoc:m_pdfdoc];
-                
-                //Add pdf view to viewcontroller.
-                // [self.view addSubview:m_pdfview];
-                
-				//[theScrollView addSubview:contentView];
-                // [contentViews setObject:contentView forKey:key];
-                
-				contentView.message = self; [newPageSet addIndex:number];
+ 				contentView.message = self; [newPageSet addIndex:number];
 			}
 			else // Reposition the existing content view
 			{
@@ -272,10 +219,10 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 			if (page == (PAGING_VIEWS - 1))
 				contentOffset.x = viewWidthX1;
         
-		if (CGPointEqualToPoint(theScrollView.contentOffset, contentOffset) == false)
-		{
-			theScrollView.contentOffset = contentOffset; // Update content offset
-		}
+//        		if (CGPointEqualToPoint(scroll.contentOffset, contentOffset) == false)
+//        		{
+//        			scroll.contentOffset = contentOffset; // Update content offset
+//        		}
         
 		if ([document.pageNumber integerValue] != page) // Only if different
 		{
@@ -359,54 +306,152 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
                 if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
                     factor=1;
                     m_pdfview = [[PDFView alloc]initWithFrame:CGRectMake((self.view.bounds.size.width-self.view.bounds.size.width/factor)/2, 5, self.view.bounds.size.width/factor, self.view.bounds.size.height-5)];
+                    PdfScroll.frame=m_pdfview.frame;
+                    
                     //jis orientation
                     if(isMetadataVisible){
                         [metadataContainer removeFromSuperview];
                         [self.view addSubview:metadataContainer];
                         m_pdfview.frame=CGRectMake (325, 0, self.view.bounds.size.width/1.75, self.view.bounds.size.height-5);
+                        PdfScroll.frame=m_pdfview.frame;
+                        
                         metadataContainer.frame=CGRectMake(0, 0, 320, 1019);
                         numberPages.frame = CGRectMake(360, 950, 80, 40);
-                        openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 20);                }
+                        openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 40);
+                    }
                     //endjis orientation
                 } else {
                     factor=1.75;
                     m_pdfview = [[PDFView alloc]initWithFrame:CGRectMake((self.view.bounds.size.width-self.view.bounds.size.width/factor)/2, 5, self.view.bounds.size.width/factor, self.view.bounds.size.height-5)];
+                    PdfScroll.frame=m_pdfview.frame;
+                    
                     if(isMetadataVisible){
                         m_pdfview.frame=CGRectMake(320+(self.view.bounds.size.width-(320+m_pdfview.frame.size.width))/2, 0, m_pdfview.frame.size.width, m_pdfview.frame.size.height);
+                        PdfScroll.frame=m_pdfview.frame;
+                        
                     }
                 }
                 
                 
                 
-                
-                
+            	PdfScroll = [[UIScrollView alloc] initWithFrame:CGRectMake((self.view.bounds.size.width-self.view.bounds.size.width/factor)/2, 5, self.view.bounds.size.width/factor, self.view.bounds.size.height-5)];
+            	PdfScroll.backgroundColor = [UIColor blackColor];
+                PdfScroll.contentInset = UIEdgeInsetsZero;
+            	PdfScroll.delegate = self;
                 
                 [m_pdfdoc setPDFView:m_pdfview];
                 [m_pdfview initPDFDoc:m_pdfdoc];
-                [self.view addSubview:m_pdfview];
                 
-                [m_pdfview addSubview:openButton];
                 [m_pdfview addSubview:numberPages];
+                
+                
+                PdfScroll.contentSize = m_pdfview.frame.size;
+                [PdfScroll addSubview:m_pdfview];
+                
+                PdfScroll.minimumZoomScale = PdfScroll.frame.size.width / m_pdfview.frame.size.width;
+                PdfScroll.maximumZoomScale = 4.0;
+                [PdfScroll setZoomScale:PdfScroll.minimumZoomScale];
+                [m_pdfview addSubview:openButton];
+                
+                [self.view addSubview: PdfScroll];
+                
+                
+                
             }
             else{
                 [m_pdfdoc setPDFView:m_pdfview];
                 [m_pdfview initPDFDoc:m_pdfdoc];
             }
-            //
-            //	//Add pdf view to viewcontroller.
             
             [self.view bringSubviewToFront:numberPages];
             [self.view bringSubviewToFront:openButton];
             [self.view bringSubviewToFront:mainToolbar];
             [self.view bringSubviewToFront:mainPagebar];
             [self updateScrollViewContentSize];
+            [self centreView];
         }
     }
     @catch (NSException *ex) {
         [FileManager appendToLogView:@"ReaderViewController" function:@"showDocument" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
     }
 }
+- (void)centreView
+{
+    m_pdfview.frame = [self centeredFrameForScrollView:PdfScroll andUIView:m_pdfview];
+}
 
+
+- (CGRect)centeredFrameForScrollView:(UIScrollView *)scroll andUIView:(UIView *)rView {
+	CGSize boundsSize = scroll.bounds.size;
+    CGRect frameToCenter = rView.frame;
+    
+    // center horizontally
+    if (frameToCenter.size.width < boundsSize.width) {
+        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
+    }
+    else {
+        frameToCenter.origin.x = 0;
+    }
+    
+    // center vertically
+    if (frameToCenter.size.height < boundsSize.height) {
+        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
+    }
+    else {
+        frameToCenter.origin.y = 0;
+    }
+    
+	return frameToCenter;
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    m_pdfview.frame = [self centeredFrameForScrollView:scrollView andUIView:m_pdfview];
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+	return m_pdfview;
+}
+
+- (void)zoomReset
+{
+	if (PdfScroll.zoomScale > PdfScroll.minimumZoomScale)
+	{
+		PdfScroll.zoomScale = PdfScroll.minimumZoomScale;
+	}
+}
+- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center {
+    
+    CGRect zoomRect;
+    
+    zoomRect.size.height = [m_pdfview frame].size.height / scale;
+    zoomRect.size.width  = [m_pdfview frame].size.width  / scale;
+    
+    center = [m_pdfview convertPoint:center fromView:PdfScroll];
+    
+    zoomRect.origin.x    = center.x - ((zoomRect.size.width / 2.0));
+    zoomRect.origin.y    = center.y - ((zoomRect.size.height / 2.0));
+    
+    return zoomRect;
+}
+
+- (void)handleDoubleTapFrom:(UITapGestureRecognizer *)recognizer {
+    
+    float newScale = [PdfScroll zoomScale] *2.0;
+    
+    if (PdfScroll.zoomScale > PdfScroll.minimumZoomScale)
+    {
+        [PdfScroll setZoomScale:PdfScroll.minimumZoomScale animated:YES];
+    }
+    else
+    {
+        CGRect zoomRect = [self zoomRectForScale:newScale
+                                      withCenter:[recognizer locationInView:recognizer.view]];
+        [PdfScroll zoomToRect:zoomRect animated:YES];
+    }
+}
 #pragma mark UIViewController methods
 
 - (id)initWithReaderDocument:(ReaderDocument *)object MenuId:(NSInteger)menuId CorrespondenceId:(NSInteger)correspondenceId AttachmentId:(NSInteger)attachmentId
@@ -465,28 +510,15 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     self.view.backgroundColor=[UIColor colorWithRed:29/255.0f green:29/255.0f  blue:29/255.0f  alpha:1.0];
 	CGRect viewRect = self.view.bounds; // View controller's view bounds
     
-	theScrollView = [[UIScrollView alloc] initWithFrame:viewRect]; // All
-    
-	theScrollView.scrollsToTop = NO;
-	theScrollView.pagingEnabled = YES;
-	theScrollView.delaysContentTouches = NO;
-	theScrollView.showsVerticalScrollIndicator = NO;
-	theScrollView.showsHorizontalScrollIndicator = NO;
-    theScrollView.scrollEnabled=NO;
-	theScrollView.contentMode = UIViewContentModeRedraw;
-	theScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	theScrollView.backgroundColor = [UIColor clearColor];
-	theScrollView.userInteractionEnabled = YES;
-	theScrollView.autoresizesSubviews = NO;
-	theScrollView.delegate = self;
-    
-	//[self.view addSubview:theScrollView];
     
 	CGRect toolbarRect = viewRect;
 	toolbarRect.size.height = TOOLBAR_HEIGHT;
     
 	mainToolbar = [[ReaderMainToolbar alloc] initWithFrame:toolbarRect document:document CorrespondenceId:self.correspondenceId MenuId:self.menuId AttachmentId:self.attachmentId]; // At top
 	mainToolbar.delegate = self;
+    
+    
+    
     
 	[self.view addSubview:mainToolbar];
     
@@ -504,26 +536,19 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     [mainPagebar hidePagebar];
     
 	UILongPressGestureRecognizer *singleTapOne = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-	//singleTapOne.numberOfTouchesRequired = 1;
-    //singleTapOne.numberOfTapsRequired = 1; singleTapOne.delegate = self;
-    // singleTapOne.cancelsTouchesInView=YES;
 	[self.view addGestureRecognizer:singleTapOne];
     
-	UITapGestureRecognizer *doubleTapOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-	doubleTapOne.numberOfTouchesRequired = 1; doubleTapOne.numberOfTapsRequired = 2; doubleTapOne.delegate = self;
+    
+    
+    UITapGestureRecognizer *doubleTapOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapFrom:)];
+    doubleTapOne.numberOfTouchesRequired = 1; doubleTapOne.numberOfTapsRequired = 2; doubleTapOne.delegate = self;
 	[self.view addGestureRecognizer:doubleTapOne];
+    UITapGestureRecognizer *doubleTapTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapFrom:)];
+    doubleTapTwo.numberOfTouchesRequired = 2; doubleTapTwo.numberOfTapsRequired = 2; doubleTapTwo.delegate = self;
+    [self.view addGestureRecognizer:doubleTapTwo];
     
-    UIPinchGestureRecognizer *twoFingerPinch = [[UIPinchGestureRecognizer alloc]
-                                                initWithTarget:self
-                                                action:@selector(twoFingerPinch:)];
-    [self.view addGestureRecognizer:twoFingerPinch];
+    [singleTapOne requireGestureRecognizerToFail:doubleTapOne]; // Single tap requires double tap to fail
     
-    
-	UITapGestureRecognizer *doubleTapTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-	doubleTapTwo.numberOfTouchesRequired = 2; doubleTapTwo.numberOfTapsRequired = 2; doubleTapTwo.delegate = self;
-	[self.view addGestureRecognizer:doubleTapTwo];
-    
-	[singleTapOne requireGestureRecognizerToFail:doubleTapOne]; // Single tap requires double tap to fail
     
     UISwipeGestureRecognizer *swipeRecognizerLeft=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
     swipeRecognizerLeft.direction=UISwipeGestureRecognizerDirectionLeft;
@@ -533,13 +558,13 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     swipeLeftRecognizerRight.direction=UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeLeftRecognizerRight];
     
-    UISwipeGestureRecognizer *swipeRecognizerUp=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-    swipeRecognizerUp.direction=UISwipeGestureRecognizerDirectionUp;
-    [self.view addGestureRecognizer:swipeRecognizerUp];
-    
-    UISwipeGestureRecognizer *swipeRecognizerDown=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
-    swipeRecognizerDown.direction=UISwipeGestureRecognizerDirectionDown;
-    [self.view addGestureRecognizer:swipeRecognizerDown];
+//    UISwipeGestureRecognizer *swipeRecognizerUp=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    swipeRecognizerUp.direction=UISwipeGestureRecognizerDirectionUp;
+//    [self.view addGestureRecognizer:swipeRecognizerUp];
+//    
+//    UISwipeGestureRecognizer *swipeRecognizerDown=[[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipeFrom:)];
+//    swipeRecognizerDown.direction=UISwipeGestureRecognizerDirectionDown;
+//    [self.view addGestureRecognizer:swipeRecognizerDown];
     
     
 	contentViews = [NSMutableDictionary new]; lastHideTime = [NSDate date];
@@ -576,13 +601,14 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 -(void)adjustButtons:(UIInterfaceOrientation)orientation{
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         
-        openButton.frame = CGRectMake(self.view.bounds.size.width/2-100, 0, 200, 20);
+        openButton.frame = CGRectMake(self.view.bounds.size.width/2-100, 0, 200, 40);
         numberPages.frame = CGRectMake(687.8, 950, 80, 40);
     } else {
         
-        openButton.frame = CGRectMake(self.view.bounds.size.width/2-191.5, 0, 200, 20);
+        openButton.frame = CGRectMake(self.view.bounds.size.width/2-191.5, 0, 200, 40);
         numberPages.frame = CGRectMake(self.view.frame.size.width-263, 720, 80, 30);
     }
+    
     
     
     
@@ -607,10 +633,9 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 {
 	[super viewDidAppear:animated];
     
-	if (CGSizeEqualToSize(theScrollView.contentSize, CGSizeZero)) // First time
-	{
-		[self performSelector:@selector(showDocument:) withObject:nil afterDelay:0.02];
-	}
+	
+    [self performSelector:@selector(showDocument:) withObject:nil afterDelay:0.02];
+	
     
 #if (READER_DISABLE_IDLE == TRUE) // Option
     
@@ -645,7 +670,8 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     
 	mainToolbar = nil; mainPagebar = nil;
     
-	theScrollView = nil; contentViews = nil; lastHideTime = nil;
+	PdfScroll = nil;
+    contentViews = nil; lastHideTime = nil;
     
 	lastAppearSize = CGSizeZero; currentPage = 0;
     
@@ -661,45 +687,50 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     
-    
+    PdfScroll.contentInset = UIEdgeInsetsZero;
+
 	if (isVisible == NO) return; // iOS present modal bodge
     
 	if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
 	{
 		if (printInteraction != nil) [printInteraction dismissAnimated:NO];
 	}
+    
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
 {
-    
     float factor;
+    [self zoomReset];
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
         factor=1;
         m_pdfview.frame=CGRectMake ((self.view.bounds.size.width-self.view.bounds.size.width/factor)/2, 5, self.view.bounds.size.width/factor, self.view.bounds.size.height-5);
+        PdfScroll.frame=m_pdfview.frame;
         numberPages.frame = CGRectMake(m_pdfview.frame.size.width+m_pdfview.frame.origin.x-80, 950, 80, 40);
-        openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 20);
+        openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 40);
         
-        //jis orientation
         if(isMetadataVisible){
             [metadataContainer removeFromSuperview];
             [self.view addSubview:metadataContainer];
             m_pdfview.frame=CGRectMake (325, 0, self.view.bounds.size.width/1.75, self.view.bounds.size.height-5);
+            PdfScroll.frame=m_pdfview.frame;
             metadataContainer.frame=CGRectMake(0, 0, 320, 1019);
             numberPages.frame = CGRectMake(m_pdfview.frame.size.width+m_pdfview.frame.origin.x-80, 950, 80, 40);
-            openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 20);
+            openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 40);
         }
+        
     } else {
         factor=1.75;
         m_pdfview.frame=CGRectMake ((self.view.bounds.size.width-self.view.bounds.size.width/factor)/2, 5, self.view.bounds.size.width/factor, self.view.bounds.size.height-5);
+        
         numberPages.frame = CGRectMake(self.view.frame.size.width-263, 720, 80, 30);
+        openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 40);
         
-        openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 20);
-        
-        //jis orientation
         if(isMetadataVisible){
             m_pdfview.frame=CGRectMake(320+(self.view.bounds.size.width-(320+m_pdfview.frame.size.width))/2, 0, m_pdfview.frame.size.width, m_pdfview.frame.size.height);
+            PdfScroll.frame=m_pdfview.frame;
+            
         }
         
     }
@@ -713,14 +744,17 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 	lastAppearSize = CGSizeZero; // Reset view size tracking
     
     [mainToolbar adjustButtons:interfaceOrientation];
+    PdfScroll.frame=m_pdfview.frame;
+    [self centreView];
+
     
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	//if (isVisible == NO) return; // iOS present modal bodge
+	if (isVisible == NO) return; // iOS present modal bodge
     
-	//if (fromInterfaceOrientation == self.interfaceOrientation) return;
+	if (fromInterfaceOrientation == self.interfaceOrientation) return;
     
 }
 
@@ -778,39 +812,7 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
             }
             // }
         }
-        else if(recognizer.direction == UISwipeGestureRecognizerDirectionDown){
-            
-            // self.attachmentId -=1;
-            
-            CATransition *transition = [CATransition animation];
-            [transition setDelegate:self];
-            [transition setDuration:0.5f];
-            
-            [transition setType:kCATransitionFromTop];
-            [transition setSubtype:kCATransitionFromTop];
-            
-            [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-            
-            
-            [self.view.layer addAnimation:transition forKey:@"any"];
-            [self ChangeFileOnSwipe: self.attachmentId-1];
-        }
-        else if(recognizer.direction == UISwipeGestureRecognizerDirectionUp){
-            // self.attachmentId +=1;
-            
-            CATransition *transition = [CATransition animation];
-            [transition setDelegate:self];
-            [transition setDuration:0.5f];
-            
-            [transition setType:kCATransitionFromBottom];
-            [transition setSubtype:kCATransitionFromBottom];
-            
-            [transition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-            
-            
-            [self.view.layer addAnimation:transition forKey:@"any"];
-            [self ChangeFileOnSwipe:self.attachmentId+1];
-        }
+        [m_pdfview setNeedsDisplay];
     }
     @catch (NSException *ex) {
         [FileManager appendToLogView:@"ReaderViewController" function:@"handleSwipeFrom" ExceptionTitle:[ex name] exceptionReason:[ex reason]];
@@ -961,9 +963,9 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-	[self showDocumentPage:theScrollView.tag]; // Show page
+    	[self showDocumentPage:PdfScroll.tag]; // Show page
     
-	theScrollView.tag = 0; // Clear page number tag
+    	PdfScroll.tag = 0; // Clear page number tag
 }
 
 #pragma mark UIGestureRecognizerDelegate methods
@@ -979,44 +981,44 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 
 - (void)decrementPageNumber
 {
-	if (theScrollView.tag == 0) // Scroll view did end
-	{
-		NSInteger page = [document.pageNumber integerValue];
-		NSInteger maxPage = [document.pageCount integerValue];
-		NSInteger minPage = 1; // Minimum
-        
-		if ((maxPage > minPage) && (page != minPage))
-		{
-			CGPoint contentOffset = theScrollView.contentOffset;
-            
-			contentOffset.x -= theScrollView.bounds.size.width; // -= 1
-            
-			[theScrollView setContentOffset:contentOffset animated:YES];
-            
-			theScrollView.tag = (page - 1); // Decrement page number
-		}
-	}
+    	if (PdfScroll.tag == 0) // Scroll view did end
+    	{
+            NSInteger page = [document.pageNumber integerValue];
+    		NSInteger maxPage = [document.pageCount integerValue];
+            NSInteger minPage = 1; // Minimum
+    
+    		if ((maxPage > minPage) && (page != minPage))
+    		{
+    			CGPoint contentOffset = PdfScroll.contentOffset;
+    
+    			contentOffset.x -= PdfScroll.bounds.size.width; // -= 1
+    
+    			[PdfScroll setContentOffset:contentOffset animated:YES];
+    
+    			PdfScroll.tag = (page - 1); // Decrement page number
+    		}
+    	}
 }
 
 - (void)incrementPageNumber
 {
-	if (theScrollView.tag == 0) // Scroll view did end
-	{
-		NSInteger page = [document.pageNumber integerValue];
-		NSInteger maxPage = [document.pageCount integerValue];
-		NSInteger minPage = 1; // Minimum
-        
-		if ((maxPage > minPage) && (page != maxPage))
-		{
-			CGPoint contentOffset = theScrollView.contentOffset;
-            
-			contentOffset.x += theScrollView.bounds.size.width; // += 1
-            
-			[theScrollView setContentOffset:contentOffset animated:YES];
-            
-			theScrollView.tag = (page + 1); // Increment page number
-		}
-	}
+    	if (PdfScroll.tag == 0) // Scroll view did end
+    	{
+    		NSInteger page = [document.pageNumber integerValue];
+    		NSInteger maxPage = [document.pageCount integerValue];
+    		NSInteger minPage = 1; // Minimum
+    
+    		if ((maxPage > minPage) && (page != maxPage))
+    		{
+    			CGPoint contentOffset = PdfScroll.contentOffset;
+    
+    			contentOffset.x += PdfScroll.bounds.size.width; // += 1
+    
+    			[PdfScroll setContentOffset:contentOffset animated:YES];
+    
+    			PdfScroll.tag = (page + 1); // Increment page number
+    		}
+    	}
 }
 
 - (void)handleSingleTap:(UILongPressGestureRecognizer *)recognizer
@@ -1070,112 +1072,14 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 	}
 }
 
-- (void)twoFingerPinch:(UIPinchGestureRecognizer *)recognizer
-{
-    //    NSLog(@"Pinch scale: %f", recognizer.scale);
-    CGRect viewRect = recognizer.view.bounds; // View bounds
-    
-    CGPoint point = [recognizer locationInView:recognizer.view];
-    
-    CGRect zoomArea = CGRectInset(viewRect, TAP_AREA_SIZE, TAP_AREA_SIZE);
-    
-    
-    
-    if (recognizer.scale >1.0f && recognizer.scale < 2.5f) {
-        CGAffineTransform transform = CGAffineTransformMakeScale(recognizer.scale, recognizer.scale);
-        
-        if (CGRectContainsPoint(zoomArea, point))
-        {
-            //NSInteger page = [document.pageNumber integerValue];
-            
-            // NSNumber *key = [NSNumber numberWithInteger:page];
-            
-            //ReaderContentView *targetView = [contentViews objectForKey:key];
-            m_pdfview.transform = transform;
-        }
-    }
-}
-
-- (void)handleDoubleTap:(UITapGestureRecognizer *)recognizer
-{
-	if (recognizer.state == UIGestureRecognizerStateRecognized)
-	{
-		CGRect viewRect = recognizer.view.bounds; // View bounds
-        
-		CGPoint point = [recognizer locationInView:recognizer.view];
-        
-		CGRect zoomArea = CGRectInset(viewRect, TAP_AREA_SIZE, TAP_AREA_SIZE);
-        
-		if (CGRectContainsPoint(zoomArea, point)) // Double tap is in the zoom area
-		{
-			//NSInteger page = [document.pageNumber integerValue]; // Current page #
-            
-			//NSNumber *key = [NSNumber numberWithInteger:page]; // Page number key
-            
-			//ReaderContentView *targetView = [contentViews objectForKey:key];
-            
-			switch (recognizer.numberOfTouchesRequired) // Touches count
-			{
-				case 1: // One finger double tap: zoom ++
-				{
-					//[targetView zoomIncrement];
-                    [m_pdfview OnZoomIn];
-                    openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 20);
-                    //numberPages.frame = CGRectMake(m_pdfview.frame.size.width/2-80, 950, 80, 40);
-                    numberPages.frame = CGRectMake(m_pdfview.frame.size.width-82, numberPages.frame.origin.y, 80, 40);
-                    break;
-				}
-                    
-				case 2: // Two finger double tap: zoom --
-				{
-					//[targetView zoomDecrement];
-                    [m_pdfview OnZoomOut];
-                    openButton.frame = CGRectMake(m_pdfview.frame.size.width/2-100, 0, 200, 20);
-                    numberPages.frame = CGRectMake(m_pdfview.frame.size.width-82,numberPages.frame.origin.y, 80, 40);
-                    
-                    break;
-				}
-			}
-            
-			return;
-		}
-        
-		CGRect nextPageRect = viewRect;
-		nextPageRect.size.width = TAP_AREA_SIZE;
-		nextPageRect.origin.x = (viewRect.size.width - TAP_AREA_SIZE);
-        
-		if (CGRectContainsPoint(nextPageRect, point)) // page++ area
-		{
-			[self incrementPageNumber]; return;
-		}
-        
-		CGRect prevPageRect = viewRect;
-		prevPageRect.size.width = TAP_AREA_SIZE;
-        
-		if (CGRectContainsPoint(prevPageRect, point)) // page-- area
-		{
-			[self decrementPageNumber]; return;
-		}
-	}
-}
-//jen PreviousNext
-//-(void)loadNewDocumentReader:(ReaderDocument *)newdocument documentId:(NSInteger)documentId{
 -(void)loadNewDocumentReader:(ReaderDocument *)newdocument attachementId:(NSInteger)attachementId{
     @try{
         [self.noteContainer removeFromSuperview];
-        //jen PreviousNext
-        // self.correspondenceId=documentId;
-        //self.attachmentId=1;
         self.attachmentId=attachementId;
         document=newdocument;
         contentViews = [NSMutableDictionary new];
         currentPage=0;
-        // Searching=NO;
-        //    for (UIView *view in self.view.subviews)
-        //    {
-        //        if ([view isKindOfClass:[UIImageView class]])
-        //            [view removeFromSuperview];
-        //    }
+        
         [m_pdfview removeFromSuperview];
         [mainPagebar removeFromSuperview];
         
@@ -1197,15 +1101,9 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 }
 
 -(void)updatePagebarByCorrespondence{
-    CGRect viewRect = self.view.bounds;
-    CGRect pagebarRect = viewRect;
-	pagebarRect.size.height = PAGEBAR_HEIGHT;
-	pagebarRect.origin.y = (viewRect.size.height - PAGEBAR_HEIGHT);
-    mainPagebar = [[ReaderMainPagebar alloc] initWithFrame:pagebarRect  Document:document CorrespondenceId:self.correspondenceId MenuId:self.menuId AttachmentId:self.attachmentId]; // At bottom
-    mainPagebar.delegate = self;
     
 	[self.view addSubview:mainPagebar];
-    [mainPagebar hidePagebar];
+    
 }
 
 #pragma mark ReaderContentViewDelegate methods
@@ -2069,11 +1967,23 @@ typedef enum{
 }
 
 -(void)closeMetadata{
+    float factor=1;
+
     [mainToolbar hideToolbar];
     [mainPagebar hidePagebar];
     [self.noteContainer removeFromSuperview];
     [metadataContainer removeFromSuperview];
-    m_pdfview.frame=CGRectMake ((self.view.bounds.size.width-self.view.bounds.size.width/1.75)/2, 5, self.view.bounds.size.width/1.75, self.view.bounds.size.height-5);
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) {
+        factor=1;
+    }
+    else
+        factor=1.75;
+    m_pdfview.frame=CGRectMake ((self.view.bounds.size.width-self.view.bounds.size.width/factor)/2, 5, self.view.bounds.size.width/factor, self.view.bounds.size.height-5);
+    
+    PdfScroll.frame=m_pdfview.frame;
+    [self centreView];
     isMetadataVisible=!isMetadataVisible;
 }
 
@@ -2092,6 +2002,8 @@ typedef enum{
         if(isMetadataVisible){
             [metadataContainer removeFromSuperview];
             m_pdfview.frame=CGRectMake ((self.view.bounds.size.width-self.view.bounds.size.width/1.75)/2, 5, self.view.bounds.size.width/1.75, self.view.bounds.size.height-5);
+            PdfScroll.frame=m_pdfview.frame;
+            
         }
         else{
             CGRect viewRect = CGRectMake(0,0, 320, self.view.bounds.size.height);
@@ -2127,6 +2039,7 @@ typedef enum{
             [metadataContainer bringSubviewToFront:close];
             [self.view addSubview:metadataContainer];
             m_pdfview.frame=CGRectMake(320+(self.view.bounds.size.width-(320+m_pdfview.frame.size.width))/2, 0, m_pdfview.frame.size.width, m_pdfview.frame.size.height);
+            PdfScroll.frame=m_pdfview.frame;
             
             //jis orientation
             UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -2134,12 +2047,15 @@ typedef enum{
                 [metadataContainer removeFromSuperview];
                 [self.view addSubview:metadataContainer];
                 m_pdfview.frame=CGRectMake (325, 0, self.view.bounds.size.width/1.75, self.view.bounds.size.height-5);
+                PdfScroll.frame=m_pdfview.frame;
+                
                 metadataContainer.frame=CGRectMake(0, 0, 320, 1019);
                 numberPages.frame = CGRectMake(360, 950, 80, 40);
             }
             //endjis orientation
         }
-        
+        [self centreView];
+
         isMetadataVisible=!isMetadataVisible;
     }
     @catch (NSException *ex) {
@@ -2149,14 +2065,14 @@ typedef enum{
 }
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar searchButton:(UIButton *)button
 {
-    
-    [self.noteContainer removeFromSuperview];
-    for (UIView *view in theScrollView.subviews)
-    {
-        if ([view isKindOfClass:[ReaderContentView class]])
-            view.hidden=YES;
-    }
-    
+    //
+    //    [self.noteContainer removeFromSuperview];
+    //    for (UIView *view in theScrollView.subviews)
+    //    {
+    //        if ([view isKindOfClass:[ReaderContentView class]])
+    //            view.hidden=YES;
+    //    }
+    //
     
 }
 

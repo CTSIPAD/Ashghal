@@ -375,7 +375,8 @@
     CCorrespondence *correspondence=self.searchResult.correspondenceList[indexPath.row];
     
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
-    
+    [self performSelectorOnMainThread:@selector(increaseProgress) withObject:@"" waitUntilDone:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
     if(mainDelegate.isBasketSelected){
         
         // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -391,8 +392,8 @@
         NSString* lockedby=[(GDataXMLElement *) [resultXML attributeForName:@"lockedby"] stringValue];
         
         if([lockedby isEqualToString:[NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName]] || [lockedby isEqualToString:@"none"]){
-            [self performSelectorOnMainThread:@selector(increaseProgress) withObject:@"" waitUntilDone:YES];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+//            [self performSelectorOnMainThread:@selector(increaseProgress) withObject:@"" waitUntilDone:YES];
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                  Break=NO;
 
                 //if(correspondence.attachmentsList == nil){
@@ -422,13 +423,13 @@
                     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                     correspondence.LockedBy = [NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName];
                 }}
-                dispatch_async(dispatch_get_main_queue(), ^{
+//                dispatch_async(dispatch_get_main_queue(), ^{
                     if(!Break)
                         [self performSelectorInBackground:@selector(openDocument:) withObject:[NSString stringWithFormat:@"%d",indexPath.row]];
                     Break=NO;
                     
-                });
-            });
+//               });
+//            });
             
             
         }
@@ -443,8 +444,7 @@
         }
     }
     else{
-        [self performSelectorOnMainThread:@selector(increaseProgress) withObject:@"" waitUntilDone:YES];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
             
             if(correspondence.attachmentsList.count == 0){
                 
@@ -462,16 +462,16 @@
             
             
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+            
+        
+        
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
                 [self performSelectorInBackground:@selector(openDocument:) withObject:[NSString stringWithFormat:@"%d",indexPath.row]];
                 
                 
             });
         });
-        
-        
-    }
-    
 }
 
 -(void)openDocument:(NSString*)documentId{
