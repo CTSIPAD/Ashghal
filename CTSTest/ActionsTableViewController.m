@@ -17,6 +17,7 @@
 #import "CSearch.h"
 #import "ReaderMainToolbar.h"
 #import "AppDelegate.h"
+#import "UserDetail.h"
 @interface ActionsTableViewController ()
 
 @end
@@ -121,10 +122,15 @@
 -(void)executeAction:(NSString*)action{
     
     @try{
-        
+        NSString* DelegateToken=@"";
+        if(mainDelegate.user.UserDetails.count>0){
+            DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+        }
+        else
+            DelegateToken=mainDelegate.user.token;
        
         
-    NSString* params=[NSString stringWithFormat:@"action=ExecuteCustomActions&token=%@&correspondenceId=%@&docId=%@&actionType=%@", mainDelegate.user.token,self.correspondenceId,self.docId,action];
+    NSString* params=[NSString stringWithFormat:@"action=ExecuteCustomActions&token=%@&DelegateToken=%@&correspondenceId=%@&docId=%@&actionType=%@", mainDelegate.user.token,DelegateToken,self.correspondenceId,self.docId,action];
    NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
     NSString* url = [NSString stringWithFormat:@"http://%@?%@",serverUrl,params];
     NSURL *xmlUrl = [NSURL URLWithString:url];

@@ -18,6 +18,7 @@
 #import "CFPendingAction.h"
 #import "CMenu.h"
 #import "CSearch.h"
+#import "UserDetail.h"
 @interface CommentViewController ()
 
 @end
@@ -218,9 +219,13 @@
     
     @try{
         
-        
-        
-        NSString* params=[NSString stringWithFormat:@"action=ExecuteCustomActions&token=%@&correspondenceId=%@&docId=%@&actionType=%@&transferId=%@&comment=%@", mainDelegate.user.token,self.correspondence.Id,self.attachment.docId,action,self.correspondence.TransferId,self.txtNote.text];
+        NSString* DelegateToken=@"";
+        if(mainDelegate.user.UserDetails.count>0){
+            DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+        }
+        else
+            DelegateToken=mainDelegate.user.token;
+        NSString* params=[NSString stringWithFormat:@"action=ExecuteCustomActions&token=%@&DelegateToken=%@&correspondenceId=%@&docId=%@&actionType=%@&transferId=%@&comment=%@", mainDelegate.user.token,DelegateToken,self.correspondence.Id,self.attachment.docId,action,self.correspondence.TransferId,[self.txtNote.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
         NSString* url = [NSString stringWithFormat:@"http://%@?%@",serverUrl,params];
         NSURL *xmlUrl = [NSURL URLWithString:url];

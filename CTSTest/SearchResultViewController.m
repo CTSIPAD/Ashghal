@@ -18,7 +18,7 @@
 #import "SVProgressHUD.h"
 #import "LoginViewController.h"
 #import "GDataXMLNode.h"
-
+#import "UserDetailsViewController.h"
 @interface SearchResultViewController ()
 
 @end
@@ -27,6 +27,9 @@
     AppDelegate *appDelegate ;
     AppDelegate *mainDelegate ;
     BOOL Break;
+    UIBarButtonItem *item;
+    UIButton *usernameButton;
+    UIToolbar *toolbar;
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -114,7 +117,7 @@
     //jis toolbar
     mainDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    toolbar = [[UIToolbar alloc] init];
     toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width+90, 51);
     CGFloat red = 88.0f / 255.0f;
     CGFloat green = 96.0f / 255.0f;
@@ -124,16 +127,19 @@
     
     toolbar.barTintColor = [UIColor blackColor];
     
-    UILabel *userlabel =[[UILabel alloc] initWithFrame:CGRectMake(100, 20, 100, 44)];
-    userlabel.text = [NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName];
-    //userlabel.text = [userlabel.text uppercaseString];
-    userlabel.frame = CGRectMake(10, 0, 400, 60);
-    userlabel.textColor = [UIColor whiteColor];
-    userlabel.shadowColor = [UIColor colorWithRed:0.0f / 255.0f green:155.0f / 255.0f blue:213.0f / 255.0f alpha:1.0];
-    //userlabel.shadowOffset = CGSizeMake(0.0, 2.0);
-    userlabel.font =[UIFont fontWithName:@"Helvetica" size:20.0f];
+    usernameButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    usernameButton.frame =CGRectMake(10, 0, self.view.frame.size.width-100, 20);
+    [usernameButton addTarget:self action:@selector(dropdown) forControlEvents:UIControlEventTouchUpInside];
+    [usernameButton setTitle:[NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName] forState:UIControlStateNormal];
+    usernameButton.backgroundColor = [UIColor clearColor];
+    usernameButton.titleLabel.shadowColor= [UIColor colorWithRed:0.0f / 255.0f green:155.0f / 255.0f blue:213.0f / 255.0f alpha:1.0];
+    usernameButton.titleLabel.font=[UIFont fontWithName:@"Helvetica" size:20.0f];
+    [usernameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:userlabel];
+    
+    item = [[UIBarButtonItem alloc] initWithCustomView:usernameButton];
+    
     
     
     
@@ -146,7 +152,7 @@
     [btnLogout addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *itemlogout = [[UIBarButtonItem alloc] initWithCustomView:btnLogout];
     
-    toolbar.items = [NSArray arrayWithObjects:separator,item,itemlogout, nil];
+    toolbar.items = [NSArray arrayWithObjects:item,itemlogout, nil];
     
     
     //end jis toolbar
@@ -172,6 +178,38 @@
     self.navigationItem.hidesBackButton=YES;
 }
 
+-(void)dropdown{
+    
+    if(mainDelegate.user.UserDetails.count>0){
+        UserDetailsViewController *UserDetails=[[UserDetailsViewController alloc]initWithStyle:UITableViewStylePlain];
+        self.notePopController = [[UIPopoverController alloc] initWithContentViewController:UserDetails];
+        if(mainDelegate.user.UserDetails.count>6)
+            
+            self.notePopController.popoverContentSize = CGSizeMake(250, 50*6);
+        else
+            self.notePopController.popoverContentSize = CGSizeMake(400, 50*mainDelegate.user.UserDetails.count);
+        
+        CGRect rect=CGRectMake(usernameButton.frame.origin.x,toolbar.frame.origin.y-20, usernameButton.frame.size.width, usernameButton.frame.size.height);
+        
+        [self.notePopController presentPopoverFromRect:rect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        
+        UserDetails.UserDetail=mainDelegate.user.UserDetails;
+        UserDetails.delegate=self;
+        
+    }
+    
+}
+-(void)refreshDelegate{
+    [self.searchResult.correspondenceList removeAllObjects];
+    [self.tableView reloadData];
+    [usernameButton setTitle:[NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName] forState:UIControlStateNormal];
+    item = [[UIBarButtonItem alloc] initWithCustomView:usernameButton];
+    [self.view setNeedsDisplay];
+}
+-(void)dismissPopUp:(UITableViewController*)viewcontroller{
+    [self.notePopController dismissPopoverAnimated:NO];
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -20,6 +20,7 @@
 #import "SignatureViewController.h"
 #import "NorecordsViewController.h"
 #import "SearchResultViewController.h"
+#import "UserDetail.h"
 @interface MainMenuViewController ()
 {
     AppDelegate* mainDelegate;
@@ -642,6 +643,12 @@ vm_size_t freeMemory(void) {
 
 -(void)uploadSignatureXml{
     @try {
+        NSString* DelegateToken=@"";
+        if(mainDelegate.user.UserDetails.count>0){
+            DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+        }
+        else
+            DelegateToken=mainDelegate.user.token;
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
                                                              NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -680,6 +687,12 @@ vm_size_t freeMemory(void) {
             [body appendData:[mainDelegate.user.token dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
             
+            // delegatetoken parameter
+            [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"DelegateToken\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[DelegateToken dataUsingEncoding:NSUTF8StringEncoding]];
+            [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+
             // file
             [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
             [body appendData:[@"Content-Disposition: form-data; name=\"signatureFile\"; filename=\".xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];

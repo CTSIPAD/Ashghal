@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSString *pincode;
 @property (nonatomic, retain) NSString *serviceType;
 @property (nonatomic, retain) NSMutableArray *menu;
-
+@property (nonatomic, retain) NSMutableArray *UserDetails;
 @property (nonatomic, retain) NSArray* routeLabels;
 @property (nonatomic, retain) NSArray* destinations;
 @property (nonatomic, retain) NSMutableArray *actions;

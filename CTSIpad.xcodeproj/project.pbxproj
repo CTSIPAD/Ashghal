@@ -22,6 +22,8 @@
 		9591EEF91918DD440022D256 /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9591EEF81918DD440022D256 /* calendar.png */; };
 		9591EEFB1918F0D10022D256 /* down-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9591EEFA1918F0D10022D256 /* down-arrow.png */; };
 		A223A3F619702E2B009A6EE3 /* SignAndSend.png in Resources */ = {isa = PBXBuildFile; fileRef = A223A3F519702E2B009A6EE3 /* SignAndSend.png */; };
+		A22FC6861A1DD86700A283BC /* UserDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = A22FC6831A1DD86700A283BC /* UserDetail.m */; };
+		A22FC6871A1DD86700A283BC /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22FC6851A1DD86700A283BC /* UserDetailsViewController.m */; };
 		A256B4FA1895775E0009ABB5 /* AdvanceSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A256B4F91895775E0009ABB5 /* AdvanceSearchViewController.m */; };
 		A25E07F61973B2ED0030B79F /* fpdfemb_ios_arm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A25E07F41973B2ED0030B79F /* fpdfemb_ios_arm.a */; };
 		A25E07F71973B2ED0030B79F /* fpdfemb_ios_emu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A25E07F51973B2ED0030B79F /* fpdfemb_ios_emu.a */; };
@@ -193,6 +195,10 @@
 		9591EEF81918DD440022D256 /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
 		9591EEFA1918F0D10022D256 /* down-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down-arrow.png"; sourceTree = "<group>"; };
 		A223A3F519702E2B009A6EE3 /* SignAndSend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignAndSend.png; sourceTree = "<group>"; };
+		A22FC6821A1DD86700A283BC /* UserDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetail.h; sourceTree = "<group>"; };
+		A22FC6831A1DD86700A283BC /* UserDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetail.m; sourceTree = "<group>"; };
+		A22FC6841A1DD86700A283BC /* UserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailsViewController.h; sourceTree = "<group>"; };
+		A22FC6851A1DD86700A283BC /* UserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsViewController.m; sourceTree = "<group>"; };
 		A256B4F81895775E0009ABB5 /* AdvanceSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvanceSearchViewController.h; sourceTree = "<group>"; };
 		A256B4F91895775E0009ABB5 /* AdvanceSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvanceSearchViewController.m; sourceTree = "<group>"; };
 		A25E07F41973B2ED0030B79F /* fpdfemb_ios_arm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = fpdfemb_ios_arm.a; sourceTree = "<group>"; };
@@ -635,6 +641,8 @@
 		A2A4C6D21859ACE00084DE6A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A22FC6821A1DD86700A283BC /* UserDetail.h */,
+				A22FC6831A1DD86700A283BC /* UserDetail.m */,
 				A2A4C6D61859AD330084DE6A /* CUser.h */,
 				A2A4C6D71859AD330084DE6A /* CUser.m */,
 				A2A4C6D91859ADF40084DE6A /* CMenu.h */,
@@ -720,6 +728,8 @@
 				A2BBF9B31896F41C009CB09C /* SearchResultViewController.m */,
 				A2BE7C0818A253AC0074638E /* ManageSignatureViewController.h */,
 				A2BE7C0918A253AC0074638E /* ManageSignatureViewController.m */,
+				A22FC6841A1DD86700A283BC /* UserDetailsViewController.h */,
+				A22FC6851A1DD86700A283BC /* UserDetailsViewController.m */,
 			);
 			name = Forms;
 			sourceTree = "<group>";
@@ -1030,6 +1040,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2B01EA6185F34D9009A825C /* ReaderThumbCache.m in Sources */,
+				A22FC6861A1DD86700A283BC /* UserDetail.m in Sources */,
 				A2AC2348188D1136001583B8 /* NotesTableViewCell.m in Sources */,
 				A2BBF9B41896F41C009CB09C /* SearchResultViewController.m in Sources */,
 				A2B01EAD185F34D9009A825C /* ReaderViewController.m in Sources */,
@@ -1098,6 +1109,7 @@
 				A2ABFCE11885332200D8D4E4 /* ActionTaskController.m in Sources */,
 				A2A88DDD1887C0D500E198A0 /* PMCalendarController.m in Sources */,
 				A2B01EA7185F34D9009A825C /* ReaderThumbFetch.m in Sources */,
+				A22FC6871A1DD86700A283BC /* UserDetailsViewController.m in Sources */,
 				A261FAE2197552E20025E022 /* HighlightClass.m in Sources */,
 				A2A88DE31887C0D500E198A0 /* PMThemeShadow.m in Sources */,
 				A2CC23871871CED700568111 /* NoteAlertView.m in Sources */,
@@ -1265,7 +1277,7 @@
 					"/Users/dna/Desktop/johnny/asghal\\ project/CTSiPad",
 				);
 				PRODUCT_NAME = CTSIpad;
-				PROVISIONING_PROFILE = "d9554611-ebac-43fb-8242-5f368e1d5981";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1291,7 +1303,7 @@
 					"/Users/dna/Desktop/johnny/asghal\\ project/CTSiPad",
 				);
 				PRODUCT_NAME = CTSIpad;
-				PROVISIONING_PROFILE = "d9554611-ebac-43fb-8242-5f368e1d5981";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

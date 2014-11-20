@@ -22,6 +22,7 @@
 #import "CSearchType.h"
 #import "note.h"
 #import "HighlightClass.h"
+#import "UserDetail.h"
 @implementation CParser{
     AppDelegate *mainDelegate;
     NSString* error;
@@ -87,7 +88,7 @@
 	GDataXMLElement *resultXML =  [results objectAtIndex:0];
     NSString* status=[(GDataXMLElement *) [resultXML attributeForName:@"status"] stringValue];
     
-    if([status isEqualToString:@"Error"]){
+    if([status isEqualToString:@" nrror"]){
         return resultXML.stringValue;
     }
     return @"OK";
@@ -320,8 +321,42 @@
         GDataXMLElement *serviceEl = (GDataXMLElement *) [services objectAtIndex:0];
         serviceType = serviceEl.stringValue;
     }
-
+    NSMutableArray* userdetails = [[NSMutableArray alloc] init];
     
+    NSArray *UserDetails =[doc nodesForXPath:@"//UserDetails" error:nil];
+    for (GDataXMLElement *userdetail in UserDetails) {
+        NSArray *IconsList = [userdetail elementsForName:@"Item"];
+        if(IconsList.count>0){
+            for (GDataXMLElement *actionItem in IconsList) {
+                
+                NSString *title;
+                NSString * detail;
+                NSString * Token;
+
+                NSArray *titles = [actionItem elementsForName:@"Key"];
+                if (titles.count > 0) {
+                    GDataXMLElement *titleEl = (GDataXMLElement *) [titles objectAtIndex:0];
+                    title = titleEl.stringValue;
+                }
+                NSArray *Tokens = [actionItem elementsForName:@"Token"];
+                if (Tokens.count > 0) {
+                    GDataXMLElement *tokenEl = (GDataXMLElement *) [Tokens objectAtIndex:0];
+                    Token = tokenEl.stringValue;
+                }
+                NSArray *details = [actionItem elementsForName:@"Value"];
+                if (details.count > 0) {
+                    GDataXMLElement *detailEl = (GDataXMLElement *) [details objectAtIndex:0];
+                    detail = detailEl.stringValue;
+                }
+                UserDetail* obj=[[UserDetail alloc]initWithName:title detail:detail Token:Token];
+                [userdetails addObject:obj];
+            }
+        }
+    }
+    if(UserDetails.count>0){
+        UserDetail* obj=[[UserDetail alloc]initWithName:userId detail:[NSString stringWithFormat:@"%@ %@",firstName,lastName] Token:token];
+        [userdetails insertObject:obj atIndex:0];
+    }
     NSArray *routes = [doc nodesForXPath:@"//Routes" error:nil];
 	
 	for (GDataXMLElement *route in routes) {
@@ -390,6 +425,7 @@
     [user setMenu:menuItems];
     [user setSignature:signature];
     [user setPincode:pincode];
+    [user setUserDetails:userdetails];
     [user setDestinations:destinations];
     [user setRouteLabels:routesLabel];
     return user;

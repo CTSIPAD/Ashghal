@@ -14,6 +14,7 @@
 #import "NSData-AES.h"
 #import "GDataXMLNode.h"
 #import "CParser.h"
+#import "UserDetail.h"
 @interface SignatureViewController ()
 
 @end
@@ -361,6 +362,12 @@
 -(NSString*)saveSignature:(NSData*)fileData{
    NSString *returnString=@"";
     @try{
+        NSString* DelegateToken=@"";
+        if(mainDelegate.user.UserDetails.count>0){
+            DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+        }
+        else
+            DelegateToken=mainDelegate.user.token;
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
     
     NSString* url = [NSString stringWithFormat:@"http://%@",serverUrl];
@@ -389,6 +396,13 @@
     [body appendData:[mainDelegate.user.token dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
     
+        
+        // delegatetoken parameter
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"DelegateToken\"\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[DelegateToken dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+
     // file
     [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     [body appendData:[@"Content-Disposition: form-data; name=\"signatureFile\"; filename=\".xml\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];

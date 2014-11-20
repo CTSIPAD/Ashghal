@@ -13,4 +13,6 @@
 @interface SearchResultViewController : UITableViewController<UISplitViewControllerDelegate,UIPopoverControllerDelegate,ReaderViewControllerDelegate>
 
 @property (nonatomic,strong)CSearch *searchResult;
+@property(nonatomic,strong)UIPopoverController* notePopController ;
+
 @end

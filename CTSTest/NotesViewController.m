@@ -211,6 +211,7 @@
     else if (buttonIndex == 1)
     {
         @try{
+            
         NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
         NSString* url = [NSString stringWithFormat:@"http://%@?action=DeleteComment&token=%@&correspondenceId=%@&docId=%@&noteId=%d",serverUrl,self.currentUser.token,correspondence.Id,attachment.docId,button.tag];
         NSURL *xmlUrl = [NSURL URLWithString:url ];

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface NorecordsViewController : UIViewController
+@property(nonatomic,strong)UIPopoverController* notePopController ;
 
 @end

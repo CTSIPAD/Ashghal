@@ -385,6 +385,7 @@
 -(void)performSearch{
    
      @try{
+         
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];

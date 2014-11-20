@@ -40,6 +40,7 @@
 #import "SearchResultViewController.h"
 #import "note.h"
 #import "HighlightClass.h"
+#import "UserDetail.h"
 //#import "SVProgressHUD.h"
 
 @interface ReaderViewController () <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate,
@@ -1144,9 +1145,13 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
     
     NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
     
-    
-    
-    NSString* searchUrl = [NSString stringWithFormat:@"http://%@?action=SignAndSend&token=%d&correspondenceId=%d&transferId=%d&inboxId=%d&loginName=%@&pdfFilePath=%@&pageNumber=%d&siteId=%@&fileId=%@&fileUrl=%@&note=%@",serverUrl,mainDelegate.user.token.intValue,mainDelegate.corresponenceId.intValue,mainDelegate.transferId.intValue,mainDelegate.inboxId.intValue,mainDelegate.user.loginName,mainDelegate.docUrl,mainDelegate.documentPageCount.intValue,mainDelegate.SiteId,mainDelegate.FileId,mainDelegate.FileUrl,note];
+    NSString* DelegateToken=@"";
+    if(mainDelegate.user.UserDetails.count>0){
+        DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+    }
+    else
+        DelegateToken=mainDelegate.user.token;
+    NSString* searchUrl = [NSString stringWithFormat:@"http://%@?action=SignAndSend&token=%d&DelegateToken=%@&correspondenceId=%d&transferId=%d&inboxId=%d&loginName=%@&pdfFilePath=%@&pageNumber=%d&siteId=%@&fileId=%@&fileUrl=%@&note=%@",serverUrl,mainDelegate.user.token.intValue,DelegateToken,mainDelegate.corresponenceId.intValue,mainDelegate.transferId.intValue,mainDelegate.inboxId.intValue,mainDelegate.user.loginName,mainDelegate.docUrl,mainDelegate.documentPageCount.intValue,mainDelegate.SiteId,mainDelegate.FileId,mainDelegate.FileUrl,note];
     
     NSString* strUrl = [searchUrl stringByReplacingOccurrencesOfString:@"%5C" withString:@"\\"];
     
@@ -1234,8 +1239,13 @@ ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
         }
         // CAttachment *currentDoc=correspondence.attachmentsList[self.attachmentId];
         NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
-
-        NSString* url = [NSString stringWithFormat:@"http://%@?action=TransferCorrespondence&token=%@&correspondenceId=%@&destinationId=%@&purposeId=%@&dueDate=%@&note=%@",serverUrl,userTemp.token,correspondence.TransferId,dest.rid,routeLabel.labelId,date,note];
+        NSString* DelegateToken=@"";
+        if(mainDelegate.user.UserDetails.count>0){
+            DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+        }
+        else
+            DelegateToken=mainDelegate.user.token;
+            NSString* url = [NSString stringWithFormat:@"http://%@?action=TransferCorrespondence&token=%@&DelegateToken=%@&correspondenceId=%@&destinationId=%@&purposeId=%@&dueDate=%@&note=%@",serverUrl,userTemp.token,DelegateToken,correspondence.TransferId,dest.rid,routeLabel.labelId,date,note];
 
 
         if(self.menuId !=100)
@@ -1470,10 +1480,15 @@ typedef enum{
                 break;
             case Sign:{
                 mainDelegate.isAnnotated=YES;
-                
+                NSString* DelegateToken=@"";
+                if(mainDelegate.user.UserDetails.count>0){
+                    DelegateToken=((UserDetail*)mainDelegate.user.UserDetails[0]).Token;
+                }
+                else
+                    DelegateToken=mainDelegate.user.token;
                 mainDelegate.FileUrl = [mainDelegate.FileUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
-                NSString* searchUrl = [NSString stringWithFormat:@"http://%@?action=SignIt&loginName=%@&pdfFilePath=%@&pageNumber=%d&SiteId=%@&FileId=%@&FileUrl=%@",serverUrl,mainDelegate.user.loginName,mainDelegate.docUrl,document.pageCount.intValue,mainDelegate.SiteId,mainDelegate.FileId,mainDelegate.FileUrl];
+                NSString* searchUrl = [NSString stringWithFormat:@"http://%@?action=SignIt&loginName=%@&pdfFilePath=%@&pageNumber=%d&SiteId=%@&FileId=%@&FileUrl=%@&DelegateToken=%@",serverUrl,mainDelegate.user.loginName,mainDelegate.docUrl,document.pageCount.intValue,mainDelegate.SiteId,mainDelegate.FileId,mainDelegate.FileUrl,DelegateToken];
                 NSURL *xmlUrl = [NSURL URLWithString:searchUrl];
                 NSData *searchXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
                 
