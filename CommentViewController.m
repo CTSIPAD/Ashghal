@@ -268,8 +268,10 @@
             }
             
             NSString* correspondenceUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%d",serverUrl,mainDelegate.user.token,nb];
-            NSURL *xmlUrl = [NSURL URLWithString:correspondenceUrl];
-            NSData *menuXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:correspondenceUrl] cachePolicy:0 timeoutInterval:3600];
+            NSData *menuXmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//            NSURL *xmlUrl = [NSURL URLWithString:correspondenceUrl];
+//            NSData *menuXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
             
             NSMutableDictionary *correspondences=[CParser loadCorrespondencesWithData:menuXmlData];
             

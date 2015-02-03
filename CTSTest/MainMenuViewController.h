@@ -11,4 +11,5 @@
 @interface MainMenuViewController : UITableViewController<UIAlertViewDelegate>
 
 -(void)logout;
+-(void) stopSelection;
 @end

@@ -19,6 +19,7 @@
 #import "LoginViewController.h"
 #import "GDataXMLNode.h"
 #import "UserDetailsViewController.h"
+#import "MainMenuViewController.h"
 @interface SearchResultViewController ()
 
 @end
@@ -137,9 +138,15 @@
     usernameButton.titleLabel.font=[UIFont fontWithName:@"Helvetica" size:20.0f];
     [usernameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    
+    if(mainDelegate.user.UserDetails.count>0) {
+        UIImageView* imageView=[[UIImageView alloc]initWithFrame:CGRectMake((usernameButton.frame.size.width/2)-20, usernameButton.frame.size.height, 40, 20)];
+        imageView.image=[UIImage imageNamed:@"arrow.png"];
+        [usernameButton addSubview:imageView];
+       
+
+    }
     item = [[UIBarButtonItem alloc] initWithCustomView:usernameButton];
-    
+
     
     
     
@@ -205,6 +212,10 @@
     [usernameButton setTitle:[NSString stringWithFormat:@"%@ %@",mainDelegate.user.firstName,mainDelegate.user.lastName] forState:UIControlStateNormal];
     item = [[UIBarButtonItem alloc] initWithCustomView:usernameButton];
     [self.view setNeedsDisplay];
+    
+    UINavigationController *controller=[mainDelegate.splitViewController.viewControllers objectAtIndex:0];
+    MainMenuViewController *mainView=[controller.viewControllers objectAtIndex:0];
+    [mainView stopSelection];
 }
 -(void)dismissPopUp:(UITableViewController*)viewcontroller{
     [self.notePopController dismissPopoverAnimated:NO];
@@ -441,10 +452,12 @@
                     mainDelegate.IncomingNotes=[[NSMutableArray alloc]init];
                     mainDelegate.IncomingHighlights=[[NSMutableArray alloc]init];
                     NSString* attachmentUrl = [NSString stringWithFormat:@"http://%@?action=GetAttachments&token=%@&docId=%@",serverUrl,mainDelegate.user.token,correspondence.Id];
-                    
-                    NSURL *xmlUrl = [NSURL URLWithString:attachmentUrl];
-                    NSData *attachmentXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
-                    
+            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:attachmentUrl] cachePolicy:0 timeoutInterval:3600];
+            NSData *attachmentXmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+
+//                    NSURL *xmlUrl = [NSURL URLWithString:attachmentUrl];
+//                    NSData *attachmentXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+            
                     NSMutableArray *attachments=[CParser loadSpecifiqueAttachment:attachmentXmlData];
                 if(attachments.count==0){
                     [self performSelectorOnMainThread:@selector(dismiss) withObject:nil waitUntilDone:YES];
@@ -489,9 +502,10 @@
                 mainDelegate.IncomingNotes=[[NSMutableArray alloc]init];
                 mainDelegate.IncomingHighlights=[[NSMutableArray alloc]init];
                 NSString* attachmentUrl = [NSString stringWithFormat:@"http://%@?action=GetAttachments&token=%@&docId=%@",serverUrl,mainDelegate.user.token,correspondence.Id];
-                
-                NSURL *xmlUrl = [NSURL URLWithString:attachmentUrl];
-                NSData *attachmentXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+                NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:attachmentUrl] cachePolicy:0 timeoutInterval:3600];
+                NSData *attachmentXmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//                NSURL *xmlUrl = [NSURL URLWithString:attachmentUrl];
+//                NSData *attachmentXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
                 
                 NSMutableArray *attachments=[CParser loadSpecifiqueAttachment:attachmentXmlData];
                 

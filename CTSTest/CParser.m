@@ -332,7 +332,7 @@
                 NSString *title;
                 NSString * detail;
                 NSString * Token;
-
+                NSString * lastname1;
                 NSArray *titles = [actionItem elementsForName:@"Key"];
                 if (titles.count > 0) {
                     GDataXMLElement *titleEl = (GDataXMLElement *) [titles objectAtIndex:0];
@@ -343,18 +343,23 @@
                     GDataXMLElement *tokenEl = (GDataXMLElement *) [Tokens objectAtIndex:0];
                     Token = tokenEl.stringValue;
                 }
-                NSArray *details = [actionItem elementsForName:@"Value"];
+                NSArray *details = [actionItem elementsForName:@"Firstname"];
                 if (details.count > 0) {
                     GDataXMLElement *detailEl = (GDataXMLElement *) [details objectAtIndex:0];
                     detail = detailEl.stringValue;
                 }
-                UserDetail* obj=[[UserDetail alloc]initWithName:title detail:detail Token:Token];
+                NSArray *LastNames = [actionItem elementsForName:@"Lastname"];
+                if (LastNames.count > 0) {
+                    GDataXMLElement *lastnameEl = (GDataXMLElement *) [LastNames objectAtIndex:0];
+                    lastname1 = lastnameEl.stringValue;
+                }
+                UserDetail* obj=[[UserDetail alloc]initWithName:title FirstName:detail LastName:lastname1 Token:Token];
                 [userdetails addObject:obj];
             }
         }
     }
     if(UserDetails.count>0){
-        UserDetail* obj=[[UserDetail alloc]initWithName:userId detail:[NSString stringWithFormat:@"%@ %@",firstName,lastName] Token:token];
+        UserDetail* obj=[[UserDetail alloc]initWithName:userId FirstName:firstName LastName:lastName Token:token];
         [userdetails insertObject:obj atIndex:0];
     }
     NSArray *routes = [doc nodesForXPath:@"//Routes" error:nil];
@@ -648,7 +653,11 @@
     
     GDataXMLDocument *doc = [[GDataXMLDocument alloc] initWithData:xmlData
                                                            options:0 error:&error];
-    
+    if(error.code==NSURLErrorTimedOut){
+       [self performSelectorOnMainThread:@selector(ShowMessage:) withObject:@"Request timed out" waitUntilDone:YES];
+        return nil;
+
+    }
     if (doc == nil) { return nil; }
     
     NSArray *results = [doc nodesForXPath:@"//Result" error:nil];
@@ -1230,7 +1239,7 @@
                 
             
                 
-                HighlightClass* obj=[[HighlightClass alloc]initWithName:ptLeftTop.x ordinate:ptLeftTop.y height:ptRightBottom.x width:ptRightBottom.y PageNb:notepage.intValue AttachmentId:AttachmentId.intValue];
+                HighlightClass* obj=[[HighlightClass alloc]initWithName:ptLeftTop.x ordinate:ptLeftTop.y height:ptRightBottom.x width:ptRightBottom.y PageNb:Highlightpage.intValue AttachmentId:AttachmentId.intValue];
                 [mainDelegate.IncomingHighlights addObject:obj];
                 
             }

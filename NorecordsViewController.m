@@ -140,7 +140,13 @@
     usernameButton.titleLabel.shadowColor= [UIColor colorWithRed:0.0f / 255.0f green:155.0f / 255.0f blue:213.0f / 255.0f alpha:1.0];
     usernameButton.titleLabel.font=[UIFont fontWithName:@"Helvetica" size:20.0f];
     [usernameButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    
+    if(mainDelegate.user.UserDetails.count>0) {
+        UIImageView* imageView=[[UIImageView alloc]initWithFrame:CGRectMake((usernameButton.frame.size.width/2)-20, usernameButton.frame.size.height, 40, 20)];
+        imageView.image=[UIImage imageNamed:@"arrow.png"];
+        [usernameButton addSubview:imageView];
+        
+        
+    }
     
     item = [[UIBarButtonItem alloc] initWithCustomView:usernameButton];
     

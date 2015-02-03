@@ -10,9 +10,11 @@
 
 @interface UserDetail : NSObject
 @property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *detail;
+@property (nonatomic, retain) NSString *FirstName;
+@property (nonatomic, retain) NSString *LastName;
+
 @property (nonatomic, retain) NSString *Token;
 
--(id)initWithName:(NSString*)title  detail:(NSString*)detail Token:(NSString*)Token;
+-(id)initWithName:(NSString*)title  FirstName:(NSString*)FirstName LastName:(NSString*)LastName  Token:(NSString*)Token;
 
 @end

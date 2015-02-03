@@ -28,6 +28,7 @@
     NSInteger totalMenuItemsCount;
     BOOL canFound;
     UIViewController  *localdetailViewController;
+    NSIndexPath *index;
     
 }
 @end
@@ -271,6 +272,7 @@ vm_size_t freeMemory(void) {
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath  {
     //[self logMemUsage];
     @try{
+        index=indexPath;
         NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
         
         BOOL isOfflineMode = [[[NSUserDefaults standardUserDefaults] stringForKey:@"offline_mode"] boolValue];
@@ -335,8 +337,10 @@ vm_size_t freeMemory(void) {
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
                         
                         NSString* correspondenceUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%d",serverUrl,mainDelegate.user.token,currentInbox.menuId];
-                        NSURL *xmlUrl = [NSURL URLWithString:correspondenceUrl];
-                        NSData *menuXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
+                        NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:correspondenceUrl] cachePolicy:0 timeoutInterval:3600];
+                        NSData *menuXmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+//                        NSURL *xmlUrl = [NSURL URLWithString:correspondenceUrl];
+//                        NSData *menuXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
                         
                         NSMutableDictionary *correspondences=[CParser loadCorrespondencesWithData:menuXmlData];
                         
@@ -347,7 +351,7 @@ vm_size_t freeMemory(void) {
                             
                             NSString *validationResult=[CParser ValidateWithData:searchXmlData];
                             if(![validationResult isEqualToString:@"OK"]){
-                                [self ShowMessage:validationResult];
+                                [self performSelectorOnMainThread:@selector(ShowMessage:) withObject:validationResult waitUntilDone:YES];
                             }
                             else{
                                 
@@ -461,6 +465,7 @@ vm_size_t freeMemory(void) {
             
             NSString *serverUrl = [[NSUserDefaults standardUserDefaults] stringForKey:@"url_preference"];
             NSString* homeUrl = [NSString stringWithFormat:@"http://%@?action=GetCorrespondences&token=%@&inboxIds=%@",serverUrl,mainDelegate.user.token,inboxIds];
+            
             NSURL *xmlUrl = [NSURL URLWithString:homeUrl];
             NSData *homeXmlData = [[NSMutableData alloc] initWithContentsOfURL:xmlUrl];
             
@@ -748,6 +753,12 @@ vm_size_t freeMemory(void) {
 
 - (void)dismiss {
 	[SVProgressHUD dismiss];
+}
+
+-(void) stopSelection
+{
+ 
+    [self.tableView deselectRowAtIndexPath:index animated:YES];
 }
 
 @end

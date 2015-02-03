@@ -9,11 +9,12 @@
 #import "UserDetail.h"
 
 @implementation UserDetail
--(id)initWithName:(NSString*)title  detail:(NSString*)detail Token:(NSString*)Token{
+-(id)initWithName:(NSString*)title  FirstName:(NSString*)FirstName LastName:(NSString*)LastName  Token:(NSString*)Token{
     self = [super init];
     if (self) {
         self.title=title;
-        self.detail=detail;
+        self.FirstName=FirstName;
+        self.LastName=LastName;
         self.Token=Token;
     }
     return self;

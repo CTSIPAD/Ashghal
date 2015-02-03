@@ -60,11 +60,11 @@
     
     UIFont *font = [UIFont systemFontOfSize:17];
     NSString* detail;
-    if (row.detail==nil) {
+    if (row.FirstName==nil&&row.LastName==nil) {
         detail=@"";
     }
     else{
-        detail=row.detail;
+        detail=[NSString stringWithFormat:@"%@ %@",row.FirstName,row.LastName];;
     }
     NSAttributedString *attributedText = [[NSAttributedString alloc] initWithString:detail attributes:@{NSFontAttributeName: font}];
     CGRect rect = [attributedText boundingRectWithSize:(CGSize){200, CGFLOAT_MAX}
@@ -114,7 +114,7 @@
     cell.textLabel.textAlignment=NSTextAlignmentCenter;
     cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     cell.textLabel.numberOfLines = 0;
-    cell.textLabel.text=row.detail;
+    cell.textLabel.text=[NSString stringWithFormat:@"%@ %@",row.FirstName,row.LastName];
     [cell.textLabel sizeToFit];
     
     // imageView.frame=CGRectMake(cell.frame.size.width-45, 5, 37, 37);
@@ -130,16 +130,19 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath  {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    NSLog(@"%d",indexPath.row);
+    UserDetail *loginUser=self.UserDetail[0];
    UserDetail* row=self.UserDetail[indexPath.row];
    [_delegate dismissPopUp:self];
+    if (![mainDelegate.user.token isEqualToString:loginUser.Token] || indexPath.row!=0) {
+        
+    
     mainDelegate.user.token=row.Token;
     mainDelegate.user.userId=row.title;
-    NSArray* NamaeArray = [row.detail componentsSeparatedByString: @" "];
-    mainDelegate.user.firstName=NamaeArray.count>0?[NamaeArray objectAtIndex: 0]:@"";
-    mainDelegate.user.lastName=NamaeArray.count>1?[NamaeArray objectAtIndex: 1]:@"";
+    mainDelegate.user.firstName=row.FirstName;
+    mainDelegate.user.lastName=row.LastName;
     [_delegate refreshDelegate];
     
-    
+    }
 }
 
 -(void)ShowMessage:(NSString*)message{

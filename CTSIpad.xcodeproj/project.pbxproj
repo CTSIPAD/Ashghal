@@ -21,6 +21,7 @@
 		9591EEF71918D6910022D256 /* cts_Signature.png in Resources */ = {isa = PBXBuildFile; fileRef = 9591EEF61918D6910022D256 /* cts_Signature.png */; };
 		9591EEF91918DD440022D256 /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 9591EEF81918DD440022D256 /* calendar.png */; };
 		9591EEFB1918F0D10022D256 /* down-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9591EEFA1918F0D10022D256 /* down-arrow.png */; };
+		A22130301A24C95B0071F711 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A221302F1A24C95B0071F711 /* arrow.png */; };
 		A223A3F619702E2B009A6EE3 /* SignAndSend.png in Resources */ = {isa = PBXBuildFile; fileRef = A223A3F519702E2B009A6EE3 /* SignAndSend.png */; };
 		A22FC6861A1DD86700A283BC /* UserDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = A22FC6831A1DD86700A283BC /* UserDetail.m */; };
 		A22FC6871A1DD86700A283BC /* UserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A22FC6851A1DD86700A283BC /* UserDetailsViewController.m */; };
@@ -48,9 +49,6 @@
 		A2A4B8C51858B25C00ABFF67 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2A4B8C31858B25C00ABFF67 /* Main.storyboard */; };
 		A2A4B8C81858B25C00ABFF67 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A4B8C71858B25C00ABFF67 /* LoginViewController.m */; };
 		A2A4B8CA1858B25C00ABFF67 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2A4B8C91858B25C00ABFF67 /* Images.xcassets */; };
-		A2A4B8D11858B25C00ABFF67 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A4B8D01858B25C00ABFF67 /* XCTest.framework */; };
-		A2A4B8D21858B25C00ABFF67 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A4B8B11858B25C00ABFF67 /* Foundation.framework */; };
-		A2A4B8D31858B25C00ABFF67 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A4B8B51858B25C00ABFF67 /* UIKit.framework */; };
 		A2A4B8E81858B42900ABFF67 /* MainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A4B8E71858B42900ABFF67 /* MainMenuViewController.m */; };
 		A2A4B8EB1858B46D00ABFF67 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A4B8EA1858B46D00ABFF67 /* HomeViewController.m */; };
 		A2A4C6CD1859AC530084DE6A /* cts_Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A2A4C6CC1859AC530084DE6A /* cts_Logo.png */; };
@@ -168,16 +166,6 @@
 		A2EC2B0A19701FD800411E1C /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2EC2B0919701FD800411E1C /* CommentViewController.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		A2A4B8D41858B25C00ABFF67 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A2A4B8A61858B25C00ABFF67 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A2A4B8AD1858B25C00ABFF67;
-			remoteInfo = CTSTest;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		956903A419235EC5002A9E2D /* down.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = down.jpg; sourceTree = "<group>"; };
 		956903A519235EC5002A9E2D /* up.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = up.jpg; sourceTree = "<group>"; };
@@ -194,6 +182,7 @@
 		9591EEF61918D6910022D256 /* cts_Signature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cts_Signature.png; sourceTree = "<group>"; };
 		9591EEF81918DD440022D256 /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
 		9591EEFA1918F0D10022D256 /* down-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down-arrow.png"; sourceTree = "<group>"; };
+		A221302F1A24C95B0071F711 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		A223A3F519702E2B009A6EE3 /* SignAndSend.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignAndSend.png; sourceTree = "<group>"; };
 		A22FC6821A1DD86700A283BC /* UserDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetail.h; sourceTree = "<group>"; };
 		A22FC6831A1DD86700A283BC /* UserDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetail.m; sourceTree = "<group>"; };
@@ -238,7 +227,6 @@
 		A2A4B8C61858B25C00ABFF67 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A2A4B8C71858B25C00ABFF67 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		A2A4B8C91858B25C00ABFF67 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		A2A4B8CF1858B25C00ABFF67 /* CTSIpadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CTSIpadTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2A4B8D01858B25C00ABFF67 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		A2A4B8E61858B42900ABFF67 /* MainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuViewController.h; sourceTree = "<group>"; };
 		A2A4B8E71858B42900ABFF67 /* MainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuViewController.m; sourceTree = "<group>"; };
@@ -460,16 +448,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A2A4B8CC1858B25C00ABFF67 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A2A4B8D11858B25C00ABFF67 /* XCTest.framework in Frameworks */,
-				A2A4B8D31858B25C00ABFF67 /* UIKit.framework in Frameworks */,
-				A2A4B8D21858B25C00ABFF67 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -537,7 +515,6 @@
 			isa = PBXGroup;
 			children = (
 				A2A4B8AE1858B25C00ABFF67 /* CTSIpad.app */,
-				A2A4B8CF1858B25C00ABFF67 /* CTSIpadTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -696,6 +673,7 @@
 			isa = PBXGroup;
 			children = (
 				A2A4B8C01858B25C00ABFF67 /* AppDelegate.h */,
+				A221302F1A24C95B0071F711 /* arrow.png */,
 				A2A4B8C11858B25C00ABFF67 /* AppDelegate.m */,
 				A2A4B8C31858B25C00ABFF67 /* Main.storyboard */,
 				A2A4B8C61858B25C00ABFF67 /* LoginViewController.h */,
@@ -897,24 +875,6 @@
 			productReference = A2A4B8AE1858B25C00ABFF67 /* CTSIpad.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A2A4B8CE1858B25C00ABFF67 /* CTSIpadTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A2A4B8E31858B25C00ABFF67 /* Build configuration list for PBXNativeTarget "CTSIpadTests" */;
-			buildPhases = (
-				A2A4B8CB1858B25C00ABFF67 /* Sources */,
-				A2A4B8CC1858B25C00ABFF67 /* Frameworks */,
-				A2A4B8CD1858B25C00ABFF67 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A2A4B8D51858B25C00ABFF67 /* PBXTargetDependency */,
-			);
-			name = CTSIpadTests;
-			productName = CTSTestTests;
-			productReference = A2A4B8CF1858B25C00ABFF67 /* CTSIpadTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -926,9 +886,6 @@
 				TargetAttributes = {
 					A2A4B8AD1858B25C00ABFF67 = {
 						DevelopmentTeam = 4GWU23F735;
-					};
-					A2A4B8CE1858B25C00ABFF67 = {
-						TestTargetID = A2A4B8AD1858B25C00ABFF67;
 					};
 				};
 			};
@@ -947,7 +904,6 @@
 			projectRoot = "";
 			targets = (
 				A2A4B8AD1858B25C00ABFF67 /* CTSIpad */,
-				A2A4B8CE1858B25C00ABFF67 /* CTSIpadTests */,
 			);
 		};
 /* End PBXProject section */
@@ -970,6 +926,7 @@
 				A2AC234E188D1D11001583B8 /* Annoter.png in Resources */,
 				959096021917C38300A5B70C /* cts_Outbound.png in Resources */,
 				A2B989D318983C0E00C290B8 /* calendartet.png in Resources */,
+				A22130301A24C95B0071F711 /* arrow.png in Resources */,
 				A2B989B318983AFF00C290B8 /* cts_Priority.png in Resources */,
 				9591EEF51918D4D10022D256 /* cts_Signaturetest.png in Resources */,
 				959096011917C38300A5B70C /* cts_Inbound.png in Resources */,
@@ -1022,13 +979,6 @@
 				A2A4C6F61859D2F00084DE6A /* Settings.bundle in Resources */,
 				A29AA722185B3DF600944DDB /* thumb.png in Resources */,
 				9591EEF71918D6910022D256 /* cts_Signature.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A2A4B8CD1858B25C00ABFF67 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1126,22 +1076,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A2A4B8CB1858B25C00ABFF67 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		A2A4B8D51858B25C00ABFF67 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A2A4B8AD1858B25C00ABFF67 /* CTSIpad */;
-			targetProxy = A2A4B8D41858B25C00ABFF67 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		A29B73501860874600B86BF7 /* Localizable.strings */ = {
@@ -1209,6 +1144,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "cad1ae34-55ac-4b5e-a4a8-061815d47d9d";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = "armv7 ";
@@ -1243,6 +1179,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "cad1ae34-55ac-4b5e-a4a8-061815d47d9d";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -1277,7 +1214,7 @@
 					"/Users/dna/Desktop/johnny/asghal\\ project/CTSiPad",
 				);
 				PRODUCT_NAME = CTSIpad;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cad1ae34-55ac-4b5e-a4a8-061815d47d9d";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1303,48 +1240,8 @@
 					"/Users/dna/Desktop/johnny/asghal\\ project/CTSiPad",
 				);
 				PRODUCT_NAME = CTSIpad;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cad1ae34-55ac-4b5e-a4a8-061815d47d9d";
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		A2A4B8E41858B25C00ABFF67 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CTSTest.app/CTSTest";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CTSTest/CTSTest-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "CTSTestTests/CTSIpadTests-Info.plist";
-				PRODUCT_NAME = CTSIpadTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		A2A4B8E51858B25C00ABFF67 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CTSTest.app/CTSTest";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CTSTest/CTSTest-Prefix.pch";
-				INFOPLIST_FILE = "CTSTestTests/CTSIpadTests-Info.plist";
-				PRODUCT_NAME = CTSIpadTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -1365,15 +1262,6 @@
 			buildConfigurations = (
 				A2A4B8E11858B25C00ABFF67 /* Debug */,
 				A2A4B8E21858B25C00ABFF67 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A2A4B8E31858B25C00ABFF67 /* Build configuration list for PBXNativeTarget "CTSIpadTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A2A4B8E41858B25C00ABFF67 /* Debug */,
-				A2A4B8E51858B25C00ABFF67 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
