@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 # Created by http://www.gitignore.io
 
 ### Xcode ###
+=======
+# Xcode
+#
+>>>>>>> 0c57c5ec364b1a548bc50a710783d3efc9357624
 build/
 *.pbxuser
 !default.pbxuser
@@ -14,4 +19,18 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 DerivedData
+<<<<<<< HEAD
 *.xcuserstate
+=======
+*.hmap
+*.ipa
+*.xcuserstate
+
+# CocoaPods
+#
+# We recommend against adding the Pods directory to your .gitignore. However
+# you should judge for yourself, the pros and cons are mentioned at:
+# http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
+#
+# Pods/
+>>>>>>> 0c57c5ec364b1a548bc50a710783d3efc9357624
